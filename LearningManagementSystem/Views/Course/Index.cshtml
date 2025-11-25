@@ -1,0 +1,381 @@
+﻿@{
+    ViewData["Title"] = "Course Master";
+    ViewData["MenuTab"] = "CourseMenu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/custom/datatable/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/custom/datatable/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/app-assets/vendors/css/extensions/toastr.css" rel="stylesheet" />
+<link href="~/assets/custom/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/assets/custom/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+@* <link href="~/assets/app-assets/fonts/boxicons.css" rel="stylesheet" /> *@
+<link href="~/assets/app-assets/fonts/fontawesome/css/fontawesome-all.min.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Create Training</h1>
+            </div>
+            <div class="card-content">
+                @Html.Partial("_CreatePartial")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Training Master</h1>
+            </div>
+            <div class="card-content">
+                <div class="card-body card-dashboard">
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="col-sm-12">
+                                <table class="table zero-configuration dataTable" id="Training_Table" role="grid" aria-describedby="DataTables_Table_0_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 176.781px;">#</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 266.125px;">Training</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 133.844px;">Course English Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 133.844px;">Course Sinhala Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 47.7031px;">CourseTramil Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 118.547px;">Description</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 358px;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.CourseList != null && ViewBag.CourseList.Count > 0)
+                                        {
+                                            int i = 1;
+                                            @foreach (var item in ViewBag.CourseList)
+                                            {
+                                                <tr role="row" class="odd">
+                                                    <td>@i</td>
+                                                    <td>@item.TrainingCourseTraining.TrainingEname</td>
+                                                    <td>@item.TrainingCourseEname</td>
+                                                    <td>@item.TrainingCourseSname</td>
+                                                    <td>@item.TrainingCourseTname</td>
+                                                    <td>@item.TrainingCourseDescription</td>
+                                                    <td>
+                                                        <div class="row">
+      @*                                                       <div class="col-md-2">
+                                                                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View" onclick="TDetails(@item.TrainingId)"><i class="fa-regular fa-eye"></i></button>
+                                                            </div>
+
+                                                            <div class="col-md-2" style="margin-left:30px;margin-right:20px">
+                                                                <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit" onclick="TEdit(@item.TrainingId)"><i class="fa-regular fa-pen-to-square"></i></button>
+                                                            </div>
+                                                            <div class="col-md-2" style="margin-left:10px;margin-right:20px">
+                                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete" onclick="TDelete(@item.TrainingId)"><i class="fa-sharp fa-delete-left"></i></button>
+                                                            </div> *@
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td colspan="6" class="text-center">No Trainings found.</td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">#</th>
+                                            <th rowspan="1" colspan="1">Training</th>
+                                            <th rowspan="1" colspan="1">Course English Name</th>
+                                            <th rowspan="1" colspan="1">Course Sinhala Name</th>
+                                            <th rowspan="1" colspan="1">Course Tamil Name</th>
+                                            <th rowspan="1" colspan="1">Course Description</th>
+                                            <th rowspan="1" colspan="1">Action</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editTrainingModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditTrainingModalTittle">Edit Training</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="bx bx-x"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="editTrainingContent">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="detailTrainingModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailTrainingModalTittle">Detail Training</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="bx bx-x"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="detailTrainingContent">
+            </div>
+        </div>
+    </div>
+</div>
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+<script src="~/assets/app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="~/assets/custom/datatable/js/jquery-3.3.1.js"></script>
+<script src="~/assets/custom/datatable/js/jquery.datatables.min.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.all.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.min.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.js"></script>
+<script src="~/assets/custom/datatable/js/datatables.bootstrap4.min.js"></script>
+@* <script src="~/assets/app-assets/fonts/boxicons.js"></script> *@
+<script src="~/assets/app-assets/fonts/fontawesome/js/font-awesome-all.min.js"></script>
+@* <script src="~/assets/custom/datatable/js/buttons.bootstrap4.min.js"></script> *@
+<script>
+    $('#Training_Table').DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "pageLength": 10,
+        "lengthMenu": [10, 25, 50, 100]
+    });
+    // function MethodDetils(Id) {
+    //     $.ajax({
+    //         url: '@Url.Action("MethodDetails", "Method")',
+    //         type: "GET",
+    //         data: { id: Id },
+    //         dataType: 'html',
+    //         success: function (result) {
+    //             $("#MethodDetailModal .modal-body").html(result);
+    //             $("#MethodDetailModal").modal('show');
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error("Failed to load modal content:", error);
+    //             alert("Error");
+    //             // Optionally show an error message in the modal
+    //             $("#MethodDetailModal .modal-body").html("<p class='text-danger'>Error loading details.</p>");
+    //             $("#MethodDetailModal").modal('show');
+    //         }
+    //     });
+    // }
+    // function MethodEdit(id) {
+    //     $.ajax({
+    //         url: '/Method/Edit',
+    //         type: 'GET',
+    //         data: { id: id },
+    //         dataType: 'html',
+    //         success: function (html) {
+    //             $('#editMethodContent').html(html);
+    //             $('#editMethodModal').modal('show');
+    //             //bindEditFormSubmit(); // Bind form submit after loading content
+    //         },
+    //         error: function () {
+    //             alert('Could not load complaint data.');
+    //         }
+    //     });
+    // }
+    // function MethodDelete(depId) {
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "Do you want to delete this Method?",
+    //         icon: 'question',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Yes, delete it!'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             $.ajax({
+    //                 url: '@Url.Action("Delete", "Method")',
+    //                 type: 'POST',
+    //                 data: { id: depId },
+    //                 success: function (response) {
+    //                     if (response.success) {
+    //                         Swal.fire({
+    //                             icon: 'success',
+    //                             title: 'Deleted!',
+    //                             text: 'Method has been deleted successfully.',
+    //                             confirmButtonColor: '#3085d6'
+    //                         }).then(() => {
+    //                             location.reload(); // Refresh table after delete
+    //                         });
+    //                     }
+    //                     else {
+    //                         Swal.fire({
+    //                             icon: 'error',
+    //                             title: 'Error',
+    //                             text: response.message || 'Unable to delete Method.'
+    //                         });
+    //                     }
+    //                 },
+    //                 error: function () {
+    //                     Swal.fire({
+    //                         title: 'Error!',
+    //                         text: 'An error occurred while deleting attachment.',
+    //                         icon: 'error',
+    //                         confirmButtonText: 'OK'
+    //                     });
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+    $(document).ready(function() {
+        var ToastMessage = '@(TempData.ContainsKey("ToastMessage") ? TempData["ToastMessage"] as string : "")';
+        if (ToastMessage) {
+            var toastEl = document.getElementById('toastId');
+            if (toastEl) {
+                var toastTitle = toastEl.querySelector('.toast-title');
+                var toastMsg = toastEl.querySelector('.toast-message');
+                var toast = toastEl.querySelector('.toast');
+                if(ToastMessage == 'SubmittedTrainingSuccessfully!'){
+                    if (toastMsg) {
+                        toastMsg.textContent = "Successfully Saved Training";
+                        toastTitle.textContent = "Success";
+                        toastEl.classList.remove("toast-success", "toast-error", "toast-warning", "toast-info");
+                        // toast.classList.add("toast-success");
+                        // Add the type class
+                        toastEl.classList.add("toast-success");
+                        var toast = new bootstrap.Toast(toastEl.querySelector('.toast'));
+                        var options = { delay: 3000 }; // 3 seconds
+                        var toast = new bootstrap.Toast(toastEl, options);
+                        toast.show();
+                    } else {
+                        console.error("Toast body element not found.");
+                    }
+                }
+                else if(ToastMessage == 'UpdatedTrainingSuccessfully!'){
+                    if (toastMsg) {
+                        toastMsg.textContent = "Successfully Updated Training";
+                        toastTitle.textContent = "Success";
+                        toastEl.classList.remove("toast-success", "toast-error", "toast-warning", "toast-info");
+                        // Add the type class
+                        toastEl.classList.add("toast-success");
+                        var toast = new bootstrap.Toast(toastEl.querySelector('.toast'));
+                        var options = { delay: 3000 }; // 3 seconds
+                        var toast = new bootstrap.Toast(toastEl, options);
+                        toast.show();
+                    } else {
+                        console.error("Toast body element not found.");
+                    }
+                }
+                else if(ToastMessage == 'DeletedTrainingSuccessfully!'){
+                    if (toastMsg) {
+                        toastMsg.textContent = "Successfully Deleted Training";
+                        toastTitle.textContent = "Success";
+                        toastEl.classList.remove("toast-success", "toast-error", "toast-warning", "toast-info");
+                        // Add the type class
+                        toastEl.classList.add("toast-error");
+                        var toast = new bootstrap.Toast(toastEl.querySelector('.toast'));
+                        var options = { delay: 3000 }; // 3 seconds
+                        var toast = new bootstrap.Toast(toastEl, options);
+                        toast.show();
+                    } else {
+                        console.error("Toast body element not found.");
+                    }
+                }
+
+            } else {
+                console.error("Toast container element not found.");
+            }
+        }
+    });
+    function TDetails(Id) {
+        $.ajax({
+            url: '@Url.Action("TairningDetails", "Training")',
+            type: "GET",
+            data: { id: Id },
+            dataType: 'html',
+            success: function (result) {
+                $("#detailTrainingModal .modal-body").html(result);
+                $("#detailTrainingModal").modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.error("Failed to load modal content:", error);
+                alert("Error");
+                // Optionally show an error message in the modal
+                $("#detailTrainingModal .modal-body").html("<p class='text-danger'>Error loading details.</p>");
+                $("#detailTrainingModal").modal('show');
+            }
+        });
+    }
+    function TEdit(id) {
+        $.ajax({
+            url: '/Training/Edit',
+            type: 'GET',
+            data: { id: id },
+            dataType: 'html',
+            success: function (html) {
+                $('#editTrainingContent').html(html);
+                $('#editTrainingModal').modal('show');
+                //bindEditFormSubmit(); // Bind form submit after loading content
+            },
+            error: function () {
+                alert('Could not load complaint data.');
+            }
+        });
+    }
+    function TDelete(Id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to delete this Training?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Training")',
+                    type: 'POST',
+                    data: { id: Id },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Method has been deleted successfully.',
+                                confirmButtonColor: '#3085d6'
+                            }).then(() => {
+                                location.reload(); // Refresh table after delete
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message || 'Unable to delete Method.'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while deleting attachment.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>

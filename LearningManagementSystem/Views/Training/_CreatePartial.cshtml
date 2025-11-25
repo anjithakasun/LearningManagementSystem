@@ -1,0 +1,99 @@
+﻿
+<div class="card-body">
+    @using (Html.BeginForm("Create", "Training", FormMethod.Post, new { id = "CreateForm" }))
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Training_EName">Trainig English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="Training_EName" name="Training_EName" placeholder="Enter English Name">
+                    <span id="error-message-EName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Training_SName">Trainig Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="Training_SName" name="Training_SName" placeholder="Enter Sinhala Name">
+                    <span id="error-message-SName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Training_TName">Trainig Tramil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="Training_TName" name="Training_TName" placeholder="Enter Tamil Name">
+                    <span id="error-message-TName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Training_Description">Trainig Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <textarea class="form-control" id="Training_Description" name="Training_Description" rows="4" placeholder="Textarea"></textarea>
+                    <span id="error-message-Des"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-actions">
+                <button type="Reset" class="btn btn-warning round mr-1 mb-1">Clear</button>
+            </div>
+            <div class="col-md-3 form-actions" style="margin-left:-70px">
+                <button type="button" class="btn btn-success round mr-1 mb-1" id="save">Success</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/custom/datatable/js/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+    $('#save').on('click', function () {
+        var form = $('#CreateForm');
+        const errorMessageENameContainer = document.getElementById('error-message-EName');
+        const errorMessageSNameContainer = document.getElementById('error-message-SName');
+        const errorMessageTNameContainer = document.getElementById('error-message-TName');
+        const errorMessageDesContainer = document.getElementById('error-message-Des');
+        var Training_EName = document.getElementById("Training_EName").value;
+        var Training_SName = document.getElementById("Training_SName").value;
+        var Training_TName = document.getElementById("Training_TName").value;
+        var Training_Description = document.getElementById("Training_Description").value;
+
+        let isValid = true;
+        errorMessageENameContainer.textContent = '';
+        errorMessageSNameContainer.textContent = '';
+        errorMessageTNameContainer.textContent = '';
+        errorMessageDesContainer.textContent = '';
+        // --- User Name Validation ---
+        if (Training_EName == "") {
+            errorMessageENameContainer.textContent = 'Please Enter English Name.';
+            errorMessageENameContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (Training_SName == "") {
+            errorMessageSNameContainer.textContent = 'Please Enter Sinhala Name.';
+            errorMessageSNameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (Training_TName == "") {
+            errorMessageTNameContainer.textContent = 'Please Enter Tamil Name.';
+            errorMessageTNameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (Training_Description == "") {
+            errorMessageDesContainer.textContent = 'Please Enter Description.';
+            errorMessageDesContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/Training/Create');
+            form.submit();
+        }
+    });
+
+</script>

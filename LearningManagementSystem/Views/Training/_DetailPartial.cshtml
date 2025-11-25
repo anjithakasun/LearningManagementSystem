@@ -1,0 +1,46 @@
+﻿@model LearningManagementSystem.Data.LMSModels.Training
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3.5">
+                <strong>Training English Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3.5">
+                <strong>Training Sinhala Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingSname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3.5">
+                <strong>Training Tamil Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingTname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3.5">
+                <strong>Training Description</strong>
+            </div>
+            <div class="col-md-5">
+                :  @Html.DisplayFor(m => m.TrainingDescription)
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+
+
+<div class="modal-footer">
+    <button type="button" class="btn grey btn-light-secondary" data-bs-dismiss="modal">Close</button>
+</div>
