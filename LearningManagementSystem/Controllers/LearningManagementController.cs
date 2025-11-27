@@ -36,8 +36,17 @@ namespace LearningManagementSystem.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTrainingList()
         {
-            var Tlist = await _learning.getTrainingList();
-            return Json(Tlist);
+            var TrainingList = await _learning.getTrainingList();
+            return Json(TrainingList);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCourseList(int trainingId)
+        {
+            HttpContext.Session.SetString("trainingId", trainingId.ToString());
+            var CourseList = await _learning.getCourseList(trainingId);
+            return Json(CourseList);
+        }
+
     }
 }

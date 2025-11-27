@@ -1,0 +1,698 @@
+﻿<!DOCTYPE html>
+
+@{
+    // Get the value from ViewData, default to an empty string if not set
+    var activeMenuTab = ViewData["MenuTab"] as string ?? "";
+    var activeSubMenuTab = ViewData["SubMenuTab"] as string ?? "";
+    var activeSecMenuTab = ViewData["SecMenuTab"] as string ?? "";
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LearningManagementSystem</title>
+    <link rel="apple-touch-icon" href="~/assets/app-assets/images/ico/apple-icon-120.html">
+    <link rel="shortcut icon" type="image/x-icon" href="https://www.pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/app-assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/vendors/css/charts/apexcharts.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/vendors/css/extensions/swiper.min.css">
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/bootstrap-extended.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/colors.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/components.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/themes/dark-layout.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/themes/semi-dark-layout.min.css">
+    <!-- END: Theme CSS-->
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/core/menu/menu-types/vertical-menu.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/pages/dashboard-ecommerce.min.css">
+    <link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+    <!-- END: Page CSS-->
+    <!-- BEGIN: Custom CSS-->
+</head>
+
+
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+    <div id="toastContainer" class="toast-container toast-top-right">
+        <div id="toastId" class="toast hide" role="alert" aria-live="polite" aria-atomic="true" data-bs-delay="3000">
+            <div class="toast-title"></div>
+            <div class="toast-message"></div>
+        </div>
+    </div>
+</div>
+
+<body class="vertical-layout vertical-menu-modern 2-columns  navbar-sticky fixed-footer  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+    <!-- BEGIN: Header-->
+    <div class="header-navbar-shadow"></div>
+    <nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top ">
+        <div class="navbar-wrapper">
+            <div class="navbar-container content">
+                <div class="navbar-collapse" id="navbar-mobile">
+                    <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon bx bx-menu"></i></a></li>
+                            @* </ul>
+                        <ul class="nav navbar-nav bookmark-icons">
+                            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-toggle="tooltip" data-placement="top" title="Email"><i class="ficon bx bx-envelope"></i></a></li>
+                            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-toggle="tooltip" data-placement="top" title="Chat"><i class="ficon bx bx-chat"></i></a></li>
+                            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-todo.html" data-toggle="tooltip" data-placement="top" title="Todo"><i class="ficon bx bx-check-circle"></i></a></li>
+                            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-toggle="tooltip" data-placement="top" title="Calendar"><i class="ficon bx bx-calendar-alt"></i></a></li>
+                        </ul> *@
+                            @*                         <ul class="nav navbar-nav">
+                            <li class="nav-item d-none d-lg-block">
+                                <a class="nav-link bookmark-star"><i class="ficon bx bx-star warning"></i></a>
+                                <div class="bookmark-input search-input">
+                                    <div class="bookmark-input-icon"><i class="bx bx-search primary"></i></div>
+                                    <input class="form-control input" type="text" placeholder="Explore Frest..." tabindex="0" data-search="template-search">
+                                    <ul class="search-list"></ul>
+                                </div>
+                            </li>
+                        </ul> *@
+                    </div>
+                    <ul class="nav navbar-nav float-right">
+                        @*                         <li class="dropdown dropdown-language nav-item">
+                            <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" data-language="en"><i class="flag-icon flag-icon-us mr-50"></i> English</a><a class="dropdown-item" href="#" data-language="fr"><i class="flag-icon flag-icon-fr mr-50"></i> French</a><a class="dropdown-item" href="#" data-language="de"><i class="flag-icon flag-icon-de mr-50"></i> German</a><a class="dropdown-item" href="#" data-language="pt"><i class="flag-icon flag-icon-pt mr-50"></i> Portuguese</a></div>
+                        </li> *@
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon bx bx-fullscreen"></i></a></li>
+                        <li class="nav-item nav-search">
+                            <a class="nav-link nav-link-search"><i class="ficon bx bx-search"></i></a>
+                            <div class="search-input">
+                                <div class="search-input-icon"><i class="bx bx-search primary"></i></div>
+                                <input class="input" type="text" placeholder="Explore Frest..." tabindex="-1" data-search="template-search">
+                                <div class="search-input-close"><i class="bx bx-x"></i></div>
+                                <ul class="search-list"></ul>
+                            </div>
+                        </li>
+                        <li class="dropdown dropdown-user nav-item">
+                            <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                                <div class="user-nav d-sm-flex d-none"><span class="user-name">@Context.Session.GetString("UserName")</span><span class="user-status text-muted">Available</span></div><span><img class="round" src="~/assets/app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right pb-0">
+                                <form asp-controller="User" asp-action="Login" method="get" style="display:inline;">
+                                    <a class="dropdown-item" href="#"><i class="bx bx-user mr-50"></i> Edit Profile</a>
+                                    <div class="dropdown-divider mb-0"></div><a class="dropdown-item" href="/User/Login"><i class="bx bx-power-off mr-50"></i> Logout</a>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- END: Header-->
+    <!-- BEGIN: Main Menu-->
+    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav flex-row">
+                <li class="nav-item mr-auto">
+                    <a class="navbar-brand" href="index.html">
+                        <div class="brand-logo"><img class="logo" src="~/assets/app-assets/images/logo/logo.png" /></div>
+                        <h2 class="brand-text mb-0">Frest</h2>
+                    </a>
+                </li>
+                <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="bx bx-x d-block d-xl-none font-medium-4 primary"></i><i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block primary" data-ticon="bx-disc"></i></a></li>
+            </ul>
+        </div>
+        <div class="shadow-bottom"></div>
+        <div class="main-menu-content">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="lines">
+                <li class="@(activeMenuTab == "DashboardMenu" ? "active" : "") nav-item">
+                    <a href="/LearningManagement/Dashboard"><i class="menu-livicon" data-icon="desktop"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span></a>
+                </li>
+
+                <li class=" navigation-header">
+                    <span>Main Items</span>
+                </li>
+                <li class="@(activeMenuTab == "TrainingMenu" ? "active" : "") nav-item">
+                    <a href="/Training/Index"><i class="menu-livicon" data-icon="priority-low"></i><span class="menu-title" data-i18n="Training">Training</span></a>
+                </li>
+                <li class="@(activeMenuTab == "CourseMenu" ? "active" : "") nav-item">
+                    <a href="#" onclick="OpenModal()"><i class="menu-livicon" data-icon="notebook"></i><span class="menu-title" data-i18n="Course">Course</span></a>
+                </li>
+                <li class="@(activeMenuTab == "SheduleMenu" ? "active" : "") nav-item">
+                    <a href="#" onclick="OpenModal()"><i class="menu-livicon" data-icon="unlink"></i><span class="menu-title" data-i18n="Shedule">Shedule</span></a>
+                </li>
+
+
+                <li class=" navigation-header">
+                    <span>Apps</span>
+                </li>
+
+                <li class=" nav-item">
+                    <a href="app-email.html"><i class="menu-livicon" data-icon="envelope-pull"></i><span class="menu-title" data-i18n="Email">Email</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="app-chat.html"><i class="menu-livicon" data-icon="comments"></i><span class="menu-title" data-i18n="Chat">Chat</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="app-todo.html"><i class="menu-livicon" data-icon="check-alt"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="app-calendar.html"><i class="menu-livicon" data-icon="calendar"></i><span class="menu-title" data-i18n="Calendar">Calendar</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="app-kanban.html"><i class="menu-livicon" data-icon="grid"></i><span class="menu-title" data-i18n="Kanban">Kanban</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="notebook"></i><span class="menu-title" data-i18n="Invoice">Invoice</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="app-invoice-list.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Invoice List">Invoice List</span></a>
+                        </li>
+                        <li>
+                            <a href="app-invoice.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Invoice">Invoice</span></a>
+                        </li>
+                        <li>
+                            <a href="app-invoice-edit.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Invoice Edit">Invoice Edit</span></a>
+                        </li>
+                        <li>
+                            <a href="app-invoice-add.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Invoice Add">Invoice Add</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="app-file-manager.html"><i class="menu-livicon" data-icon="save"></i><span class="menu-title" data-i18n="File Manager">File Manager</span></a>
+                </li>
+                <li class=" navigation-header">
+                    <span>UI Elements</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="retweet"></i><span class="menu-title" data-i18n="Content">Content</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="content-grid.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Grid">Grid</span></a>
+                        </li>
+                        <li>
+                            <a href="content-typography.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Typography">Typography</span></a>
+                        </li>
+                        <li>
+                            <a href="content-text-utilities.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Text Utilities">Text Utilities</span></a>
+                        </li>
+                        <li>
+                            <a href="content-syntax-highlighter.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Syntax Highlighter">Syntax Highlighter</span></a>
+                        </li>
+                        <li>
+                            <a href="content-helper-classes.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Helper Classes">Helper Classes</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="colors.html"><i class="menu-livicon" data-icon="drop"></i><span class="menu-title" data-i18n="Colors">Colors</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="bulb"></i><span class="menu-title" data-i18n="Icons">Icons</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="icons-livicons.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="LivIcons">LivIcons</span></a>
+                        </li>
+                        <li>
+                            <a href="icons-boxicons.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="BoxIcons">BoxIcons</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="square"></i><span class="menu-title" data-i18n="Card">Card</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="card-basic.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Basic">Basic</span></a>
+                        </li>
+                        <li>
+                            <a href="card-actions.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Card Actions">Card Actions</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="widgets.html"><i class="menu-livicon" data-icon="thumbnails-small"></i><span class="menu-title" data-i18n="Widgets">Widgets</span><span class="badge badge-light-primary badge-pill badge-round float-right">New</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="box-add"></i><span class="menu-title" data-i18n="Components">Components</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="component-alerts.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Alerts">Alerts</span></a>
+                        </li>
+                        <li>
+                            <a href="component-buttons-basic.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Buttons">Buttons</span></a>
+                        </li>
+                        <li>
+                            <a href="component-breadcrumbs.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Breadcrumbs">Breadcrumbs</span></a>
+                        </li>
+                        <li>
+                            <a href="component-carousel.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Carousel">Carousel</span></a>
+                        </li>
+                        <li>
+                            <a href="component-collapse.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Collapse">Collapse</span></a>
+                        </li>
+                        <li>
+                            <a href="component-dropdowns.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Dropdowns">Dropdowns</span></a>
+                        </li>
+                        <li>
+                            <a href="component-list-group.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List Group">List Group</span></a>
+                        </li>
+                        <li>
+                            <a href="component-modals.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Modals">Modals</span></a>
+                        </li>
+                        <li>
+                            <a href="component-pagination.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Pagination">Pagination</span></a>
+                        </li>
+                        <li>
+                            <a href="component-navbar.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Navbar">Navbar</span></a>
+                        </li>
+                        <li>
+                            <a href="component-tabs-component.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Tabs Component">Tabs Component</span></a>
+                        </li>
+                        <li>
+                            <a href="component-pills-component.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Pills Component">Pills Component</span></a>
+                        </li>
+                        <li>
+                            <a href="component-tooltips.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Tooltips">Tooltips</span></a>
+                        </li>
+                        <li>
+                            <a href="component-popovers.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Popovers">Popovers</span></a>
+                        </li>
+                        <li>
+                            <a href="component-badges.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Badges">Badges</span></a>
+                        </li>
+                        <li>
+                            <a href="component-pill-badges.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Pill Badges">Pill Badges</span></a>
+                        </li>
+                        <li>
+                            <a href="component-progress.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Progress">Progress</span></a>
+                        </li>
+                        <li>
+                            <a href="component-media-objects.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Media Objects">Media Objects</span></a>
+                        </li>
+                        <li>
+                            <a href="component-spinner.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Spinner">Spinner</span></a>
+                        </li>
+                        <li>
+                            <a href="component-bs-toast.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Toasts">Toasts</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="briefcase"></i><span class="menu-title" data-i18n="Extra Components">Extra Components</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="ex-component-avatar.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Avatar">Avatar</span></a>
+                        </li>
+                        <li>
+                            <a href="ex-component-chips.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Chips">Chips</span></a>
+                        </li>
+                        <li>
+                            <a href="ex-component-divider.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Divider">Divider</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" navigation-header">
+                    <span>Forms &amp; Tables</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="check"></i><span class="menu-title" data-i18n="Form Elements">Form Elements</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="form-inputs.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Input">Input</span></a>
+                        </li>
+                        <li>
+                            <a href="form-input-groups.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Input Groups">Input Groups</span></a>
+                        </li>
+                        <li>
+                            <a href="form-number-input.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Number Input">Number Input</span></a>
+                        </li>
+                        <li>
+                            <a href="form-select.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Select">Select</span></a>
+                        </li>
+                        <li>
+                            <a href="form-radio.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Radio">Radio</span></a>
+                        </li>
+                        <li>
+                            <a href="form-checkbox.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Checkbox">Checkbox</span></a>
+                        </li>
+                        <li>
+                            <a href="form-switch.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Switch">Switch</span></a>
+                        </li>
+                        <li>
+                            <a href="form-textarea.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Textarea">Textarea</span></a>
+                        </li>
+                        <li>
+                            <a href="form-quill-editor.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Quill Editor">Quill Editor</span></a>
+                        </li>
+                        <li>
+                            <a href="form-file-uploader.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="File Uploader">File Uploader</span></a>
+                        </li>
+                        <li>
+                            <a href="form-date-time-picker.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Date &amp; Time Picker">Date &amp; Time Picker</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="form-layout.html"><i class="menu-livicon" data-icon="settings"></i><span class="menu-title" data-i18n="Form Layout">Form Layout</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="form-wizard.html"><i class="menu-livicon" data-icon="priority-low"></i><span class="menu-title" data-i18n="Form Wizard">Form Wizard</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="form-validation.html"><i class="menu-livicon" data-icon="check-alt"></i><span class="menu-title" data-i18n="Form Validation">Form Validation</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="form-repeater.html"><i class="menu-livicon" data-icon="priority-low"></i><span class="menu-title" data-i18n="Form Repeater">Form Repeater</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="table.html"><i class="menu-livicon" data-icon="thumbnails-big"></i><span class="menu-title" data-i18n="Table">Table</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="table-extended.html"><i class="menu-livicon" data-icon="thumbnails-small"></i><span class="menu-title" data-i18n="Table extended">Table extended</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="table-datatable.html"><i class="menu-livicon" data-icon="morph-map"></i><span class="menu-title" data-i18n="Datatable">Datatable</span></a>
+                </li>
+                <li class=" navigation-header">
+                    <span>Pages</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="page-user-profile.html"><i class="menu-livicon" data-icon="user"></i><span class="menu-title" data-i18n="User Profile">User Profile</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="page-faq.html"><i class="menu-livicon" data-icon="question-alt"></i><span class="menu-title" data-i18n="FAQ">FAQ</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="page-knowledge-base.html"><i class="menu-livicon" data-icon="info-alt"></i><span class="menu-title" data-i18n="Knowledge Base">Knowledge Base</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="page-search.html"><i class="menu-livicon" data-icon="search"></i><span class="menu-title" data-i18n="Search">Search</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="page-account-settings.html"><i class="menu-livicon" data-icon="wrench"></i><span class="menu-title" data-i18n="Account Settings">Account Settings</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="users"></i><span class="menu-title" data-i18n="User">User</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="page-users-list.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">List</span></a>
+                        </li>
+                        <li>
+                            <a href="page-users-view.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="View">View</span></a>
+                        </li>
+                        <li>
+                            <a href="page-users-edit.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Edit">Edit</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="unlink"></i><span class="menu-title" data-i18n="Starter kit">Starter kit</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="https://www.pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/starter-kit/ltr/vertical-menu-template/sk-layout-1-column.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="1 column">1 column</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/starter-kit/ltr/vertical-menu-template/sk-layout-2-columns.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="2 columns">2 columns</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/starter-kit/ltr/vertical-menu-template/sk-layout-fixed-navbar.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Fixed navbar">Fixed navbar</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/starter-kit/ltr/vertical-menu-template/sk-layout-floating-navbar.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Floating navbar">Floating navbar</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/starter-kit/ltr/vertical-menu-template/sk-layout-fixed.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Fixed layout">Fixed layout</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/starter-kit/ltr/vertical-menu-template/sk-layout-static.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Static layout">Static layout</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="unlock"></i><span class="menu-title" data-i18n="Authentication">Authentication</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="auth-login.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Login">Login</span></a>
+                        </li>
+                        <li>
+                            <a href="auth-register.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Register">Register</span></a>
+                        </li>
+                        <li>
+                            <a href="auth-forgot-password.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Forgot Password">Forgot Password</span></a>
+                        </li>
+                        <li>
+                            <a href="auth-reset-password.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Reset Password">Reset Password</span></a>
+                        </li>
+                        <li>
+                            <a href="auth-lock-screen.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Lock Screen">Lock Screen</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="share"></i><span class="menu-title" data-i18n="Miscellaneous">Miscellaneous</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="page-coming-soon.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Coming Soon">Coming Soon</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Error">Error</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a href="error-404.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="404">404</span></a>
+                                </li>
+                                <li>
+                                    <a href="error-500.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="500">500</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="page-not-authorized.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Not Authorized">Not Authorized</span></a>
+                        </li>
+                        <li>
+                            <a href="page-maintenance.html" target="_blank"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Maintenance">Maintenance</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" navigation-header">
+                    <span>Charts &amp; Maps</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="pie-chart"></i><span class="menu-title" data-i18n="Charts">Charts</span><span class="badge badge-pill badge-round badge-light-info float-right mr-2">3</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="chart-apex.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Apex">Apex</span></a>
+                        </li>
+                        <li>
+                            <a href="chart-chartjs.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Chartjs">Chartjs</span></a>
+                        </li>
+                        <li>
+                            <a href="chart-chartist.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Chartist">Chartist</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                    <a href="maps-google.html"><i class="menu-livicon" data-icon="globe"></i><span class="menu-title" data-i18n="Google Maps">Google Maps</span></a>
+                </li>
+                <li class=" navigation-header">
+                    <span>Extensions</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-sweet-alerts.html"><i class="menu-livicon" data-icon="warning-alt"></i><span class="menu-title" data-i18n="Sweet Alert">Sweet Alert</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-toastr.html"><i class="menu-livicon" data-icon="morph-map"></i><span class="menu-title" data-i18n="Toastr">Toastr</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-noui-slider.html"><i class="menu-livicon" data-icon="settings"></i><span class="menu-title" data-i18n="NoUi Slider">NoUi Slider</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-drag-drop.html"><i class="menu-livicon" data-icon="priority-high"></i><span class="menu-title" data-i18n="Drag &amp; Drop">Drag &amp; Drop</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-tour.html"><i class="menu-livicon" data-icon="paper-plane"></i><span class="menu-title" data-i18n="Tour">Tour</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-swiper.html"><i class="menu-livicon" data-icon="morph-orientation-tablet"></i><span class="menu-title" data-i18n="Swiper">Swiper</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-treeview.html"><i class="menu-livicon" data-icon="morph-sort-alt"></i><span class="menu-title" data-i18n="Treeview">Treeview</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-block-ui.html"><i class="menu-livicon" data-icon="expand"></i><span class="menu-title" data-i18n="Block-UI">Block-UI</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-media-player.html"><i class="menu-livicon" data-icon="music"></i><span class="menu-title" data-i18n="Media Player">Media Player</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-miscellaneous.html"><i class="menu-livicon" data-icon="loader-10"></i><span class="menu-title" data-i18n="Miscellaneous">Miscellaneous</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="ext-component-i18n.html"><i class="menu-livicon" data-icon="globe"></i><span class="menu-title" data-i18n="i18n">i18n</span></a>
+                </li>
+                <li class=" navigation-header">
+                    <span>Others</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="morph-menu-arrow-bottom"></i><span class="menu-title" data-i18n="Menu Levels">Menu Levels</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a href="#"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Second Level">Second Level</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Second Level">Second Level</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a href="#"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Third Level">Third Level</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Third Level">Third Level</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="disabled nav-item">
+                    <a href="#"><i class="menu-livicon" data-icon="morph-preview"></i><span class="menu-title" data-i18n="Disabled Menu">Disabled Menu</span></a>
+                </li>
+                <li class=" navigation-header">
+                    <span>Support</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation" target="_blank"><i class="menu-livicon" data-icon="morph-folder"></i><span class="menu-title" data-i18n="Documentation">Documentation</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a href="https://pixinvent.ticksy.com/" target="_blank"><i class="menu-livicon" data-icon="help"></i><span class="menu-title" data-i18n="Raise Support">Raise Support</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            @*<div class="content-wrapper-before"></div>*@
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted bottom">
+        <div class="container">
+            &copy; @ViewBag.CurrYear - Learning Maneagement System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <div id="CommonModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CommonModalTittle">Training / Course Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="bx bx-x"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="CommonModalContent">
+                    <div class="row" style="margin-left:10px">
+                        <div class="form-group; col-md-9">
+                            <label for="Training">Training</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                            <select id="TrainingId" name="TrainingId" class="form-control">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <span id="error-message-Training" style="margin-left:50px"></span>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6" style="margin-left:260px" id="courseBtn">
+                        <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
+                        <button type="button" class="btn btn-outline-dark round mr-1 mb-1" onclick="goToCourse()">Open</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="~/assets/app-assets/vendors/js/vendors.min.js"></script>
+    <script src="~/assets/app-assets/fonts/livicons-evolution/assets/js/dist/liviconsevo.tools.min.js"></script>
+    <script src="~/assets/app-assets/fonts/livicons-evolution/assets/js/dist/liviconsevo.defaults.js"></script>
+    <script src="~/assets/app-assets/fonts/livicons-evolution/assets/js/dist/liviconsevo.min.js"></script>
+    <script src="~/assets/app-assets/js/scripts/configs/vertical-menu-light.min.js"></script>
+    <script src="~/assets/app-assets/js/core/app-menu.min.js"></script>
+    <script src="~/assets/app-assets/js/core/app.min.js"></script>
+    <script src="~/assets/app-assets/js/scripts/components.min.js"></script>
+    <script src="~/assets/app-assets/js/scripts/footer.min.js"></script>
+    <script src="~/assets/app-assets/js/scripts/customizer.min.js"></script>
+    <script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+    <!-- END: Theme JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="~/assets/app-assets/js/scripts/pages/dashboard-ecommerce.min.js"></script>
+    <!-- END: Page JS-->
+    <script type="text/javascript">
+        function OpenModal() {
+
+            $.ajax({
+                url: '@Url.Action("GetTrainingList", "LearningManagement")',
+                type: 'GET',
+                success: function (data) {
+                    var ddl = $("#TrainingId");
+                    ddl.empty();
+                    ddl.append('<option value="">-- Select --</option>');
+                    $.each(data, function (i, item) {
+                        ddl.append('<option value="' + item.id + '">' + item.name + '</option>');
+                    });
+                    $("#CommonModal").modal("show");
+                },
+                error: function () {
+                    alert("Failed to load dropdown data.");
+                }
+            });
+
+
+        }
+
+        $('#CommonModal').on('shown.bs.modal', function () {
+            $("#TrainingId").select2({
+                allowClear: true,
+                placeholder: 'Select Training',
+
+                dropdownParent: $('#CommonModal') // important for modals
+            });
+        });
+        function goToCourse() {
+            let isValid = true;
+            var TrainingId = document.getElementById("TrainingId").value;
+            const errorMessageTContainer = document.getElementById('error-message-Training');
+            // alert(TrainingId);
+
+            if (TrainingId == "") {
+                errorMessageTContainer.textContent = 'Please Select Training.';
+                errorMessageTContainer.style.color = 'red';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+                return false;
+            }else{
+                window.location.href = '/Course/Index?trainingId=' + TrainingId;
+            }
+        }
+    </script>
+
+
+
+</body>
+
+</html>

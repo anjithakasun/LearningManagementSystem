@@ -12,6 +12,7 @@ using LearningManagementSystem.Data.LMSModels;
 using System.Data.SqlClient;
 using LearningManagementSystem.Bussiness.LearningManagementHandler;
 using LearningManagementSystem.Bussiness.CourseHandler;
+using LearningManagementSystem.Bussiness.SheduleHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITrainingService, TrainingService>();
 
 builder.Services.AddScoped<ICourseService, CourseService>();
+
+builder.Services.AddScoped<ISheduleService, SheduleService>();
 
 builder.Logging.ClearProviders(); // Optional: clear default providers
 builder.Logging.AddLog4Net("log4net.config");

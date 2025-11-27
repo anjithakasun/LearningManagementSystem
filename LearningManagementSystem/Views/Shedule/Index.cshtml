@@ -1,8 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Course Master";
-    ViewData["MenuTab"] = "CourseMenu";
+    ViewData["Title"] = "Shedule Master";
+    ViewData["MenuTab"] = "SheduleMenu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <link href="~/assets/custom/datatable/css/datatables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/assets/custom/datatable/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
@@ -15,7 +16,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">Create Course</h1>
+                <h1 class="card-title">Training Shedule</h1>
             </div>
             <div class="card-content">
                 @Html.Partial("_CreatePartial")
@@ -28,52 +29,50 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">Course Master</h1>
+                <h1 class="card-title">Training Shedule Master</h1>
             </div>
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
                         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4">
                             <div class="col-sm-12">
-                                <table class="table zero-configuration dataTable" id="Course_Table" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <table class="table zero-configuration dataTable" id="Shedule_Table" role="grid" aria-describedby="DataTables_Table_0_info">
                                     <thead>
                                         <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 70px;">#</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Training</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" >Course English Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" >Course Sinhala Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" >Course Tramil Name</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">#</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width:130px">Training Course</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:90px">Shedule Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:130px">Start Date</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width:130px">End Date</th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width:30%;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (ViewBag.CourseList != null && ViewBag.CourseList.Count > 0)
+                                        @if (ViewBag.SheduleList != null && ViewBag.SheduleList.Count > 0)
                                         {
                                             int i = 1;
-                                            @foreach (var item in ViewBag.CourseList)
+                                            @foreach (var item in ViewBag.SheduleList)
                                             {
                                                 <tr role="row" class="odd">
                                                     <td>@i</td>
-                                                    <td>@item.TrainingCourseTraining.TrainingEname</td>
-                                                    <td>@item.TrainingCourseEname</td>
-                                                    <td>@item.TrainingCourseSname</td>
-                                                    <td>@item.TrainingCourseTname</td>
+                                                    <td>@item.TrainingSheduleTrainingCourse.TrainingCourseTraining.TrainingEname | @item.TrainingSheduleTrainingCourse.TrainingCourseEname</td>
+                                                    <td>@item.TrainingSheduleName</td>
+                                                    <td>@item.TrainingSheduleStartDate.ToString("yyyy-MM-dd")</td>
+                                                    <td>@item.TrainingSheduleEndDate.ToString("yyyy-MM-dd")</td>
                                                     <td>
                                                         <div class="row">
                                                             <div class="col-md-2">
-                                                                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View" onclick="CDetails(@item.TrainingCourseId)"><i class="fa-regular fa-eye"></i></button>
+                                                                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View" onclick="SDetails(@item.TrainingSheduleId)"><i class="fa-regular fa-eye"></i></button>
                                                             </div>
 
                                                             <div class="col-md-2" style="margin-left:30px;margin-right:20px">
-                                                                <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit" onclick="CEdit(@item.TrainingCourseId)"><i class="fa-regular fa-pen-to-square"></i></button>
+                                                                <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit" onclick="SEdit(@item.TrainingSheduleId)"><i class="fa-regular fa-pen-to-square"></i></button>
                                                             </div>
                                                             <div class="col-md-2" style="margin-left:10px;margin-right:20px">
-                                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete" onclick="CDelete(@item.TrainingCourseId)"><i class="fa-sharp fa-delete-left"></i></button>
+                                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete" onclick="SDelete(@item.TrainingSheduleId)"><i class="fa-sharp fa-delete-left"></i></button>
                                                             </div>
                                                         </div>
-
                                                     </td>
-
                                                 </tr>
                                                 i++;
                                             }
@@ -89,10 +88,10 @@
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">#</th>
-                                            <th rowspan="1" colspan="1">Training</th>
-                                            <th rowspan="1" colspan="1">Course English Name</th>
-                                            <th rowspan="1" colspan="1">Course Sinhala Name</th>
-                                            <th rowspan="1" colspan="1">Course Tamil Name</th>
+                                            <th rowspan="1" colspan="1">Training Course</th>
+                                            <th rowspan="1" colspan="1">Shedule Name</th>
+                                            <th rowspan="1" colspan="1">Start Date</th>
+                                            <th rowspan="1" colspan="1">End Date</th>
                                             <th rowspan="1" colspan="1">Action</th>
                                         </tr>
                                     </tfoot>
@@ -105,30 +104,30 @@
         </div>
     </div>
 </div>
-<div id="editCourseModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="editSheduleModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="EditCourseModalTittle">Edit Course</h5>
+                <h5 class="modal-title" id="EditSheduleModalTittle">Edit Shedule</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="bx bx-x"></i>
                 </button>
             </div>
-            <div class="modal-body" id="editCourseContent">
+            <div class="modal-body" id="editSheduleContent">
             </div>
         </div>
     </div>
 </div>
-<div id="detailCourseModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="detailSheduleModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detailCourseModalTittle">Course Detail</h5>
+                <h5 class="modal-title" id="detailSheduleModalTittle">Shedule Detail</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="bx bx-x"></i>
                 </button>
             </div>
-            <div class="modal-body" id="detailCourseContent">
+            <div class="modal-body" id="detailSheduleContent">
             </div>
         </div>
     </div>
@@ -146,7 +145,7 @@
 <script src="~/assets/app-assets/fonts/fontawesome/js/font-awesome-all.min.js"></script>
 @* <script src="~/assets/custom/datatable/js/buttons.bootstrap4.min.js"></script> *@
 <script>
-    $('#Course_Table').DataTable({
+    $('#Shedule_Table').DataTable({
         "paging": true,
         "searching": true,
         "ordering": true,
@@ -155,14 +154,14 @@
         "lengthMenu": [10, 25, 50, 100],
         scrollX: true,
         autoWidth: true,
-        columnDefs: [    
-            { width: "40px", targets: 0 },     // #    
-            { width: "150px", targets: 1 },    // Training Course    
-            { width: "150px", targets: 2 },    // Schedule Name    
-            { width: "120px", targets: 3 },    // Start Date    
-            { width: "120px", targets: 4 },    // End Date    
-            { width: "200px", targets: 5 }     // Action buttons    
-        ]
+        columnDefs: [
+        { width: "40px", targets: 0 },     // #
+        { width: "150px", targets: 1 },    // Training Course
+        { width: "150px", targets: 2 },    // Schedule Name
+        { width: "120px", targets: 3 },    // Start Date
+        { width: "120px", targets: 4 },    // End Date
+        { width: "200px", targets: 5 }     // Action buttons
+    ]
     });
 
     $(document).ready(function() {
@@ -173,9 +172,9 @@
                 var toastTitle = toastEl.querySelector('.toast-title');
                 var toastMsg = toastEl.querySelector('.toast-message');
                 var toast = toastEl.querySelector('.toast');
-                if(ToastMessage == 'SubmittedCourseSuccessfully!'){
+                if(ToastMessage == 'SubmittedSheduleSuccessfully!'){
                     if (toastMsg) {
-                        toastMsg.textContent = "Successfully Saved Course";
+                        toastMsg.textContent = "Successfully Saved Shedule";
                         toastTitle.textContent = "Success";
                         toastEl.classList.remove("toast-success", "toast-error", "toast-warning", "toast-info");
                         // toast.classList.add("toast-success");
@@ -189,9 +188,9 @@
                         console.error("Toast body element not found.");
                     }
                 }
-                else if(ToastMessage == 'UpdatedCourseSuccessfully!'){
+                else if(ToastMessage == 'UpdatedSheduleSuccessfully!'){
                     if (toastMsg) {
-                        toastMsg.textContent = "Successfully Updated Course";
+                        toastMsg.textContent = "Successfully Updated Shedule";
                         toastTitle.textContent = "Success";
                         toastEl.classList.remove("toast-success", "toast-error", "toast-warning", "toast-info");
                         // Add the type class
@@ -204,9 +203,9 @@
                         console.error("Toast body element not found.");
                     }
                 }
-                else if(ToastMessage == 'DeletedCourseSuccessfully!'){
+                else if(ToastMessage == 'DeletedSheduleSuccessfully!'){
                     if (toastMsg) {
-                        toastMsg.textContent = "Successfully Deleted Course";
+                        toastMsg.textContent = "Successfully Deleted Shedule";
                         toastTitle.textContent = "Success";
                         toastEl.classList.remove("toast-success", "toast-error", "toast-warning", "toast-info");
                         // Add the type class
@@ -225,34 +224,34 @@
             }
         }
     });
-    function CDetails(Id) {
+    function SDetails(Id) {
         $.ajax({
-            url: '@Url.Action("TairningDetails", "Course")',
+            url: '@Url.Action("TairningDetails", "Shedule")',
             type: "GET",
             data: { id: Id },
             dataType: 'html',
             success: function (result) {
-                $("#detailCourseModal .modal-body").html(result);
-                $("#detailCourseModal").modal('show');
+                $("#detailSheduleModal .modal-body").html(result);
+                $("#detailSheduleModal").modal('show');
             },
             error: function (xhr, status, error) {
                 console.error("Failed to load modal content:", error);
                 alert("Error");
                 // Optionally show an error message in the modal
-                $("#detailCourseModal .modal-body").html("<p class='text-danger'>Error loading details.</p>");
-                $("#detailCourseModal").modal('show');
+                $("#detailSheduleModal .modal-body").html("<p class='text-danger'>Error loading details.</p>");
+                $("#detailSheduleModal").modal('show');
             }
         });
     }
-    function CEdit(id) {
+    function SEdit(id) {
         $.ajax({
-            url: '/Course/Edit',
+            url: '/Shedule/Edit',
             type: 'GET',
             data: { id: id },
             dataType: 'html',
             success: function (html) {
-                $('#editCourseContent').html(html);
-                $('#editCourseModal').modal('show');
+                $('#editSheduleContent').html(html);
+                $('#editSheduleModal').modal('show');
                 //bindEditFormSubmit(); // Bind form submit after loading content
             },
             error: function () {
@@ -260,10 +259,10 @@
             }
         });
     }
-    function CDelete(Id) {
+    function SDelete(Id) {
         Swal.fire({
             title: 'Are you sure?',
-            text: "Do you want to delete this Course?",
+            text: "Do you want to delete this Shedule?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -272,7 +271,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '@Url.Action("Delete", "Course")',
+                    url: '@Url.Action("Delete", "Shedule")',
                     type: 'POST',
                     data: { id: Id },
                     success: function (response) {

@@ -26,4 +26,6 @@ public partial class Trainer
     public DateTime? TrainerCreatedDate { get; set; }
 
     public virtual ICollection<TrainingCourse> TrainingCourses { get; set; } = new List<TrainingCourse>();
+
+    public virtual ICollection<TrainingShedule> TrainingShedules { get; set; } = new List<TrainingShedule>();
 }

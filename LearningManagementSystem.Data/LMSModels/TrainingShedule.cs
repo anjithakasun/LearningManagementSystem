@@ -11,6 +11,8 @@ public partial class TrainingShedule
 
     public int? TrainingSheduleTrainingCourseId { get; set; }
 
+    public int? TrainingSheduleTrainerId { get; set; }
+
     public string TrainingSheduleName { get; set; }
 
     public string TrainingSheduleDescription { get; set; }
@@ -28,6 +30,8 @@ public partial class TrainingShedule
     public DateTime? TrainingSheduleCreatedDate { get; set; }
 
     public virtual ICollection<TrainingParticipant> TrainingParticipants { get; set; } = new List<TrainingParticipant>();
+
+    public virtual Trainer TrainingSheduleTrainer { get; set; }
 
     public virtual TrainingCourse TrainingSheduleTrainingCourse { get; set; }
 }

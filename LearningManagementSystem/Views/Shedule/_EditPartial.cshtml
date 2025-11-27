@@ -1,0 +1,244 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingShedule
+
+
+
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+<link href="~/assets/custom/daterangepicker/css/bootstrap-datepicker3.standalone.min.css" rel="stylesheet" />
+<div class="card-body">
+    @using (Html.BeginForm("Create", "Shedule", FormMethod.Post, new { id = "EditForm" }))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="TrainingShedule_ETrainingCourseId">Training Course</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingShedule_ETrainingCourseId" name="TrainingShedule_ETrainingCourseId" class="form-control" asp-items="ViewBag.TrainingShedule_TrainingCourseId" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-ECourse"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingShedule_ETrainerId">Trainer</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingShedule_ETrainerId" name="TrainingShedule_ETrainerId" class="form-control" asp-items="ViewBag.TrainingShedule_TrainerId" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-Trainer"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingShedule_EName">Shedule Refference Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingShedule_EName" name="TrainingShedule_EName" placeholder="Shedule Refference" autocomplete="off" value="@Model.TrainingSheduleName">
+                    <span id="error-message-EReff"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingShedule_EStartDate">Shedule Start Date</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingShedule_EStartDate" name="TrainingShedule_EStartDate" placeholder="Select Start Date" autocomplete="off" value="@Model.TrainingSheduleStartDate">
+                    <span id="error-message-EsDate"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingShedule_EEndDate">Shedule End Date</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingShedule_EEndDate" name="TrainingShedule_EEndDate" placeholder="Select End Date" autocomplete="off" value="@Model.TrainingSheduleEndDate">
+                    <span id="error-message-EeDate"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingShedule_EParticipantCount">Participant Count</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingShedule_EParticipantCount" name="TrainingShedule_EParticipantCount" placeholder="Enter Count" value="@Model.TrainingSheduleParticipantCount">
+                    <span id="error-message-ECount"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingShedule_EDescription">Shedule Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <textarea class="form-control" id="TrainingShedule_EDescription" name="TrainingShedule_EDescription" rows="4" placeholder="Textarea">@Model.TrainingSheduleDescription</textarea>
+                    <span id="error-message-EDes"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-actions">
+                <button type="Reset" class="btn btn-warning round mr-1 mb-1">Clear</button>
+            </div>
+            <div class="col-md-3 form-actions" style="margin-left:-70px">
+                <button type="button" class="btn btn-success round mr-1 mb-1" id="Esave">Success</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+<script src="~/assets/custom/daterangepicker/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    $('#TrainingShedule_SEtartDate').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+        orientation: "bottom",
+        startDate: new Date()
+    });
+    $('#TrainingShedule_EEndDate').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+        orientation: "bottom",
+        startDate: new Date()
+    });
+    $("#TrainingShedule_ETrainingCourseId").select2({
+        allowClear: true,
+        placeholder: 'Select Training | Course',
+    });
+    $("#TrainingShedule_ETrainerId").select2({
+        allowClear: true,
+        placeholder: 'Select Trainer',
+    });
+
+    document.getElementById("TrainingShedule_EName").readOnly = true;
+    $('#TrainingShedule_ETrainingCourseId').on('change', function () {
+        var Tcid = document.getElementById("TrainingShedule_ETrainingCourseId").value;
+        if(Tcid != ""){
+            $.ajax({
+                url: '@Url.Action("GetReference", "Shedule")',
+                type: 'GET',
+                data : {trainingCourseId : Tcid },
+                success: function (data) {
+                    $("#TrainingShedule_EName").val(data);
+                    document.getElementById("TrainingShedule_EName").readOnly = false;
+                    return
+                },
+                error: function () {
+                    alert("Failed to load dropdown data.");
+                }
+            });
+        } else{
+            $("#TrainingShedule_Name").val(null);
+            document.getElementById("TrainingShedule_EName").readOnly = true;
+        }
+    });
+
+    $('#Esave').on('click', function () {
+        var form = $('#EditForm');
+        const errorMessageCourseContainer = document.getElementById('error-message-ECourse');
+        const errorMessageTrainerContainer = document.getElementById('error-message-ETrainer');
+        const errorMessageReffContainer = document.getElementById('error-message-EReff');
+        const errorMessagesDateContainer = document.getElementById('error-message-EsDate');
+        const errorMessageeDateContainer = document.getElementById('error-message-EeDate');
+        const errorMessageCountContainer = document.getElementById('error-message-ECount');
+        const errorMessageDesContainer = document.getElementById('error-message-EDes');
+
+        var TrainingShedule_TrainingCourseId = document.getElementById("TrainingShedule_ETrainingCourseId").value;
+        var TrainingShedule_Name = document.getElementById("TrainingShedule_EName").value;
+        var TrainingShedule_TrainerId = document.getElementById("TrainingShedule_ETrainerId").value;
+        var TrainingShedule_StartDate = document.getElementById("TrainingShedule_EStartDate").value;
+        var TrainingShedule_EndDate = document.getElementById("TrainingShedule_EEndDate").value;
+        var TrainingShedule_ParticipantCount = document.getElementById("TrainingShedule_EParticipantCount").value;
+        var TrainingShedule_Description = document.getElementById("TrainingShedule_EDescription").value;
+
+        let isValid = true;
+        errorMessageCourseContainer.textContent = '';
+        errorMessageTrainerContainer.textContent = '';
+        errorMessageReffContainer.textContent = '';
+        errorMessagesDateContainer.textContent = '';
+        errorMessageeDateContainer.textContent = '';
+        errorMessageCountContainer.textContent = '';
+        errorMessageDesContainer.textContent = '';
+        // --- User Name Validation ---
+        if (TrainingShedule_TrainingCourseId == "") {
+            errorMessageCourseContainer.textContent = 'Please Select Course.';
+            errorMessageCourseContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingShedule_TrainerId == "") {
+            errorMessageTrainerContainer.textContent = 'Please Select Trainer.';
+            errorMessageTrainerContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (TrainingShedule_Name == "") {
+            errorMessageReffContainer.textContent = 'Please Enter Refference.';
+            errorMessageReffContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingShedule_StartDate == "") {
+            errorMessagesDateContainer.textContent = 'Please Select Start Date.';
+            errorMessagesDateContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingShedule_EndDate == "") {
+            errorMessageeDateContainer.textContent = 'Please Select End Date.';
+            errorMessageeDateContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingShedule_Description == "") {
+            errorMessageDesContainer.textContent = 'Please Enter Description.';
+            errorMessageDesContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingShedule_ParticipantCount == "") {
+            errorMessageCountContainer.textContent = 'Please Enter Paarticipant Count.';
+            errorMessageCountContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/Shedule/Edit');
+            form.submit();
+        }
+    });
+
+    function seqChange() {
+        var TrainingCourse_Sequance = document.getElementById("TrainingCourse_Sequance");
+        var TrainingCourse_TrainingId = document.getElementById("TrainingCourse_TrainingId").value;
+        const errorMessageSeqContainer = document.getElementById('error-message-Seq');
+        errorMessageSeqContainer.textContent = '';
+             // alert(TrainingCourse_Sequance.value + TrainingCourse_TrainingId);
+        const savebtn = document.getElementById("save");
+        if(TrainingCourse_Sequance.value != "" && TrainingCourse_TrainingId != ""){
+            $.ajax({
+                url: '@Url.Action("CheckSequence", "Course")',
+                type: 'GET', // or POST
+                data: {
+                    trainingId: TrainingCourse_TrainingId,
+                    sequence: TrainingCourse_Sequance.value
+                },
+                success: function (response) {
+                    if (response.status === true) {
+                        errorMessageSeqContainer.textContent = '';
+                        TrainingCourse_Sequance.style.borderColor = "green";
+                        savebtn.disabled = false;
+                        console.log("Sequence OK");
+                    } else {
+                        errorMessageSeqContainer.textContent = 'Sequence already exists.';
+                        errorMessageSeqContainer.style.color = 'red';
+                        TrainingCourse_Sequance.style.borderColor = 'red';
+                        savebtn.disabled = true;
+                        // console.log("Sequence already exists");
+                        // errorMessageSeqContainer.textContent = 'Sequence already exists!';
+                        return;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error occurred: " + error);
+                }
+            });
+        }
+
+    }
+
+
+</script>

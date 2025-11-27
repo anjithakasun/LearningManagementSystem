@@ -17,13 +17,27 @@ namespace LearningManagementSystem.Bussiness.LearningManagementHandler
             _db = context;
         }
 
-        public async  Task<List<TrainingDto>> getTrainingList()
+
+        public async Task<List<TrainingDto>> getTrainingList()
         {
             var list = _db.Training.Where(a => a.TrainingActive == true).Select(t => new TrainingDto
             {
                 id = t.TrainingId,
                 name = t.TrainingEname
             }).ToList();
+            return list;
+        }
+
+
+        public async Task<List<CourseDto>> getCourseList(int trainingId)
+        {
+            var list = _db.TrainingCourses.Where(a => a.TrainingCourseTrainingId == trainingId)
+                        .Select(t => new CourseDto
+                        {
+                            id = t.TrainingCourseId,
+                            name = t.TrainingCourseEname
+                        })
+                        .ToList();
             return list;
         }
     }

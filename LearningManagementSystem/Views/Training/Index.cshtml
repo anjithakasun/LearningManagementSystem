@@ -75,6 +75,7 @@
                                                     </td>
 
                                                 </tr>
+                                                i++;
                                             }
                                         }
                                         else
@@ -151,7 +152,17 @@
         "ordering": true,
         "info": true,
         "pageLength": 10,
-        "lengthMenu": [10, 25, 50, 100]
+        "lengthMenu": [10, 25, 50, 100],
+        scrollX: true,
+        autoWidth: true,    
+        columnDefs: [    
+            { width: "40px", targets: 0 },     // #    
+            { width: "150px", targets: 1 },    // Training Course    
+            { width: "150px", targets: 2 },    // Schedule Name    
+            { width: "120px", targets: 3 },    // Start Date    
+            { width: "120px", targets: 4 },    // End Date    
+            { width: "200px", targets: 5 }     // Action buttons    
+        ]
     });
     // function MethodDetils(Id) {
     //     $.ajax({

@@ -85,10 +85,10 @@ public partial class LearningManagementContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Trainer_CreatedDate");
             entity.Property(e => e.TrainerDepartment)
-                .HasMaxLength(10)
+                .HasMaxLength(100)
                 .HasColumnName("Trainer_Department");
             entity.Property(e => e.TrainerDesignation)
-                .HasMaxLength(10)
+                .HasMaxLength(100)
                 .HasColumnName("Trainer_Designation");
             entity.Property(e => e.TrainerEpf)
                 .HasMaxLength(6)
@@ -237,6 +237,9 @@ public partial class LearningManagementContext : DbContext
             entity.Property(e => e.TrainingParticipantDesignation)
                 .HasMaxLength(50)
                 .HasColumnName("TrainingParticipant_Designation");
+            entity.Property(e => e.TrainingParticipantEmail)
+                .HasMaxLength(150)
+                .HasColumnName("TrainingParticipant_Email");
             entity.Property(e => e.TrainingParticipantEpf)
                 .HasMaxLength(10)
                 .HasColumnName("TrainingParticipant_EPF");
@@ -474,7 +477,12 @@ public partial class LearningManagementContext : DbContext
             entity.Property(e => e.TrainingSheduleStartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("TrainingShedule_StartDate");
+            entity.Property(e => e.TrainingSheduleTrainerId).HasColumnName("TrainingShedule_TrainerId");
             entity.Property(e => e.TrainingSheduleTrainingCourseId).HasColumnName("TrainingShedule_TrainingCourseId");
+
+            entity.HasOne(d => d.TrainingSheduleTrainer).WithMany(p => p.TrainingShedules)
+                .HasForeignKey(d => d.TrainingSheduleTrainerId)
+                .HasConstraintName("FK_TrainingShedule_Trainer");
 
             entity.HasOne(d => d.TrainingSheduleTrainingCourse).WithMany(p => p.TrainingShedules)
                 .HasForeignKey(d => d.TrainingSheduleTrainingCourseId)
