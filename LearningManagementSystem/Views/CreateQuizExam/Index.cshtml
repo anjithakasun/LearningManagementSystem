@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Course Master";
+    ViewData["MenuTab"] = "CourseMenu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/custom/datatable/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/custom/datatable/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/app-assets/vendors/css/extensions/toastr.css" rel="stylesheet" />
+<link href="~/assets/custom/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/assets/custom/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+<link href="~/assets/app-assets/fonts/fontawesome/css/fontawesome-all.min.css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Create Quiz Exam</h1>
+            </div>
+            <div class="card-content">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="~/assets/app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="~/assets/custom/datatable/js/jquery-3.3.1.js"></script>
+<script src="~/assets/custom/datatable/js/jquery.datatables.min.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.all.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.min.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.js"></script>
+<script src="~/assets/custom/datatable/js/datatables.bootstrap4.min.js"></script>
+<script src="~/assets/app-assets/fonts/fontawesome/js/font-awesome-all.min.js"></script>
+
+<script>
+    $('#Training_Table').DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "pageLength": 10,
+        "lengthMenu": [10, 25, 50, 100]
+    });
+    
+    
+
+    function TEdit(id) {
+        $.ajax({
+            url: '/Training/Edit',
+            type: 'GET',
+            data: { id: id },
+            dataType: 'html',
+            success: function (html) {
+                $('#editTrainingContent').html(html);
+                $('#editTrainingModal').modal('show');
+                //bindEditFormSubmit(); // Bind form submit after loading content
+            },
+            error: function () {
+                alert('Could not load complaint data.');
+            }
+        });
+    }
+    
+</script>

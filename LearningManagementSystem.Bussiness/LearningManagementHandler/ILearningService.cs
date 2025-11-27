@@ -11,5 +11,6 @@ namespace LearningManagementSystem.Bussiness.LearningManagementHandler
     public interface ILearningService
     {
         public Task<List<TrainingDto>> getTrainingList();
+        public Task<List<CourseDto>> getCourseList(int trainingId);
     }
 }

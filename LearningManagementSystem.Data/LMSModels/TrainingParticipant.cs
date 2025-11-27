@@ -21,6 +21,8 @@ public partial class TrainingParticipant
 
     public string TrainingParticipantDesignation { get; set; }
 
+    public string TrainingParticipantEmail { get; set; }
+
     public bool? TrainingParticipantActive { get; set; }
 
     public int? TrainingParticipantDeletedReasonId { get; set; }

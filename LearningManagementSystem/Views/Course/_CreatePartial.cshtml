@@ -1,6 +1,6 @@
 ﻿
 
-
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
 <div class="card-body">
     @using (Html.BeginForm("Create", "Course", FormMethod.Post, new { id = "CreateForm" }))
     {
@@ -8,37 +8,45 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="TrainingCourse_TrainingId">Training</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <select id="TrainingCourse_TrainingId" name="TrainingCourse_TrainingId" class="form-control" asp-items="ViewBag.TrainingCourse_TrainingId">
+                    <br />
+                    <select id="TrainingCourse_TrainingId" name="TrainingCourse_TrainingId" class="form-control" asp-items="ViewBag.TrainingCourse_TrainingId" onchange="seqChange()">
                         <option value="">-- Select --</option>
                     </select>
-                    <span id="error-message-method"></span>
+                    <span id="error-message-Trainig"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="Training_EName">Trainig English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <input type="text" class="form-control" id="Training_EName" name="Training_EName" placeholder="Enter English Name">
+                    <label for="TrainingCourse_EName">Course English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourse_EName" name="TrainingCourse_EName" placeholder="Enter English Name" autocomplete="off">
                     <span id="error-message-EName"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="Training_SName">Trainig Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <input type="text" class="form-control" id="Training_SName" name="Training_SName" placeholder="Enter Sinhala Name">
+                    <label for="TrainingCourse_SName">Course Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourse_SName" name="TrainingCourse_SName" placeholder="Enter Sinhala Name" autocomplete="off">
                     <span id="error-message-SName"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="Training_TName">Trainig Tramil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <input type="text" class="form-control" id="Training_TName" name="Training_TName" placeholder="Enter Tamil Name">
+                    <label for="TrainingCourse_TName">Course Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourse_TName" name="TrainingCourse_TName" placeholder="Enter Tamil Name" autocomplete="off">
                     <span id="error-message-TName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourse_Sequance">Sequence</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingCourse_Sequance" name="TrainingCourse_Sequance" placeholder="Enter Sequance" min="1" step="1" onkeyup="seqChange()">
+                    <span id="error-message-Seq"></span>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="Training_Description">Trainig Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <textarea class="form-control" id="Training_Description" name="Training_Description" rows="3" placeholder="Textarea"></textarea>
+                    <label for="TrainingCourse_Description">Course Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <textarea class="form-control" id="TrainingCourse_Description" name="TrainingCourse_Description" rows="3" placeholder="Textarea"></textarea>
                     <span id="error-message-Des"></span>
                 </div>
             </div>
@@ -57,43 +65,64 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/assets/custom/datatable/js/jquery-3.3.1.js"></script>
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
 <script type="text/javascript">
+    $("#TrainingCourse_TrainingId").select2({
+        allowClear: true,               
+        placeholder: 'Select Training',          
+    });
     $('#save').on('click', function () {
         var form = $('#CreateForm');
+        const errorMessageTrainigContainer = document.getElementById('error-message-Trainig');
         const errorMessageENameContainer = document.getElementById('error-message-EName');
         const errorMessageSNameContainer = document.getElementById('error-message-SName');
         const errorMessageTNameContainer = document.getElementById('error-message-TName');
+        const errorMessageSeqContainer = document.getElementById('error-message-Seq');
         const errorMessageDesContainer = document.getElementById('error-message-Des');
-        var Training_EName = document.getElementById("Training_EName").value;
-        var Training_SName = document.getElementById("Training_SName").value;
-        var Training_TName = document.getElementById("Training_TName").value;
-        var Training_Description = document.getElementById("Training_Description").value;
+        var TrainingCourse_TrainingId = document.getElementById("TrainingCourse_TrainingId").value;
+        var TrainingCourse_EName = document.getElementById("TrainingCourse_EName").value;
+        var TrainingCourse_SName = document.getElementById("TrainingCourse_SName").value;
+        var TrainingCourse_TName = document.getElementById("TrainingCourse_TName").value;
+        var TrainingCourse_Description = document.getElementById("TrainingCourse_Description").value;
+        var TrainingCourse_Sequance = document.getElementById("TrainingCourse_Sequance").value;
 
         let isValid = true;
+        errorMessageTrainigContainer.textContent = '';
         errorMessageENameContainer.textContent = '';
         errorMessageSNameContainer.textContent = '';
         errorMessageTNameContainer.textContent = '';
+        errorMessageSeqContainer.textContent = '';
         errorMessageDesContainer.textContent = '';
         // --- User Name Validation ---
-        if (Training_EName == "") {
+        if (TrainingCourse_TrainingId == "") {
+            errorMessageTrainigContainer.textContent = 'Please Select Training.';
+            errorMessageTrainigContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourse_EName == "") {
             errorMessageENameContainer.textContent = 'Please Enter English Name.';
             errorMessageENameContainer.style.color = 'red';
             isValid = false;
         }
 
-        if (Training_SName == "") {
+        if (TrainingCourse_SName == "") {
             errorMessageSNameContainer.textContent = 'Please Enter Sinhala Name.';
             errorMessageSNameContainer.style.color = 'red';
             isValid = false;
         }
-        if (Training_TName == "") {
+        if (TrainingCourse_TName == "") {
             errorMessageTNameContainer.textContent = 'Please Enter Tamil Name.';
             errorMessageTNameContainer.style.color = 'red';
             isValid = false;
         }
-        if (Training_Description == "") {
+        if (TrainingCourse_Description == "") {
             errorMessageDesContainer.textContent = 'Please Enter Description.';
             errorMessageDesContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourse_Sequance == "") {
+            errorMessageSeqContainer.textContent = 'Please Enter Sequence.';
+            errorMessageSeqContainer.style.color = 'red';
             isValid = false;
         }
 
@@ -102,9 +131,49 @@
             return false;
         }else{
             // Change action dynamically
-            form.attr('action', '/Training/Create');
+            form.attr('action', '/Course/Create');
             form.submit();
         }
     });
+
+    function seqChange() {               
+        var TrainingCourse_Sequance = document.getElementById("TrainingCourse_Sequance");                
+        var TrainingCourse_TrainingId = document.getElementById("TrainingCourse_TrainingId").value;
+        const errorMessageSeqContainer = document.getElementById('error-message-Seq');
+        errorMessageSeqContainer.textContent = '';
+             // alert(TrainingCourse_Sequance.value + TrainingCourse_TrainingId);
+        const savebtn = document.getElementById("save");
+        if(TrainingCourse_Sequance.value != "" && TrainingCourse_TrainingId != ""){
+            $.ajax({        
+                url: '@Url.Action("CheckSequence", "Course")',        
+                type: 'GET', // or POST       
+                data: {        
+                    trainingId: TrainingCourse_TrainingId,        
+                    sequence: TrainingCourse_Sequance.value        
+                },        
+                success: function (response) {        
+                    if (response.status === true) {        
+                        errorMessageSeqContainer.textContent = '';        
+                        TrainingCourse_Sequance.style.borderColor = "green";        
+                        savebtn.disabled = false;        
+                        console.log("Sequence OK");        
+                    } else {        
+                        errorMessageSeqContainer.textContent = 'Sequence already exists.';        
+                        errorMessageSeqContainer.style.color = 'red';        
+                        TrainingCourse_Sequance.style.borderColor = 'red';        
+                        savebtn.disabled = true;        
+                        // console.log("Sequence already exists");        
+                        // errorMessageSeqContainer.textContent = 'Sequence already exists!';        
+                        return;        
+                    }        
+                },        
+                error: function (xhr, status, error) {        
+                    console.log("Error occurred: " + error);        
+                }        
+            });
+        }
+        
+    }
+
 
 </script>

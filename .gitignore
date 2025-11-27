@@ -54,3 +54,4 @@ TestResult.xml
 nunit-*.xml
 /LearningManagementSystem.Data/LMSModels/LearningManagementContext.cs
 /LearningManagementSystem/appsettings.json
+/.vs

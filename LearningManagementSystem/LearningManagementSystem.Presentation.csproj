@@ -21,13 +21,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LearningManagementSystem.Bussiness\LearningManagementSystem.Bussiness.csproj" />
-    <ProjectReference Include="..\LearningManagementSystem.Bussiness\LearningManagementSystem.Data.csproj" />
-    <ProjectReference Include="..\LearningManagementSystem.Data\LearningManagementSystem.Bussiness.csproj" />
     <ProjectReference Include="..\LearningManagementSystem.Data\LearningManagementSystem.Data.csproj" />
   </ItemGroup>
 

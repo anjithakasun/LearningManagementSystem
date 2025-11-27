@@ -1,0 +1,176 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingCourse
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+<div class="card-body">
+    @using (Html.BeginForm("Edit", "Course", FormMethod.Post, new { id = "EditForm" }))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="TrainingCourse_ETrainingId">Training</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourse_ETrainingId" name="TrainingCourse_ETrainingId" class="form-control" asp-items="ViewBag.TrainingCourse_TrainingId" style="width:100%" onchange="seqChange()">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-ETrainig"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourse_EEName">Course English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourse_EEName" name="TrainingCourse_EEName" placeholder="Enter English Name" value="@Model.TrainingCourseEname" autocomplete="off">
+                    <span id="error-message-EEName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourse_ESName">Course Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourse_ESName" name="TrainingCourse_ESName" placeholder="Enter Sinhala Name" value="@Model.TrainingCourseSname" autocomplete="off">
+                    <span id="error-message-ESName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourse_ETName">Course Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourse_ETName" name="TrainingCourse_ETName" placeholder="Enter Tamil Name" value="@Model.TrainingCourseTname" autocomplete="off">
+                    <span id="error-message-ETName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourse_ESequance">Sequence</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingCourse_ESequance" name="TrainingCourse_ESequance" placeholder="Enter Sequance" min="1" step="1" onkeyup="seqChange()" value="@Model.TrainingCourseSequance">
+                    <span id="error-message-ESeq"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingCourse_EDescription">Course Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <textarea class="form-control" id="TrainingCourse_EDescription" name="TrainingCourse_EDescription" rows="3" placeholder="Textarea">@Model.TrainingCourseDescription</textarea>
+                    <span id="error-message-EDes"></span>
+                </div>
+            </div>
+        </div>
+        <input tyepe="text" id="Id" name="Id" value="@Model.TrainingCourseId" hidden></input>
+        <div class="row" style="margin-left:75%">
+            <button type="button" class="btn grey btn-light-secondary">Close</button>
+
+            <button type="button" class="btn btn-primary ml-1" data-dismiss="modal" id="Esave">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Save</span>
+            </button>
+        </div>
+    }
+</div>
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+<script type="text/javascript">
+    $("#TrainingCourse_ETrainingId").select2({
+        allowClear: true,
+        placeholder: 'Select Training',
+        dropdownParent: $('#editCourseModal')
+    });
+    $('#Esave').on('click', function () {
+        var form = $('#EditForm');
+        const errorMessageTrainigContainer = document.getElementById('error-message-ETrainig');
+        const errorMessageENameContainer = document.getElementById('error-message-EEName');
+        const errorMessageSNameContainer = document.getElementById('error-message-ESName');
+        const errorMessageTNameContainer = document.getElementById('error-message-ETName');
+        const errorMessageSeqContainer = document.getElementById('error-message-ESeq');
+        const errorMessageDesContainer = document.getElementById('error-message-EDes');
+        var TrainingCourse_TrainingId = document.getElementById("TrainingCourse_ETrainingId").value;
+        var TrainingCourse_EName = document.getElementById("TrainingCourse_EEName").value;
+        var TrainingCourse_SName = document.getElementById("TrainingCourse_ESName").value;
+        var TrainingCourse_TName = document.getElementById("TrainingCourse_ETName").value;
+        var TrainingCourse_Description = document.getElementById("TrainingCourse_EDescription").value;
+        var TrainingCourse_Sequance = document.getElementById("TrainingCourse_ESequance").value;
+
+        let isValid = true;
+        errorMessageTrainigContainer.textContent = '';
+        errorMessageENameContainer.textContent = '';
+        errorMessageSNameContainer.textContent = '';
+        errorMessageTNameContainer.textContent = '';
+        errorMessageSeqContainer.textContent = '';
+        errorMessageDesContainer.textContent = '';
+        // --- User Name Validation ---
+        if (TrainingCourse_TrainingId == "") {
+            errorMessageTrainigContainer.textContent = 'Please Select Training.';
+            errorMessageTrainigContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourse_EName == "") {
+            errorMessageENameContainer.textContent = 'Please Enter English Name.';
+            errorMessageENameContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (TrainingCourse_SName == "") {
+            errorMessageSNameContainer.textContent = 'Please Enter Sinhala Name.';
+            errorMessageSNameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourse_TName == "") {
+            errorMessageTNameContainer.textContent = 'Please Enter Tamil Name.';
+            errorMessageTNameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourse_Description == "") {
+            errorMessageDesContainer.textContent = 'Please Enter Description.';
+            errorMessageDesContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourse_Sequance == "") {
+            errorMessageSeqContainer.textContent = 'Please Enter Sequence.';
+            errorMessageSeqContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/Course/Edit');
+            form.submit();
+        }
+    });
+        
+    function seqChange() {
+        var TrainingCourse_Sequance = document.getElementById("TrainingCourse_ESequance");
+        var TrainingCourse_TrainingId = document.getElementById("TrainingCourse_ETrainingId").value;
+        const errorMessageSeqContainer = document.getElementById('error-message-ESeq');
+        errorMessageSeqContainer.textContent = '';
+        //alert(TrainingCourse_Sequance.value + TrainingCourse_TrainingId);
+        const savebtn = document.getElementById("Esave");
+        if(TrainingCourse_Sequance.value != "" && TrainingCourse_TrainingId != ""){
+            $.ajax({
+                url: '@Url.Action("CheckSequence", "Course")',
+                type: 'GET', // or POST
+                data: {
+                    trainingId: TrainingCourse_TrainingId,
+                    sequence: TrainingCourse_Sequance.value
+                },
+                success: function (response) {
+                    if (response.status === true) {
+                        errorMessageSeqContainer.textContent = '';
+                        TrainingCourse_Sequance.style.borderColor = "green";
+                        savebtn.disabled = false;
+                        console.log("Sequence OK");
+                    } else {
+                        errorMessageSeqContainer.textContent = 'Sequence already exists.';
+                        errorMessageSeqContainer.style.color = 'red';
+                        TrainingCourse_Sequance.style.borderColor = 'red';
+                        savebtn.disabled = true;
+                        // console.log("Sequence already exists");
+                        // errorMessageSeqContainer.textContent = 'Sequence already exists!';
+                        return;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error occurred: " + error);
+                }
+            });
+        }
+
+    }
+
+</script>
