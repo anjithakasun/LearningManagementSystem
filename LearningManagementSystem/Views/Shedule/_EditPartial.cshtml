@@ -6,7 +6,7 @@
 <link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
 <link href="~/assets/custom/daterangepicker/css/bootstrap-datepicker3.standalone.min.css" rel="stylesheet" />
 <div class="card-body">
-    @using (Html.BeginForm("Create", "Shedule", FormMethod.Post, new { id = "EditForm" }))
+    @using (Html.BeginForm("Edit", "Shedule", FormMethod.Post, new { id = "EditForm" }))
     {
         <div class="row">
             <div class="col-md-10">
@@ -26,7 +26,7 @@
                     <select id="TrainingShedule_ETrainerId" name="TrainingShedule_ETrainerId" class="form-control" asp-items="ViewBag.TrainingShedule_TrainerId" style="width:100%">
                         <option value="">-- Select --</option>
                     </select>
-                    <span id="error-message-Trainer"></span>
+                    <span id="error-message-ETrainer"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -39,14 +39,14 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="TrainingShedule_EStartDate">Shedule Start Date</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <input type="text" class="form-control" id="TrainingShedule_EStartDate" name="TrainingShedule_EStartDate" placeholder="Select Start Date" autocomplete="off" value="@Model.TrainingSheduleStartDate">
+                    <input type="text" class="form-control" id="TrainingShedule_EStartDate" name="TrainingShedule_EStartDate" placeholder="Select Start Date" autocomplete="off" value="@Model.TrainingSheduleStartDate.Value.ToString("yyyy-MM-dd")">
                     <span id="error-message-EsDate"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="TrainingShedule_EEndDate">Shedule End Date</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <input type="text" class="form-control" id="TrainingShedule_EEndDate" name="TrainingShedule_EEndDate" placeholder="Select End Date" autocomplete="off" value="@Model.TrainingSheduleEndDate">
+                    <input type="text" class="form-control" id="TrainingShedule_EEndDate" name="TrainingShedule_EEndDate" placeholder="Select End Date" autocomplete="off" value="@Model.TrainingSheduleEndDate.Value.ToString("yyyy-MM-dd")">
                     <span id="error-message-EeDate"></span>
                 </div>
             </div>
@@ -66,13 +66,14 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-2 form-actions">
-                <button type="Reset" class="btn btn-warning round mr-1 mb-1">Clear</button>
-            </div>
-            <div class="col-md-3 form-actions" style="margin-left:-70px">
-                <button type="button" class="btn btn-success round mr-1 mb-1" id="Esave">Success</button>
-            </div>
+        <input tyepe="text" id="Id" name="Id" value="@Model.TrainingSheduleId" hidden></input>
+        <div class="row" style="margin-left:75%">
+            <button type="button" class="btn grey btn-light-secondary" data-dismiss="modal" onclick="CloseModal()">Close</button>
+
+            <button type="button" class="btn btn-primary ml-1" data-dismiss="modal" id="Esave">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Save</span>
+            </button>
         </div>
     }
 </div>
@@ -81,6 +82,9 @@
 <script src="~/assets/custom/select2/js/select2.full.min.js"></script>
 <script src="~/assets/custom/daterangepicker/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript">
+    function CloseModal() {
+        $('#editSheduleModal').modal('hide');
+    }
     $('#TrainingShedule_SEtartDate').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
@@ -144,7 +148,6 @@
         var TrainingShedule_EndDate = document.getElementById("TrainingShedule_EEndDate").value;
         var TrainingShedule_ParticipantCount = document.getElementById("TrainingShedule_EParticipantCount").value;
         var TrainingShedule_Description = document.getElementById("TrainingShedule_EDescription").value;
-
         let isValid = true;
         errorMessageCourseContainer.textContent = '';
         errorMessageTrainerContainer.textContent = '';
@@ -153,6 +156,7 @@
         errorMessageeDateContainer.textContent = '';
         errorMessageCountContainer.textContent = '';
         errorMessageDesContainer.textContent = '';
+        alert();
         // --- User Name Validation ---
         if (TrainingShedule_TrainingCourseId == "") {
             errorMessageCourseContainer.textContent = 'Please Select Course.';
@@ -190,12 +194,13 @@
             errorMessageCountContainer.style.color = 'red';
             isValid = false;
         }
-
+        alert();
         if (!isValid) {
             event.preventDefault();
             return false;
         }else{
             // Change action dynamically
+
             form.attr('action', '/Shedule/Edit');
             form.submit();
         }

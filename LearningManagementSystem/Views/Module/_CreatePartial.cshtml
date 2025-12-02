@@ -1,0 +1,234 @@
+﻿
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+
+<div class="card-body">
+    @using (Html.BeginForm("Create", "Module", FormMethod.Post, new { id = "CreateForm" }))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_TrainingCourseId">Training Course</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModule_TrainingCourseId" name="TrainingCourseModule_TrainingCourseId" class="form-control" asp-items="ViewBag.TrainingCourseModule_TrainingCourseId" onchange="seqChange()">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-Course"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_EName">English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModule_EName" name="TrainingCourseModule_EName" placeholder="Module English Name" autocomplete="off">
+                    <span id="error-message-Ename"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_SName">Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModule_SName" name="TrainingCourseModule_SName" placeholder="Module Sinhala Name" autocomplete="off">
+                    <span id="error-message-Sname"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_TName">Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModule_TName" name="TrainingCourseModule_TName" placeholder="Module Tamil Name" autocomplete="off">
+                    <span id="error-message-Tname"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_Sequance">Sequence</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingCourseModule_Sequance" name="TrainingCourseModule_Sequance" placeholder="Enter Sequance" min="1" step="1" onkeyup="seqChange()">
+                    <span id="error-message-Seq"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="TrainingCourseModule_Sequance">Quiz Needed</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <div class="row" style="margin-left:20px;margin-top:10px">
+                    <div class="radio radio-success">
+                        <input type="radio" name="TrainingCourseModule_IsQuiz" id="TrainingCourseModule_IsQuiz-true" value="Yes">
+                        <label for="TrainingCourseModule_IsQuiz-true">Yes</label>
+                    </div>
+                    <div class="radio radio-primary col-md-2">
+                        <input type="radio" name="TrainingCourseModule_IsQuiz" id="TrainingCourseModule_IsQuiz-false" value="No" checked>
+                        <label for="TrainingCourseModule_IsQuiz-false">No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="qTypeDiv">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_QuizTypeId">Quiz Type</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModule_QuizTypeId" name="TrainingCourseModule_QuizTypeId" class="form-control" asp-items="ViewBag.TrainingCourseModule_QuizTypeId" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-QuizType"></span>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:20px">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_Description">MOdule Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <textarea class="form-control" id="TrainingCourseModule_Description" name="TrainingCourseModule_Description" rows="4" placeholder="Textarea"></textarea>
+                    <span id="error-message-Des"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-actions">
+                <button type="Reset" class="btn btn-warning round mr-1 mb-1">Clear</button>
+            </div>
+            <div class="col-md-3 form-actions" style="margin-left:-70px">
+                <button type="button" class="btn btn-success round mr-1 mb-1" id="save">Success</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/custom/datatable/js/jquery-3.3.1.js"></script>
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+
+<script type="text/javascript">
+    $('#qTypeDiv').hide();
+    $("#TrainingCourseModule_TrainingCourseId").select2({
+        allowClear: true,
+        placeholder: 'Select Training | Course',
+    });
+    $("#TrainingCourseModule_QuizTypeId").select2({
+        allowClear: true,
+        placeholder: 'Select Quiz Type',
+    });
+    var SelectedQuizType = '';
+    $('input[name="TrainingCourseModule_IsQuiz"]').on('change', function () {
+      SelectedQuizType = $(this).val();
+      onStatusChange(SelectedQuizType);
+    });
+    function onStatusChange(value) {
+      if(value == "Yes"){
+          $('#qTypeDiv').show();
+      }else{
+          $('#qTypeDiv').hide();
+      }
+    }    
+
+    $('#save').on('click', function () {
+        var form = $('#CreateForm');
+        const errorMessageCourseContainer = document.getElementById('error-message-Course');
+        const errorMessageEnameContainer = document.getElementById('error-message-Ename');
+        const errorMessageSnameContainer = document.getElementById('error-message-Sname');
+        const errorMessagesTnameContainer = document.getElementById('error-message-Tname');
+        const errorMessageeSeqContainer = document.getElementById('error-message-Seq');
+        const errorMessageQuizTypeContainer = document.getElementById('error-message-QuizType');
+        const errorMessageDesContainer = document.getElementById('error-message-Des');
+
+        var TrainingCourseModule_TrainingCourseId = document.getElementById("TrainingCourseModule_TrainingCourseId").value;
+        var TrainingCourseModule_EName = document.getElementById("TrainingCourseModule_EName").value;
+        var TrainingCourseModule_SName = document.getElementById("TrainingCourseModule_SName").value;
+        var TrainingCourseModule_TName = document.getElementById("TrainingCourseModule_TName").value;
+        var TrainingCourseModule_Sequance = document.getElementById("TrainingCourseModule_Sequance").value;
+        var TrainingCourseModule_QuizTypeId = document.getElementById("TrainingCourseModule_QuizTypeId").value;
+        var TrainingCourseModule_Description = document.getElementById("TrainingCourseModule_Description").value;
+
+        let isValid = true;
+        errorMessageCourseContainer.textContent = '';
+        errorMessageEnameContainer.textContent = '';
+        errorMessageSnameContainer.textContent = '';
+        errorMessagesTnameContainer.textContent = '';
+        errorMessageeSeqContainer.textContent = '';
+        errorMessageQuizTypeContainer.textContent = '';
+        errorMessageDesContainer.textContent = '';
+        // --- User Name Validation ---
+        if (TrainingCourseModule_TrainingCourseId == "") {
+            errorMessageCourseContainer.textContent = 'Please Select Course.';
+            errorMessageCourseContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_EName == "") {
+            errorMessageEnameContainer.textContent = 'Please Enter English Name.';
+            errorMessageEnameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_SName == "") {
+            errorMessageSnameContainer.textContent = 'Please Enter Sinhala Name.';
+            errorMessageSnameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_TName == "") {
+            errorMessagesTnameContainer.textContent = 'Please Enter Tamil Name.';
+            errorMessagesTnameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_Sequance == "") {
+            errorMessageeSeqContainer.textContent = 'Please Enter Sequence.';
+            errorMessageeSeqContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_Description == "") {
+            errorMessageDesContainer.textContent = 'Please Enter Description.';
+            errorMessageDesContainer.style.color = 'red';
+            isValid = false;
+        }
+        if(SelectedQuizType == 'Yes'){   
+            alert();
+            if (TrainingCourseModule_QuizTypeId == "") {            
+                errorMessageQuizTypeContainer.textContent = 'Please Select Quiz type.';
+                errorMessageQuizTypeContainer.style.color = 'red';            
+                isValid = false;        
+            }
+        }       
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/Module/Create');
+            form.submit();
+        }
+    });
+
+    function seqChange() {
+        var TrainingCourseModule_Sequance = document.getElementById("TrainingCourseModule_Sequance");
+        var TrainingCourseModule_TrainingCourseId = document.getElementById("TrainingCourseModule_TrainingCourseId").value;
+        const errorMessageSeqContainer = document.getElementById('error-message-Seq');
+        errorMessageSeqContainer.textContent = '';
+             // alert(TrainingCourse_Sequance.value + TrainingCourse_TrainingId);
+        const savebtn = document.getElementById("save");
+        if(TrainingCourseModule_Sequance.value != "" && TrainingCourseModule_TrainingCourseId != ""){
+            $.ajax({
+                url: '@Url.Action("CheckSequence", "Module")',
+                type: 'GET', // or POST
+                data: {
+                    courseId: TrainingCourseModule_TrainingCourseId,
+                    sequence: TrainingCourseModule_Sequance.value
+                },
+                success: function (response) {
+                    if (response.status === true) {
+                        errorMessageSeqContainer.textContent = '';
+                        TrainingCourseModule_Sequance.style.borderColor = "green";
+                        savebtn.disabled = false;
+                        console.log("Sequence OK");
+                    } else {
+                        errorMessageSeqContainer.textContent = 'Sequence already exists.';
+                        errorMessageSeqContainer.style.color = 'red';
+                        TrainingCourseModule_Sequance.style.borderColor = 'red';
+                        savebtn.disabled = true;
+                        // console.log("Sequence already exists");
+                        // errorMessageSeqContainer.textContent = 'Sequence already exists!';
+                        return;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error occurred: " + error);
+                }
+            });
+        }
+
+    }
+
+
+</script>

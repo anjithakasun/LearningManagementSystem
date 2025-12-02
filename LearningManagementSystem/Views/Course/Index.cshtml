@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Course Master";
-    ViewData["MenuTab"] = "CourseMenu";
+    ViewData["MenuTab"] = "courseModuleMenu";
+    ViewData["SubMenuTab"] = "CourseMenu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,6 +12,15 @@
 <link href="~/assets/custom/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
 @* <link href="~/assets/app-assets/fonts/boxicons.css" rel="stylesheet" /> *@
 <link href="~/assets/app-assets/fonts/fontawesome/css/fontawesome-all.min.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">@ViewBag.TrainingName Training</h1>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -61,13 +71,22 @@
                                                     <td>
                                                         <div class="row">
                                                             <div class="col-md-2">
+                                                                <a class="btn btn-outline-info btn-sm"
+                                                                   data-toggle="tooltip"
+                                                                   data-placement="top"
+                                                                   title="Modules"
+                                                                   href="@Url.Action("Index", "Module", new { trainingId = item.TrainingCourseTrainingId })">
+                                                                    <i class="fa-regular fa-file"></i>
+                                                                </a>
+                                                           </div>
+                                                            <div class="col-md-2">
                                                                 <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View" onclick="CDetails(@item.TrainingCourseId)"><i class="fa-regular fa-eye"></i></button>
                                                             </div>
 
-                                                            <div class="col-md-2" style="margin-left:30px;margin-right:20px">
+                                                            <div class="col-md-2">
                                                                 <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit" onclick="CEdit(@item.TrainingCourseId)"><i class="fa-regular fa-pen-to-square"></i></button>
                                                             </div>
-                                                            <div class="col-md-2" style="margin-left:10px;margin-right:20px">
+                                                            <div class="col-md-2">
                                                                 <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete" onclick="CDelete(@item.TrainingCourseId)"><i class="fa-sharp fa-delete-left"></i></button>
                                                             </div>
                                                         </div>
@@ -110,7 +129,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="EditCourseModalTittle">Edit Course</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseModals('editCourseModal')">
                     <i class="bx bx-x"></i>
                 </button>
             </div>
@@ -124,7 +143,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailCourseModalTittle">Course Detail</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseModals('detailCourseModal')">
                     <i class="bx bx-x"></i>
                 </button>
             </div>
@@ -145,7 +164,10 @@
 @* <script src="~/assets/app-assets/fonts/boxicons.js"></script> *@
 <script src="~/assets/app-assets/fonts/fontawesome/js/font-awesome-all.min.js"></script>
 @* <script src="~/assets/custom/datatable/js/buttons.bootstrap4.min.js"></script> *@
-<script>
+<script>        
+    function CloseModals(modalId) {
+        $('#' + modalId).modal('hide');
+    }
     $('#Course_Table').DataTable({
         "paging": true,
         "searching": true,
@@ -157,11 +179,11 @@
         autoWidth: true,
         columnDefs: [    
             { width: "40px", targets: 0 },     // #    
-            { width: "150px", targets: 1 },    // Training Course    
-            { width: "150px", targets: 2 },    // Schedule Name    
-            { width: "120px", targets: 3 },    // Start Date    
-            { width: "120px", targets: 4 },    // End Date    
-            { width: "200px", targets: 5 }     // Action buttons    
+            { width: "200px", targets: 1 },    // Training Course    
+            { width: "180px", targets: 2 },    // Schedule Name    
+            { width: "180px", targets: 3 },    // Start Date    
+            { width: "180px", targets: 4 },    // End Date    
+            { width: "300px", targets: 5 }     // Action buttons    
         ]
     });
 

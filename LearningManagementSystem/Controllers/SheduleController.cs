@@ -27,20 +27,20 @@ namespace LearningManagementSystem.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int courseId)
+        public IActionResult Index(int trainingId)
         {
             if (!IsUserLoggedIn())
                 return RedirectToAction("Login", "User");
-            HttpContext.Session.SetString("courseId", courseId.ToString());
+            HttpContext.Session.SetString("trainingId", trainingId.ToString());
             //var SheduleList = _shedule.getAllList(courseId);
-            ViewBag.SheduleList = _shedule.getAllList(courseId);
-            var trainingId = HttpContext.Session.GetString("trainingId");
+            ViewBag.SheduleList = _shedule.getAllList(trainingId);
+            //var trainingId = HttpContext.Session.GetString("trainingId");
             //var CourseList = _shedule.getCourseList(Convert.ToInt32(trainingId));
             //var TrainerList = _shedule.getTrainerlList();
             ViewBag.TrainingShedule_TrainingCourseId = new SelectList(_shedule.getCourseList(Convert.ToInt32(trainingId)).Result.ToList(), "id", "name");
             ViewBag.TrainingShedule_TrainerId = new SelectList(_shedule.getTrainerlList().Result.ToList(), "id", "name");
 
-            HttpContext.Session.SetString("courseId", courseId.ToString());
+            //HttpContext.Session.SetString("courseId", courseId.ToString());
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace LearningManagementSystem.Presentation.Controllers
         public async Task<IActionResult> GetReference(int trainingCourseId)
         {
             var sheduleId = HttpContext.Session.GetString("sheduleId");
-            var allList = _shedule.getAllList(trainingCourseId);
+            var allList = _shedule.getExistingCourseWiseList(trainingCourseId);
             int recCount;
             if (sheduleId == null)
                 recCount = allList.Count;
@@ -65,7 +65,7 @@ namespace LearningManagementSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult Create(IFormCollection collection)
         {
-            var courseId = HttpContext.Session.GetString("courseId");
+            var trainingId = HttpContext.Session.GetString("trainingId");
             try
             {
                 var UserName = HttpContext.Session.GetString("UserName");
@@ -73,12 +73,12 @@ namespace LearningManagementSystem.Presentation.Controllers
                 TempData["ToastMessage"] = "SubmittedSheduleSuccessfully!";
 
                 log.Info($"Shedule Created by : {UserName}. Shedule Record : {Shedule.TrainingSheduleId}");
-                return RedirectToAction(nameof(Index), new { courseId = courseId });
+                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
             }
             catch (Exception ex)
             {
                 log.Error($"Error : {ex}");
-                return RedirectToAction(nameof(Index), new { courseId = courseId });
+                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
             }
         }
 
@@ -97,7 +97,7 @@ namespace LearningManagementSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult Edit(IFormCollection collection)
         {
-            var courseId = HttpContext.Session.GetString("courseId");
+            var trainingId = HttpContext.Session.GetString("trainingId");
 
             try
             {
@@ -106,12 +106,12 @@ namespace LearningManagementSystem.Presentation.Controllers
                 TempData["ToastMessage"] = "UpdatedSheduleSuccessfully!";
 
                 log.Info($"Edited Shedule by : {UserName}. Shedule Record : {shedule.TrainingSheduleId}");
-                return RedirectToAction(nameof(Index), new { courseId = courseId });
+                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
             }
             catch (Exception ex)
             {
                 log.Error($"Error : {ex}");
-                return RedirectToAction(nameof(Index), new { courseId = courseId });
+                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
             }
         }
 

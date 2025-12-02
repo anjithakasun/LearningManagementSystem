@@ -1,0 +1,246 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingCourseModule
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+
+<div class="card-body">
+    @using (Html.BeginForm("Edit", "Module", FormMethod.Post, new { id = "EditForm" }))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_ETrainingCourseId">Training Course</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModule_ETrainingCourseId" name="TrainingCourseModule_ETrainingCourseId" class="form-control" asp-items="ViewBag.TrainingCourseModule_TrainingCourseId" onchange="EseqChange()" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-ECourse"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_EEName">English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModule_EEName" name="TrainingCourseModule_EEName" placeholder="Module English Name" autocomplete="off" value="@Model.TrainingCourseModuleEname">
+                    <span id="error-message-EEname"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_ESName">Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModule_ESName" name="TrainingCourseModule_ESName" placeholder="Module Sinhala Name" autocomplete="off" value="@Model.TrainingCourseModuleSname">
+                    <span id="error-message-ESname"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_ETName">Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModule_ETName" name="TrainingCourseModule_ETName" placeholder="Module Tamil Name" autocomplete="off" value="@Model.TrainingCourseModuleTname">
+                    <span id="error-message-ETname"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_ESequance">Sequence</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingCourseModule_ESequance" name="TrainingCourseModule_ESequance" placeholder="Enter Sequance" min="1" step="1" onkeyup="EseqChange()" value="@Model.TrainingCourseModuleSequance">
+                    <span id="error-message-ESeq"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="TrainingCourseModule_EIsQuiz">Quiz Needed</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <div class="row" style="margin-left:20px;margin-top:10px">
+                    <div class="radio radio-success">
+                        <input type="radio" name="TrainingCourseModule_EIsQuiz" id="TrainingCourseModule_EIsQuiz-true" value="Yes" @(Model.TrainingCourseModuleIsQuiz == true ? "checked" : "")>
+                        <label for="TrainingCourseModule_EIsQuiz-true">Yes</label>
+
+                    </div>
+                    <div class="radio radio-primary col-md-3">
+                        <input type="radio" name="TrainingCourseModule_EIsQuiz" id="TrainingCourseModule_EIsQuiz-false" value="No" @(Model.TrainingCourseModuleIsQuiz == false ? "checked" : "")>
+                        <label for="TrainingCourseModule_EIsQuiz-false">No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="EqTypeDiv">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_EQuizTypeId">Quiz Type</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModule_EQuizTypeId" name="TrainingCourseModule_EQuizTypeId" class="form-control" asp-items="ViewBag.TrainingCourseModule_QuizTypeId" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-EQuizType"></span>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:20px">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_EDescription">MOdule Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <textarea class="form-control" id="TrainingCourseModule_EDescription" name="TrainingCourseModule_EDescription" rows="4" placeholder="Textarea">@Model.TrainingCourseModuleDescription</textarea>
+                    <span id="error-message-EDes"></span>
+                </div>
+            </div>
+        </div>
+        <input tyepe="text" id="Id" name="Id" value="@Model.TrainingCourseModuleId" hidden></input>
+        <div class="row" style="margin-left:75%">
+            <button type="button" class="btn grey btn-light-secondary" data-dismiss="modal" onclick="CloseModal()">Close</button>
+            <button type="button" class="btn btn-primary ml-1" data-dismiss="modal" id="Esave">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Save</span>
+            </button>
+        </div>
+    }
+</div>
+
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/custom/datatable/js/jquery-3.3.1.js"></script> *@
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+<script type="text/javascript">        
+    function CloseModal() {
+        $('#editModuleModal').modal('hide');
+    }
+    $('#EqTypeDiv').hide();
+    $("#TrainingCourseModule_ETrainingCourseId").select2({
+        allowClear: true,
+        placeholder: 'Select Training | Course',
+        dropdownParent: $('#editModuleModal')
+    });
+    $("#TrainingCourseModule_EQuizTypeId").select2({
+        allowClear: true,
+        placeholder: 'Select Quiz Type',
+        dropdownParent: $('#editModuleModal')
+    });
+    if ($('input[name="TrainingCourseModule_EIsQuiz"]:checked').val() === "Yes") {
+        $('#EqTypeDiv').show();
+    } else {
+        $('#EqTypeDiv').hide();
+    }
+    var SelectedQuizType = '';
+    $('input[name="TrainingCourseModule_EIsQuiz"]').on('change', function () {
+      SelectedQuizType = $(this).val();
+      onStatusChange(SelectedQuizType);
+    });
+    function onStatusChange(value) {
+      if(value == "Yes"){
+          $('#EqTypeDiv').show();
+      }else{
+          $('#EqTypeDiv').hide();
+      }
+    }
+
+    function EseqChange() {
+        var TrainingCourseModule_Sequance = document.getElementById("TrainingCourseModule_ESequance");
+        var TrainingCourseModule_TrainingCourseId = document.getElementById("TrainingCourseModule_ETrainingCourseId").value;
+        const errorMessageSeqContainer = document.getElementById('error-message-ESeq');
+        errorMessageSeqContainer.textContent = '';
+             // alert(TrainingCourse_Sequance.value + TrainingCourse_TrainingId);
+        const savebtn = document.getElementById("Esave");
+        if(TrainingCourseModule_Sequance.value != "" && TrainingCourseModule_TrainingCourseId != ""){
+            $.ajax({
+                url: '@Url.Action("CheckSequence", "Module")',
+                type: 'GET', // or POST
+                data: {
+                    courseId: TrainingCourseModule_TrainingCourseId,
+                    sequence: TrainingCourseModule_Sequance.value
+                },
+                success: function (response) {
+                    if (response.status === true) {
+                        errorMessageSeqContainer.textContent = '';
+                        TrainingCourseModule_Sequance.style.borderColor = "green";
+                        savebtn.disabled = false;
+                        console.log("Sequence OK");
+                    } else {
+                        errorMessageSeqContainer.textContent = 'Sequence already exists.';
+                        errorMessageSeqContainer.style.color = 'red';
+                        TrainingCourseModule_Sequance.style.borderColor = 'red';
+                        savebtn.disabled = true;
+                        // console.log("Sequence already exists");
+                        // errorMessageSeqContainer.textContent = 'Sequence already exists!';
+                        return;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error occurred: " + error);
+                }
+            });
+        }
+
+    }
+
+
+    $('#Esave').on('click', function () {
+        var form = $('#EditForm');
+        const errorMessageCourseContainer = document.getElementById('error-message-ECourse');
+        const errorMessageEnameContainer = document.getElementById('error-message-EEname');
+        const errorMessageSnameContainer = document.getElementById('error-message-ESname');
+        const errorMessagesTnameContainer = document.getElementById('error-message-ETname');
+        const errorMessageeSeqContainer = document.getElementById('error-message-ESeq');
+        const errorMessageQuizTypeContainer = document.getElementById('error-message-EQuizType');
+        const errorMessageDesContainer = document.getElementById('error-message-EDes');
+
+        var TrainingCourseModule_TrainingCourseId = document.getElementById("TrainingCourseModule_ETrainingCourseId").value;
+        var TrainingCourseModule_EName = document.getElementById("TrainingCourseModule_EEName").value;
+        var TrainingCourseModule_SName = document.getElementById("TrainingCourseModule_ESName").value;
+        var TrainingCourseModule_TName = document.getElementById("TrainingCourseModule_ETName").value;
+        var TrainingCourseModule_Sequance = document.getElementById("TrainingCourseModule_ESequance").value;
+        var TrainingCourseModule_QuizTypeId = document.getElementById("TrainingCourseModule_EQuizTypeId").value;
+        var TrainingCourseModule_Description = document.getElementById("TrainingCourseModule_EDescription").value;
+
+        let isValid = true;
+        errorMessageCourseContainer.textContent = '';
+        errorMessageEnameContainer.textContent = '';
+        errorMessageSnameContainer.textContent = '';
+        errorMessagesTnameContainer.textContent = '';
+        errorMessageeSeqContainer.textContent = '';
+        errorMessageQuizTypeContainer.textContent = '';
+        errorMessageDesContainer.textContent = '';
+        // --- User Name Validation ---
+
+        if (TrainingCourseModule_TrainingCourseId == "") {
+            errorMessageCourseContainer.textContent = 'Please Select Course.';
+            errorMessageCourseContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_EName == "") {
+            errorMessageEnameContainer.textContent = 'Please Enter English Name.';
+            errorMessageEnameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_SName == "") {
+            errorMessageSnameContainer.textContent = 'Please Enter Sinhala Name.';
+            errorMessageSnameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_TName == "") {
+            errorMessagesTnameContainer.textContent = 'Please Enter Tamil Name.';
+            errorMessagesTnameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_Sequance == "") {
+            errorMessageeSeqContainer.textContent = 'Please Enter Sequence.';
+            errorMessageeSeqContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModule_Description == "") {
+            errorMessageDesContainer.textContent = 'Please Enter Description.';
+            errorMessageDesContainer.style.color = 'red';
+            isValid = false;
+        }
+        if(SelectedQuizType == 'Yes'){
+            if (TrainingCourseModule_QuizTypeId == "") {
+                errorMessageQuizTypeContainer.textContent = 'Please Select Quiz type.';
+                errorMessageQuizTypeContainer.style.color = 'red';
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/Module/Edit');
+            form.submit();
+        }
+    });
+
+    
+
+
+</script>

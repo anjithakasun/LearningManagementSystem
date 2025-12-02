@@ -16,5 +16,6 @@ namespace LearningManagementSystem.Bussiness.CourseHandler
         public TrainingCourse getListId(int id);
         public TrainingCourse updateCourse(IFormCollection collection);
         public TrainingCourse DeleteCourse(int id);
+        public String GetTrainingName(int id);
     }
 }

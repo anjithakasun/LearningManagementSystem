@@ -133,8 +133,22 @@
                 <li class="@(activeMenuTab == "TrainingMenu" ? "active" : "") nav-item">
                     <a href="/Training/Index"><i class="menu-livicon" data-icon="priority-low"></i><span class="menu-title" data-i18n="Training">Training</span></a>
                 </li>
-                <li class="@(activeMenuTab == "CourseMenu" ? "active" : "") nav-item">
+                @*<li class="@(activeMenuTab == "CourseMenu" ? "active" : "") nav-item">
                     <a href="#" onclick="OpenModal('Course')"><i class="menu-livicon" data-icon="notebook"></i><span class="menu-title" data-i18n="Course">Course</span></a>
+                </li>*@
+                <li class=" nav-item @(activeMenuTab == "courseModuleMenu" ? "open" : "")" ">
+                    <a href="#"><i class="menu-livicon" data-icon="check-alt"></i><span class="menu-title" data-i18n="Etc">Courses / Modules</span></a>
+                    <ul class="menu-content">
+                        <li class="@(activeSubMenuTab == "CourseMenu" ? "active" : "") nav-item">
+                            <a href="#" onclick="OpenModal('Course')"><i class="bx bx-right-arrow-alt"></i><span class="menu-title" data-i18n="Course">Course</span></a>
+                        </li>
+                        <li class="@(activeSubMenuTab == "ModuleMenu" ? "active" : "") nav-item">
+                            <a href="#" onclick="OpenModal('Module')"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Modules">Modules</span></a>
+                        </li>
+                        <li class="@(activeSubMenuTab == "ResourceMenu" ? "active" : "") nav-item">
+                            <a href="#" onclick="OpenModal('Resources')"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Contents">Module Contents</span></a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="@(activeMenuTab == "SheduleMenu" ? "active" : "") nav-item">
                     <a href="#" onclick="OpenModal('Shedule')"><i class="menu-livicon" data-icon="unlink"></i><span class="menu-title" data-i18n="Shedule">Shedule</span></a>
@@ -144,7 +158,7 @@
 
                 <hr />
                 <li class="@(activeMenuTab == "SheduleMessnu" ? "active" : "") nav-item">
-                    <a href="/Home/Index" ><i class="menu-livicon" data-icon="unlink"></i><span class="menu-title" data-i18n="Shedule">Home Index</span></a>
+                    <a href="/Home/Index"><i class="menu-livicon" data-icon="unlink"></i><span class="menu-title" data-i18n="Shedule">Home Index</span></a>
                 </li>
 
         </div>
@@ -187,16 +201,16 @@
                             <label for="Training">Training</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
                             <select id="TrainingId" name="TrainingId" class="form-control">
                                 <option value="">-- Select --</option>
-                            </select>                           
-                        </div>                        
+                            </select>
+                        </div>
                     </div>
                     <div class="row" style="margin-left:10px; margin-top:10px" id="courseDropDiv">
                         <div class="form-group col-md-9">
                             <label for="Course">Course</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
                             <select id="CourseId" name="CourseId" class="form-control">
                                 <option value="">-- Select --</option>
-                            </select>                           
-                        </div>                        
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <span id="error-message-ErrorModal" style="margin-left:50px"></span>
@@ -209,6 +223,14 @@
                     <div class="col-md-6" style="margin-left:260px" id="shduleBtn">
                         <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
                         <button type="button" class="btn btn-outline-dark round mr-1 mb-1" onclick="goToShedule()">Open</button>
+                    </div>
+                    <div class="col-md-6" style="margin-left:260px" id="ModuleBtn">
+                        <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
+                        <button type="button" class="btn btn-outline-dark round mr-1 mb-1" onclick="goToModule()">Open</button>
+                    </div>
+                    <div class="col-md-6" style="margin-left:260px" id="ResBtn">
+                        <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
+                        <button type="button" class="btn btn-outline-dark round mr-1 mb-1" onclick="goToResource()">Open</button>
                     </div>
                 </div>
             </div>
@@ -235,11 +257,12 @@
     <script src="~/assets/app-assets/js/scripts/pages/dashboard-ecommerce.min.js"></script>
     <!-- END: Page JS-->
     <script type="text/javascript">
-
         var modaltype = '';
-        function OpenModal(type) {                 
-            $('#shduleBtn').hide();      
-            $('#courseBtn').show();             
+        function OpenModal(type) {
+            $('#shduleBtn').hide();
+            $('#ModuleBtn').hide();
+            $('#ResBtn').hide();
+            $('#courseBtn').show();
             $('#courseDropDiv').hide();
             modaltype = type;
             // alert(type);
@@ -260,64 +283,87 @@
                 }
             });
         }
+        $('#TrainingId').on('change', function () {
+            var Tid = document.getElementById("TrainingId").value;
+            if(modaltype == 'Course'){
+                $('#courseBtn').show();
+                $('#shduleBtn').hide();
+                $('#ModuleBtn').hide();
+                $('#ResBtn').hide();
+                $('#courseDropDiv').hide();
+            } else if(modaltype == "Shedule"){
+                $('#courseBtn').hide();
+                $('#shduleBtn').show();
+                $('#ModuleBtn').hide();
+                $('#ResBtn').hide();
+                $('#courseDropDiv').hide();
+            }else if(modaltype == "Module"){
+                $('#courseBtn').hide();
+                $('#shduleBtn').hide();
+                $('#ModuleBtn').show();
+                $('#ResBtn').hide();
+                $('#courseDropDiv').hide();
+            }else if(modaltype == "Resources"){
+                $('#courseBtn').hide();
+                $('#shduleBtn').hide();
+                $('#ModuleBtn').hide();
+                $('#ResBtn').show();
+                $('#courseDropDiv').show();
+            }
+            if(modaltype == "Resources")
+            {
+                if(Tid != ""){
+                    $.ajax({
+                        url: '@Url.Action("GetCourseList", "LearningManagement")',
+                        type: 'GET',
+                        data : {trainingId : Tid },
+                        success: function (data) {
+                            var ddl = $("#CourseId");
+                            ddl.empty();
+                            ddl.append('<option value="">-- Select --</option>');
+                            $.each(data, function (i, item) {
+                                ddl.append('<option value="' + item.id + '">' + item.name + '</option>');
+                            });
+                            $("#CommonModal").modal("show");
+                        },
+                        error: function () {
+                            alert("Failed to load dropdown data.");
+                        }
+                    });
+                }else{
+                    $('#courseDropDiv').hide();
+                }
+            }
+        });
 
         function goToCourse() {
             let isValid = true;
-            var TrainingId = document.getElementById("TrainingId").value;                    
+            var TrainingId = document.getElementById("TrainingId").value;
             const errorMessageTContainer = document.getElementById('error-message-ErrorModal');
             // alert(TrainingId);
 
             if (TrainingId == "") {
                 errorMessageTContainer.textContent = 'Please Select Training.';
                 errorMessageTContainer.style.color = 'red';
-                isValid = false;        
+                isValid = false;
             }
-       
-            if (!isValid) {       
-                event.preventDefault();       
-                return false;    
-            }else{       
-                window.location.href = '/Course/Index?trainingId=' + TrainingId;       
+
+            if (!isValid) {
+                event.preventDefault();
+                return false;
+            }else{
+                window.location.href = '/Course/Index?trainingId=' + TrainingId;
             }
         }
 
-        $('#TrainingId').on('change', function () {
-            var Tid = document.getElementById("TrainingId").value;
-            if(modaltype == 'Course'){
-                $('#courseBtn').show();
-                $('#shduleBtn').hide();
-            } else if(modaltype == "Shedule"){                                
-                $('#courseBtn').hide();
-                $('#shduleBtn').show();                        
-                $('#courseDropDiv').show();
-                $.ajax({                
-                    url: '@Url.Action("GetCourseList", "LearningManagement")',                
-                    type: 'GET',                
-                    data : {trainingId : Tid },
-                    success: function (data) {                
-                        var ddl = $("#CourseId");                
-                        ddl.empty();                
-                        ddl.append('<option value="">-- Select --</option>');                
-                        $.each(data, function (i, item) {                
-                            ddl.append('<option value="' + item.id + '">' + item.name + '</option>');                
-                        });                
-                        $("#CommonModal").modal("show");                
-                    },                
-                    error: function () {                
-                        alert("Failed to load dropdown data.");                
-                    }           
-                });
-            }
-        });
-
         function goToShedule() {
             let isValid = true;
-            var CourseId = document.getElementById("CourseId").value;
+            var TrainingId = document.getElementById("TrainingId").value;
             const errorMessageContainer = document.getElementById('error-message-ErrorModal');
             // alert(TrainingId);
 
-            if (CourseId == "") {
-                errorMessageContainer.textContent = 'Please Select Course.';
+            if (TrainingId == "") {
+                errorMessageContainer.textContent = 'Please Select Training.';
                 errorMessageContainer.style.color = 'red';
                 isValid = false;
             }
@@ -326,19 +372,57 @@
                 event.preventDefault();
                 return false;
             }else{
-                window.location.href = '/Shedule/Index?courseId=' + CourseId;
+                window.location.href = '/Shedule/Index?trainingId=' + TrainingId;
             }
         }
-                        
+
+        function goToModule() {
+            let isValid = true;        
+            var TrainingId = document.getElementById("TrainingId").value;        
+            const errorMessageContainer = document.getElementById('error-message-ErrorModal');
+            // alert(TrainingId);
+
+            if (TrainingId == "") {
+                errorMessageContainer.textContent = 'Please Select Training.';
+                errorMessageContainer.style.color = 'red';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+                return false;
+            }else{
+                window.location.href = '/Module/Index?trainingId=' + TrainingId;
+            }
+        }
+
+        function goToResource() {
+            let isValid = true;        
+            var CourseId = document.getElementById("CourseId").value;
+            const errorMessageContainer = document.getElementById('error-message-ErrorModal');
+            // alert(TrainingId);
+            if (TrainingId == "") {
+                errorMessageContainer.textContent = 'Please Select Course.';
+                errorMessageContainer.style.color = 'red';
+                isValid = false;
+            }
+            if (!isValid) {
+                event.preventDefault();
+                return false;
+            }else{
+                window.location.href = '/ModuleResouces/Index?courseId=' + CourseId;
+            }
+        }
+
         $('#CommonModal').on('shown.bs.modal', function () {
             $("#TrainingId").select2({
                 allowClear: true,
-                placeholder: 'Select Training',                
+                placeholder: 'Select Training',
                 dropdownParent: $('#CommonModal') // important for modals
             });
             $("#CourseId").select2({
                 allowClear: true,
-                placeholder: 'Select Course',                
+                placeholder: 'Select Course',
                 dropdownParent: $('#CommonModal'), // important for modals
                 width: '100%'
             });

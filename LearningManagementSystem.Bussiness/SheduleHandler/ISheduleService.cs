@@ -14,6 +14,7 @@ namespace LearningManagementSystem.Bussiness.SheduleHandler
         public Task<List<TrainingCourse>> getCourselList(int trainingId);
         public Task<List<TrainerDto>> getTrainerlList();
         public List<TrainingShedule> getAllList(int id);
+        public List<TrainingShedule> getExistingCourseWiseList(int id);
         public TrainingShedule CreateShedule(IFormCollection collection);
         public TrainingShedule getListId(int id);
         public TrainingShedule updateShedule(IFormCollection collection);

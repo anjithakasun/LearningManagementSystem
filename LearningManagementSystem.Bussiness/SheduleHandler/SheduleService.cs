@@ -21,6 +21,12 @@ namespace LearningManagementSystem.Bussiness.SheduleHandler
 
         public List<TrainingShedule> getAllList(int id)
         {
+            var TrainingSheeduleList = _db.TrainingShedules.Include(t => t.TrainingSheduleTrainingCourse).Include(t => t.TrainingSheduleTrainingCourse.TrainingCourseTraining).Where(a => a.TrainingSheduleActive == true && a.TrainingSheduleTrainingCourse.TrainingCourseTrainingId == id).ToList();
+            return TrainingSheeduleList;
+        }
+
+        public List<TrainingShedule> getExistingCourseWiseList(int id)
+        {
             var TrainingSheeduleList = _db.TrainingShedules.Include(t => t.TrainingSheduleTrainingCourse).Include(t => t.TrainingSheduleTrainingCourse.TrainingCourseTraining).Where(a => a.TrainingSheduleActive == true && a.TrainingSheduleTrainingCourseId == id).ToList();
             return TrainingSheeduleList;
         }
@@ -73,7 +79,7 @@ namespace LearningManagementSystem.Bussiness.SheduleHandler
 
         public TrainingShedule getListId(int id)
         {
-            var sheduleList = _db.TrainingShedules.Where(a => a.TrainingSheduleId == id).FirstOrDefault();
+            var sheduleList = _db.TrainingShedules.Include(a => a.TrainingSheduleTrainer).Include(a => a.TrainingSheduleTrainingCourse).Include(a => a.TrainingSheduleTrainingCourse.TrainingCourseTraining).Where(a => a.TrainingSheduleId == id).FirstOrDefault();
             return sheduleList;
         }
 
