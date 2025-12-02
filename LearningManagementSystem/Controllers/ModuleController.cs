@@ -42,7 +42,6 @@ namespace LearningManagementSystem.Presentation.Controllers
             return View();
         }
 
-        // POST: DepartmentController/Create
         [HttpPost]
         public ActionResult Create(IFormCollection collection)
         {
@@ -60,8 +59,7 @@ namespace LearningManagementSystem.Presentation.Controllers
                 log.Error($"Error : {ex}");
                 return RedirectToAction(nameof(Index), new { trainingId = trainingId });
             }
-        }
-        
+        }        
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -99,6 +97,7 @@ namespace LearningManagementSystem.Presentation.Controllers
                 return Json(new { status = true });
             }
         }
+
         [HttpPost]
         public ActionResult Edit(IFormCollection collection)
         {

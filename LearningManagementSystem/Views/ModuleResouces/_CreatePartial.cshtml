@@ -1,0 +1,382 @@
+﻿
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+
+<div class="card-body">
+    @using (Html.BeginForm("Create", "ModuleResouces", FormMethod.Post, new { enctype = "multipart/form-data", id = "CreateForm" }))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_ModuleId">Course Module</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModuleResources_ModuleId" name="TrainingCourseModuleResources_ModuleId" class="form-control" asp-items="ViewBag.TrainingCourseModuleResources_ModuleId" onchange="seqChange()">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-Module"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_Type">Resource Type</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModuleResources_Type" name="TrainingCourseModuleResources_Type" class="form-control" >
+                        <option value="">-- Select --</option>
+                        <option value="MP4">MP4</option>
+                        <option value="PDF">PDF</option>
+                    </select>
+                    <span id="error-message-ResType"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_LanguageId">Language</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModuleResources_LanguageId" name="TrainingCourseModuleResources_LanguageId" class="form-control">
+                        <option value="1">English</option>
+                        <option value="2">Sinhala</option>
+                        <option value="3">Tamil</option>
+                    </select>
+                    <span id="error-message-Language"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_EName">English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModuleResources_EName" name="TrainingCourseModuleResources_EName" placeholder="Resource English Name" autocomplete="off">
+                    <span id="error-message-Ename"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_SName">Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModuleResources_SName" name="TrainingCourseModuleResources_SName" placeholder="Resource Sinhala Name" autocomplete="off">
+                    <span id="error-message-Sname"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_TName">Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingCourseModuleResources_TName" name="TrainingCourseModuleResources_TName" placeholder="Resource Tamil Name" autocomplete="off">
+                    <span id="error-message-Tname"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_Sequance">Sequence</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingCourseModuleResources_Sequance" name="TrainingCourseModuleResources_Sequance" placeholder="Enter Sequance" min="1" step="1" onkeyup="seqChange()">
+                    <span id="error-message-Seq"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-3 label-control">Select File</label>
+                <label id="Attachment" class="file center-block">
+                    <input type="file" id="file" name="file" style="margin:15px">
+                    <span class="file-custom"></span>
+                    <span id="error-message-attachement"></span>
+                </label>
+            </div>
+            <div class="col-md-6" id="VdLenDiv">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_Length">Video Length</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text"
+                           class="form-control"
+                           id="TrainingCourseModuleResources_Length"
+                           name="TrainingCourseModuleResources_Length"
+                           placeholder="HH:mm:ss">
+                           <span id="error-message-Len"></span>
+                </div>
+            </div>
+
+@*             <div class="col-md-6">
+                <label for="TrainingCourseModule_Sequance">Quiz Needed</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <div class="row" style="margin-left:20px;margin-top:10px">
+                    <div class="radio radio-success">
+                        <input type="radio" name="TrainingCourseModule_IsQuiz" id="TrainingCourseModule_IsQuiz-true" value="Yes">
+                        <label for="TrainingCourseModule_IsQuiz-true">Yes</label>
+                    </div>
+                    <div class="radio radio-primary col-md-2">
+                        <input type="radio" name="TrainingCourseModule_IsQuiz" id="TrainingCourseModule_IsQuiz-false" value="No" checked>
+                        <label for="TrainingCourseModule_IsQuiz-false">No</label>
+                    </div>
+                </div>
+            </div> *@
+@*             <div class="col-md-6" id="qTypeDiv">
+                <div class="form-group">
+                    <label for="TrainingCourseModule_QuizTypeId">Quiz Type</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModule_QuizTypeId" name="TrainingCourseModule_QuizTypeId" class="form-control" asp-items="ViewBag.TrainingCourseModule_QuizTypeId" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-QuizType"></span>
+                </div>
+            </div> *@
+            <div class="col-md-12" style="margin-top:20px">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_Description">Resource Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <textarea class="form-control" id="TrainingCourseModuleResources_Description" name="TrainingCourseModuleResources_Description" rows="4" placeholder="Textarea"></textarea>
+                    <span id="error-message-Des"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-actions">
+                <button type="Reset" class="btn btn-warning round mr-1 mb-1">Clear</button>
+            </div>
+            <div class="col-md-3 form-actions" style="margin-left:-70px">
+                <button type="button" class="btn btn-success round mr-1 mb-1" id="save">Success</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/custom/datatable/js/jquery-3.3.1.js"></script>
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+
+<script type="text/javascript">
+    $('#qTypeDiv').hide();
+    $('#VdLenDiv').hide();
+    $("#TrainingCourseModuleResources_ModuleId").select2({
+        allowClear: true,
+        placeholder: 'Select Course | Module',
+    });
+    $("#TrainingCourseModuleResources_Type").select2({
+        allowClear: true,
+        placeholder: 'Select Resource Type',
+    });
+    $("#TrainingCourseModuleResources_LanguageId").select2({
+        allowClear: true,
+        placeholder: 'Select Language',
+    });
+       
+    // $("#TrainingCourseModuleResources_Length").on("input", function () {
+    //     this.value = this.value
+    //         .replace(/[^0-9:]/g, "")      // only numbers and :
+    //         .replace(/(:{2,})/g, ":")     // avoid "::"
+    //         .slice(0, 8);                 // max length HH:mm:ss
+    // });
+        
+    $("#TrainingCourseModuleResources_Length").on("input", function () {               
+        const save = document.getElementById("save");
+        this.value = this.value
+            .replace(/[^0-9:]/g, "")      // only numbers and :
+            .replace(/(:{2,})/g, ":")     // avoid "::"
+            .slice(0, 8);                 // max length HH:mm:ss
+        let value = $(this).val();
+        let errorSpan = $("#error-message-Len");
+
+        // Regex for HH:mm:ss (00–23 : 00–59 : 00–59)
+        let timeRegex = /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
+
+        if (value === "") {
+            save.disabled = true;
+            errorSpan.text("Video length is required.").css("color", "red");
+            return;
+        }
+
+        if (!timeRegex.test(value)) {
+            save.disabled = true;
+            errorSpan.text("Invalid time format. Use HH:mm:ss (e.g., 01:30:45).").css("color", "red");
+        } else {
+            save.disabled = false;
+            errorSpan.text(""); // Clear error
+        }
+    });
+        
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const fileInput = document.getElementById('file');
+        const errorMessageContainer = document.getElementById('error-message-attachement');
+        const button = document.getElementById("save");
+
+        fileInput.addEventListener('change', function () {
+
+            const TrainingCourseModuleResources_Type = document.getElementById("TrainingCourseModuleResources_Type").value;
+
+            const allowedExtension = '.pdf';
+            const allowedVedioExtension = '.mp4';
+
+            errorMessageContainer.textContent = '';
+
+            if (fileInput.files.length > 0) {
+
+                const selectedFile = fileInput.files[0];
+                const fileName = selectedFile.name;
+                const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+
+                if (TrainingCourseModuleResources_Type === 'MP4') {
+
+                    if (fileExtension !== allowedVedioExtension) {
+                        errorMessageContainer.textContent = 'Only MP4 files are allowed.';
+                        errorMessageContainer.style.color = 'red';
+                        fileInput.value = '';
+                        button.disabled = true;
+                    } else {
+                        button.disabled = false;
+                    }
+
+                } else {
+
+                    if (fileExtension !== allowedExtension) {
+                        errorMessageContainer.textContent = 'Only PDF files are allowed.';
+                        errorMessageContainer.style.color = 'red';
+                        fileInput.value = '';
+                        button.disabled = true;
+                    } else {
+                        button.disabled = false;
+                    }
+                }
+            }
+        });
+    });
+    $('#TrainingCourseModuleResources_Type').on('change', function () {
+        const save = document.getElementById("save");
+        let selectedDepId = $(this).val();
+        let selectedText = $(this).find('option:selected').text();
+        const errorMessageContainer = document.getElementById('error-message-attachement');
+        const fileInput = document.getElementById("file");
+        fileInput.value = "";     // Clear selected file    
+        errorMessageContainer.textContent = ""; // Clear error text
+
+        save.disabled = false;
+        if(selectedText == "MP4")
+        {                    
+            $('#VdLenDiv').show();
+        }else{
+            $('#VdLenDiv').hide();
+        }
+    });
+    $('#save').on('click', function () {
+        var form = $('#CreateForm');
+        const errorMessageModule = document.getElementById('error-message-Module');
+        const errorMessageResType = document.getElementById('error-message-ResType');
+        const errorMessageEname = document.getElementById('error-message-Ename');
+        const errorMessageSname = document.getElementById('error-message-Sname');
+        const errorMessagesTname = document.getElementById('error-message-Tname');
+        const errorMessageeSeq = document.getElementById('error-message-Seq');
+        const errorMessageLen = document.getElementById('error-message-Len');
+        const errorMessageDes = document.getElementById('error-message-Des');
+        const errorMessageLanguage = document.getElementById('error-message-Language');
+
+        var TrainingCourseModuleResources_ModuleId = document.getElementById("TrainingCourseModuleResources_ModuleId").value;
+        var TrainingCourseModuleResources_Type = document.getElementById("TrainingCourseModuleResources_Type").value;
+        var TrainingCourseModuleResources_LanguageId = document.getElementById("TrainingCourseModuleResources_LanguageId").value;
+        var TrainingCourseModuleResources_EName = document.getElementById("TrainingCourseModuleResources_EName").value;
+        var TrainingCourseModuleResources_SName = document.getElementById("TrainingCourseModuleResources_SName").value;
+        var TrainingCourseModuleResources_TName = document.getElementById("TrainingCourseModuleResources_TName").value;
+        var TrainingCourseModuleResources_Sequance = document.getElementById("TrainingCourseModuleResources_Sequance").value;
+        var TrainingCourseModuleResources_Length = document.getElementById("TrainingCourseModuleResources_Length").value;
+        var TrainingCourseModuleResources_Description = document.getElementById("TrainingCourseModuleResources_Description").value;
+
+        let isValid = true;
+        errorMessageModule.textContent = '';    
+        errorMessageResType.textContent = '';
+        errorMessageEname.textContent = '';
+        errorMessageSname.textContent = '';
+        errorMessagesTname.textContent = '';
+        errorMessageeSeq.textContent = '';
+        errorMessageLen.textContent = '';
+        errorMessageDes.textContent = '';
+        errorMessageLanguage.textContent = '';
+        // --- User Name Validation ---
+        if (TrainingCourseModuleResources_ModuleId == "") {
+            errorMessageModule.textContent = 'Please Select Module.';
+            errorMessageModule.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_Type == "") {
+            errorMessageResType.textContent = 'Please Resource Type.';
+            errorMessageResType.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_EName == "") {
+            errorMessageEname.textContent = 'Please Enter English Name.';
+            errorMessageEname.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_SName == "") {
+            errorMessageSname.textContent = 'Please Enter Sinhala Name.';
+            errorMessageSname.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_TName == "") {
+            errorMessagesTname.textContent = 'Please Enter Tamil Name.';
+            errorMessagesTname.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_Sequance == "") {
+            errorMessageeSeq.textContent = 'Please Enter Sequence.';
+            errorMessageeSeq.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_LanguageId == "") {
+            errorMessageLanguage.textContent = 'Please Select Language.';
+            errorMessageLanguage.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_Description == "") {
+            errorMessageDes.textContent = 'Please Enter Description.';
+            errorMessageDes.style.color = 'red';
+            isValid = false;
+        }
+        if(TrainingCourseModuleResources_Type == 'MP4'){
+            // alert();
+            if (TrainingCourseModuleResources_Length == "") {
+                errorMessageLen.textContent = 'Please Enter Length.';
+                errorMessageLen.style.color = 'red';
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/ModuleResouces/Create');
+            form.submit();
+        }
+    });
+
+    function seqChange() {
+        var TrainingCourseModuleResources_Sequance = document.getElementById("TrainingCourseModuleResources_Sequance");
+        var TrainingCourseModuleResources_ModuleId = document.getElementById("TrainingCourseModuleResources_ModuleId").value;
+        const errorMessageSeqContainer = document.getElementById('error-message-Seq');
+        errorMessageSeqContainer.textContent = '';
+             // alert(TrainingCourse_Sequance.value + TrainingCourse_TrainingId);
+        const savebtn = document.getElementById("save");
+        if(TrainingCourseModuleResources_Sequance.value != "" && TrainingCourseModuleResources_ModuleId != ""){
+            $.ajax({
+                url: '@Url.Action("CheckSequence", "ModuleResouces")',
+                type: 'GET', // or POST
+                data: {
+                    courseId: TrainingCourseModuleResources_ModuleId,
+                    sequence: TrainingCourseModuleResources_Sequance.value
+                },
+                success: function (response) {
+                    if (response.status === true) {
+                        errorMessageSeqContainer.textContent = '';
+                        TrainingCourseModule_Sequance.style.borderColor = "green";
+                        savebtn.disabled = false;
+                        console.log("Sequence OK");
+                    } else {
+                        errorMessageSeqContainer.textContent = 'Sequence already exists.';
+                        errorMessageSeqContainer.style.color = 'red';
+                        TrainingCourseModule_Sequance.style.borderColor = 'red';
+                        savebtn.disabled = true;
+                        // console.log("Sequence already exists");
+                        // errorMessageSeqContainer.textContent = 'Sequence already exists!';
+                        return;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error occurred: " + error);
+                }
+            });
+        }
+
+    }
+
+
+</script>
