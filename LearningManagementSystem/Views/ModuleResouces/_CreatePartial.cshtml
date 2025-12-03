@@ -82,34 +82,10 @@
                            class="form-control"
                            id="TrainingCourseModuleResources_Length"
                            name="TrainingCourseModuleResources_Length"
-                           placeholder="HH:mm:ss">
+                           placeholder="HH:mm:ss" autocomplete="off">
                            <span id="error-message-Len"></span>
                 </div>
             </div>
-
-@*             <div class="col-md-6">
-                <label for="TrainingCourseModule_Sequance">Quiz Needed</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                <div class="row" style="margin-left:20px;margin-top:10px">
-                    <div class="radio radio-success">
-                        <input type="radio" name="TrainingCourseModule_IsQuiz" id="TrainingCourseModule_IsQuiz-true" value="Yes">
-                        <label for="TrainingCourseModule_IsQuiz-true">Yes</label>
-                    </div>
-                    <div class="radio radio-primary col-md-2">
-                        <input type="radio" name="TrainingCourseModule_IsQuiz" id="TrainingCourseModule_IsQuiz-false" value="No" checked>
-                        <label for="TrainingCourseModule_IsQuiz-false">No</label>
-                    </div>
-                </div>
-            </div> *@
-@*             <div class="col-md-6" id="qTypeDiv">
-                <div class="form-group">
-                    <label for="TrainingCourseModule_QuizTypeId">Quiz Type</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
-                    <br />
-                    <select id="TrainingCourseModule_QuizTypeId" name="TrainingCourseModule_QuizTypeId" class="form-control" asp-items="ViewBag.TrainingCourseModule_QuizTypeId" style="width:100%">
-                        <option value="">-- Select --</option>
-                    </select>
-                    <span id="error-message-QuizType"></span>
-                </div>
-            </div> *@
             <div class="col-md-12" style="margin-top:20px">
                 <div class="form-group">
                     <label for="TrainingCourseModuleResources_Description">Resource Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
@@ -185,28 +161,23 @@
     });
         
     document.addEventListener('DOMContentLoaded', function () {
-
         const fileInput = document.getElementById('file');
         const errorMessageContainer = document.getElementById('error-message-attachement');
         const button = document.getElementById("save");
 
         fileInput.addEventListener('change', function () {
-
             const TrainingCourseModuleResources_Type = document.getElementById("TrainingCourseModuleResources_Type").value;
 
             const allowedExtension = '.pdf';
             const allowedVedioExtension = '.mp4';
-
             errorMessageContainer.textContent = '';
 
             if (fileInput.files.length > 0) {
-
                 const selectedFile = fileInput.files[0];
                 const fileName = selectedFile.name;
                 const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
 
                 if (TrainingCourseModuleResources_Type === 'MP4') {
-
                     if (fileExtension !== allowedVedioExtension) {
                         errorMessageContainer.textContent = 'Only MP4 files are allowed.';
                         errorMessageContainer.style.color = 'red';
@@ -217,7 +188,6 @@
                     }
 
                 } else {
-
                     if (fileExtension !== allowedExtension) {
                         errorMessageContainer.textContent = 'Only PDF files are allowed.';
                         errorMessageContainer.style.color = 'red';
@@ -351,7 +321,7 @@
                 url: '@Url.Action("CheckSequence", "ModuleResouces")',
                 type: 'GET', // or POST
                 data: {
-                    courseId: TrainingCourseModuleResources_ModuleId,
+                    moduleId: TrainingCourseModuleResources_ModuleId,
                     sequence: TrainingCourseModuleResources_Sequance.value
                 },
                 success: function (response) {

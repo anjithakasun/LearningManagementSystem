@@ -16,7 +16,11 @@ namespace LearningManagementSystem.Bussiness.ResourcesHandler
         public List<TrainingCourseModuleResource> getCheckList(int id);
         public TrainingCourseModuleResource getListId(int id);
         public TrainingCourseModuleResource CreateResource(IFormCollection collection, IFormFile file);
+        public TrainingCourseModuleResource UpdateResource(IFormCollection collection, IFormFile file);
         public String GetCourseName(int id);
+        public bool DeleteAttachment(int id);
+        public TrainingCourseModuleResource DeleteResource(int id);
+
 
     }
 }

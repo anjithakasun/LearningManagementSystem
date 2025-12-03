@@ -1,0 +1,504 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingCourseModuleResource
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+<div class="card-body">
+    @using (Html.BeginForm("eDIT", "ModuleResouces", FormMethod.Post, new { enctype = "multipart/form-data", id = "EditForm" }))
+    {
+
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResources_EModuleId">Course Module</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingCourseModuleResources_EModuleId" name="TrainingCourseModuleResources_EModuleId" class="form-control" asp-items="ViewBag.TrainingCourseModuleResources_ModuleId" onchange="seqChange()" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-EModule"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingCourseModuleResourcesType">Resource Type</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    @Html.DropDownListFor(
+                    m => m.TrainingCourseModuleResourcesType,
+                                new SelectList(new List<string> { "MP4", "PDF" }, Model.TrainingCourseModuleResourcesType),
+                                "-- Select --",
+                                new { @class = "form-control", style = "width:100%;" })
+                <span id="error-message-EResType"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="TrainingCourseModuleResources_LanguageId">Language</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <br />
+                @Html.DropDownListFor(
+                                m => m.TrainingCourseModuleResourcesLanguageId,
+                                new SelectList(new[]
+                                {
+                                new { Id = 1, Name = "English" },
+                                new { Id = 2, Name = "Sinhala" },
+                                new { Id = 3, Name = "Tamil" }
+                                }, "Id", "Name", Model.TrainingCourseModuleResourcesLanguageId),
+                                "-- Select Language --",
+                                new { @class = "form-control", style = "width:100%;" }
+                                )
+                <span id="error-message-ELanguage"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="TrainingCourseModuleResources_EEName">English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <input type="text" class="form-control" id="TrainingCourseModuleResources_EEName" name="TrainingCourseModuleResources_EEName" placeholder="Resource English Name" autocomplete="off" value="@Model.TrainingCourseModuleResourcesEname">
+                <span id="error-message-EEname"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="TrainingCourseModuleResources_ESName">Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <input type="text" class="form-control" id="TrainingCourseModuleResources_ESName" name="TrainingCourseModuleResources_ESName" placeholder="Resource Sinhala Name" autocomplete="off" value="@Model.TrainingCourseModuleResourcesSname">
+                <span id="error-message-ESname"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="TrainingCourseModuleResources_ETName">Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <input type="text" class="form-control" id="TrainingCourseModuleResources_ETName" name="TrainingCourseModuleResources_ETName" placeholder="Resource Tamil Name" autocomplete="off" value="@Model.TrainingCourseModuleResourcesTname">
+                <span id="error-message-ETname"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="TrainingCourseModuleResources_ESequance">Sequence</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <input type="number" class="form-control" id="TrainingCourseModuleResources_ESequance" name="TrainingCourseModuleResources_ESequance" placeholder="Enter Sequance" min="1" step="1" onkeyup="seqChange()" value="@Model.TrainingCourseModuleResourcesSequance">
+                <span id="error-message-ESeq"></span>
+            </div>
+        </div>
+        <div class="col-md-6" id="AttDiv">
+            <label class="col-md-4 label-control">Select File</label>
+            <label id="Attachment" class="file center-block">
+                <input type="file" id="file" name="file" style="margin:15px">
+                <span class="file-custom"></span>
+                <span id="error-message-Eattachement"></span>
+            </label>
+        </div>
+        <div class="col-md-6" id="EVdLenDiv">
+            <div class="form-group">
+                <label for="TrainingCourseModuleResources_ELength">Video Length</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <input type="text"
+                       class="form-control"
+                       id="TrainingCourseModuleResources_ELength"
+                       name="TrainingCourseModuleResources_ELength"
+                       placeholder="HH:mm:ss" value="@(Model.TrainingCourseModuleResourcesLength.HasValue? Model.TrainingCourseModuleResourcesLength.Value.ToString("HH:mm:ss") : "")" autocomplete="off">
+                <span id="error-message-ELen"></span>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top:20px">
+            <div class="form-group">
+                <label for="TrainingCourseModuleResources_EDescription">Resource Description</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                <textarea class="form-control" id="TrainingCourseModuleResources_EDescription" name="TrainingCourseModuleResources_EDescription" rows="4" placeholder="Textarea">@Model.TrainingCourseModuleResourcesDescription</textarea>
+                <span id="error-message-EDes"></span>
+            </div>
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty(Model.TrainingCourseModuleResourcesPath))
+        {
+            <hr />
+            if (Model.TrainingCourseModuleResourcesType == "MP4")
+            {
+                <button type="button" style="margin-left:20px;" onclick="deleteAttachment('@Model.TrainingCourseModuleResourcesId')">X</button>
+                <div class="col-md-6 attachmentblock" id="attachmentblock">
+                    <label class="col-md-3 label-control">Acttachment</label>
+                    <br />
+                    <video width="640" height="360" controls>
+                        <source src="@Url.Action("GetVideoFile", "ModuleResouces", new { fileName = Model.TrainingCourseModuleResourcesPath })" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-6 attachmentblock" id="attachmentblock">
+                    <label class="col-md-3 label-control">Acttachment</label>
+                    <br />
+                    <a href="@Url.Action("DownloadAttachment", "ModuleResouces", new { fileName = Model.TrainingCourseModuleResourcesPath })" target="_blank" style="margin-top:30px;margin-left:30px">
+                        <i class="fa-regular fa-file-pdf" style="height:45px; width:45px"></i>
+                    </a>
+                    <button type="button" style="margin-left:20px;" onclick="deletePdfAttachment('@Model.TrainingCourseModuleResourcesId')">X</button>
+                </div>
+            }
+        }
+        <input tyepe="text" id="Id" name="Id" value="@Model.TrainingCourseModuleResourcesId" hidden></input>
+        <hr />
+        <div class="row" style="margin-left:75%">
+            <button type="button" class="btn grey btn-light-secondary" data-dismiss="modal" onclick="CloseModal()">Close</button>
+            <button type="button" class="btn btn-primary ml-1" data-dismiss="modal" id="Esave">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Save</span>
+            </button>
+        </div>
+    }
+</div>
+
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+<script src="~/assets/custom/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script type="text/javascript">
+        
+    function CloseModal() {
+        $('#editModuleResourceModal').modal('hide');
+    }
+    $("#TrainingCourseModuleResources_EModuleId").select2({
+        allowClear: true,
+        placeholder: 'Select Course | Module',
+        dropdownParent: $('#editModuleResourceModal')
+    });
+    $("#TrainingCourseModuleResourcesType").select2({
+        allowClear: true,
+        placeholder: 'Select Resource Type',
+        dropdownParent: $('#editModuleResourceModal')
+    });
+    $("#TrainingCourseModuleResourcesLanguageId").select2({
+        allowClear: true,
+        placeholder: 'Select Language',
+        dropdownParent: $('#editModuleResourceModal')
+    });
+
+    // $("#TrainingCourseModuleResources_Length").on("input", function () {
+    //     this.value = this.value
+    //         .replace(/[^0-9:]/g, "")      // only numbers and :
+    //         .replace(/(:{2,})/g, ":")     // avoid "::"
+    //         .slice(0, 8);                 // max length HH:mm:ss
+    // });
+
+    $("#TrainingCourseModuleResources_ELength").on("input", function () {
+        const save = document.getElementById("save");
+        this.value = this.value
+            .replace(/[^0-9:]/g, "")      // only numbers and :
+            .replace(/(:{2,})/g, ":")     // avoid "::"
+            .slice(0, 8);                 // max length HH:mm:ss
+        let value = $(this).val();
+        let errorSpan = $("#error-message-ELen");
+
+        // Regex for HH:mm:ss (00–23 : 00–59 : 00–59)
+        let timeRegex = /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
+
+        if (value === "") {
+            save.disabled = true;
+            errorSpan.text("Video length is required.").css("color", "red");
+            return;
+        }
+
+        if (!timeRegex.test(value)) {
+            save.disabled = true;
+            errorSpan.text("Invalid time format. Use HH:mm:ss (e.g., 01:30:45).").css("color", "red");
+        } else {
+            save.disabled = false;
+            errorSpan.text(""); // Clear error
+        }
+    });
+            
+    @if (!string.IsNullOrEmpty(Model.TrainingCourseModuleResourcesPath))
+    {       
+        <text>       
+        $("#AttDiv").hide();       
+        </text>
+    }
+    else
+    {           
+        <text>           
+        $("#AttDiv").show();           
+        </text>
+    }
+    $('#editModuleResourceModal').on('show.bs.modal', function () {
+        // Function called before modal is displayed                
+        const TrainingCourseModuleResources_Type = document.getElementById("TrainingCourseModuleResourcesType").value;
+        if(TrainingCourseModuleResources_Type == "MP4"){
+            $('#EVdLenDiv').show();
+
+        }else{
+            $('#EVdLenDiv').hide();
+        }
+    });
+    function deleteAttachment(ResId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to delete this attachment?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("DeleteAttachment", "ModuleResouces")',
+                    type: 'POST',
+                    data: { id: ResId },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: 'Attachment deleted successfully.',
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            }).then(() => {
+                                $("#attachId").show();
+                                $("#attachmentblock").remove();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: response.message || 'Failed to delete attachment.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while deleting attachment.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    }
+    function deletePdfAttachment(ResId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to delete this attachment?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("DeletePdfAttachment", "ModuleResouces")',
+                    type: 'POST',
+                    data: { id: ResId },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: 'Attachment deleted successfully.',
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            }).then(() => {
+                                $("#attachId").show();
+                                $("#attachmentblock").remove();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: response.message || 'Failed to delete attachment.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while deleting attachment.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.getElementById('file');
+        const errorMessageContainer = document.getElementById('error-message-attachement');
+        const button = document.getElementById("Esave");
+        const TrainingCourseModuleResources_Type = document.getElementById("TrainingCourseModuleResourcesType").value;
+        fileInput.addEventListener('change', function () {          
+            const allowedExtension = '.pdf';
+            const allowedVedioExtension = '.mp4';
+            errorMessageContainer.textContent = '';
+            if (fileInput.files.length > 0) {
+                const selectedFile = fileInput.files[0];
+                const fileName = selectedFile.name;
+                const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+
+                if (TrainingCourseModuleResources_Type === 'MP4') {
+                    if (fileExtension !== allowedVedioExtension) {
+                        errorMessageContainer.textContent = 'Only MP4 files are allowed.';
+                        errorMessageContainer.style.color = 'red';
+                        fileInput.value = '';
+                        button.disabled = true;
+                    } else {
+                        button.disabled = false;
+                    }
+
+                } else {
+                    if (fileExtension !== allowedExtension) {
+                        errorMessageContainer.textContent = 'Only PDF files are allowed.';
+                        errorMessageContainer.style.color = 'red';
+                        fileInput.value = '';
+                        button.disabled = true;
+                    } else {
+                        button.disabled = false;
+                    }
+                }
+            }
+        });
+    });
+    $('#TrainingCourseModuleResourcesType').on('change', function () {
+        const save = document.getElementById("Esave");
+        let selectedDepId = $(this).val();
+        let selectedText = $(this).find('option:selected').text();
+        const errorMessageContainer = document.getElementById('error-message-attachement');
+        const fileInput = document.getElementById("file");
+        fileInput.value = "";     // Clear selected file
+        errorMessageContainer.textContent = ""; // Clear error text
+
+        save.disabled = false;
+        if(selectedText == "MP4")
+        {
+            $('#EVdLenDiv').show();
+        }else{
+            $('#EVdLenDiv').hide();
+        }
+    });
+    $('#Esave').on('click', function () {
+        var form = $('#EditForm');
+        const errorMessageModule = document.getElementById('error-message-EModule');
+        const errorMessageResType = document.getElementById('error-message-EResType');
+        const errorMessageEname = document.getElementById('error-message-EEname');
+        const errorMessageSname = document.getElementById('error-message-ESname');
+        const errorMessagesTname = document.getElementById('error-message-ETname');
+        const errorMessageeSeq = document.getElementById('error-message-ESeq');
+        const errorMessageLen = document.getElementById('error-message-ELen');
+        const errorMessageDes = document.getElementById('error-message-EDes');
+        const errorMessageLanguage = document.getElementById('error-message-ELanguage');
+        var TrainingCourseModuleResources_ModuleId = document.getElementById("TrainingCourseModuleResources_EModuleId").value;
+        var TrainingCourseModuleResources_Type = document.getElementById("TrainingCourseModuleResourcesType").value;
+        var TrainingCourseModuleResources_LanguageId = document.getElementById("TrainingCourseModuleResourcesLanguageId").value;
+        var TrainingCourseModuleResources_EName = document.getElementById("TrainingCourseModuleResources_EEName").value;
+        var TrainingCourseModuleResources_SName = document.getElementById("TrainingCourseModuleResources_ESName").value;
+        var TrainingCourseModuleResources_TName = document.getElementById("TrainingCourseModuleResources_ETName").value;
+        var TrainingCourseModuleResources_Sequance = document.getElementById("TrainingCourseModuleResources_ESequance").value;
+        var TrainingCourseModuleResources_Length = document.getElementById("TrainingCourseModuleResources_ELength").value;
+        var TrainingCourseModuleResources_Description = document.getElementById("TrainingCourseModuleResources_EDescription").value;
+
+        let isValid = true;
+        errorMessageModule.textContent = '';
+        errorMessageResType.textContent = '';
+        errorMessageEname.textContent = '';
+        errorMessageSname.textContent = '';
+        errorMessagesTname.textContent = '';
+        errorMessageeSeq.textContent = '';
+        errorMessageLen.textContent = '';
+        errorMessageDes.textContent = '';
+        errorMessageLanguage.textContent = '';
+
+        // --- User Name Validation ---
+        if (TrainingCourseModuleResources_ModuleId == "") {
+            errorMessageModule.textContent = 'Please Select Module.';
+            errorMessageModule.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_Type == "") {
+            errorMessageResType.textContent = 'Please Resource Type.';
+            errorMessageResType.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_EName == "") {
+            errorMessageEname.textContent = 'Please Enter English Name.';
+            errorMessageEname.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_SName == "") {
+            errorMessageSname.textContent = 'Please Enter Sinhala Name.';
+            errorMessageSname.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_TName == "") {
+            errorMessagesTname.textContent = 'Please Enter Tamil Name.';
+            errorMessagesTname.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_Sequance == "") {
+            errorMessageeSeq.textContent = 'Please Enter Sequence.';
+            errorMessageeSeq.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_LanguageId == "") {
+            errorMessageLanguage.textContent = 'Please Select Language.';
+            errorMessageLanguage.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingCourseModuleResources_Description == "") {
+            errorMessageDes.textContent = 'Please Enter Description.';
+            errorMessageDes.style.color = 'red';
+            isValid = false;
+        }
+        if(TrainingCourseModuleResources_Type == 'MP4'){
+            // alert();
+            if (TrainingCourseModuleResources_Length == "") {
+                errorMessageLen.textContent = 'Please Enter Length.';
+                errorMessageLen.style.color = 'red';
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/ModuleResouces/Edit');
+            form.submit();
+        }
+    });
+
+    function seqChange() {
+        var TrainingCourseModuleResources_Sequance = document.getElementById("TrainingCourseModuleResources_ESequance");
+        var TrainingCourseModuleResources_ModuleId = document.getElementById("TrainingCourseModuleResources_EModuleId").value;
+        const errorMessageSeqContainer = document.getElementById('error-message-Seq');
+        errorMessageSeqContainer.textContent = '';
+             // alert(TrainingCourse_Sequance.value + TrainingCourse_TrainingId);
+        const savebtn = document.getElementById("save");
+        if(TrainingCourseModuleResources_Sequance.value != "" && TrainingCourseModuleResources_ModuleId != ""){
+            $.ajax({
+                url: '@Url.Action("CheckSequence", "ModuleResouces")',
+                type: 'GET', // or POST
+                data: {
+                    moduleId: TrainingCourseModuleResources_ModuleId,
+                    sequence: TrainingCourseModuleResources_Sequance.value
+                },
+                success: function (response) {
+                    if (response.status === true) {
+                        errorMessageSeqContainer.textContent = '';
+                        TrainingCourseModule_Sequance.style.borderColor = "green";
+                        savebtn.disabled = false;
+                        console.log("Sequence OK");
+                    } else {
+                        errorMessageSeqContainer.textContent = 'Sequence already exists.';
+                        errorMessageSeqContainer.style.color = 'red';
+                        TrainingCourseModule_Sequance.style.borderColor = 'red';
+                        savebtn.disabled = true;
+                        // console.log("Sequence already exists");
+                        // errorMessageSeqContainer.textContent = 'Sequence already exists!';
+                        return;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error occurred: " + error);
+                }
+            });
+        }
+
+    }
+
+
+</script>

@@ -188,8 +188,6 @@
             { width: "150px", targets: 8 }     // Action buttons
         ]
     });
-
-
     $(document).ready(function() {
         var ToastMessage = '@(TempData.ContainsKey("ToastMessage") ? TempData["ToastMessage"] as string : "")';
         if (ToastMessage) {
@@ -250,11 +248,9 @@
             }
         }
     });
-
-
-    function MDetails(Id) {
+    function MrDetails(Id) {
         $.ajax({
-            url: '@Url.Action("ModuleResourceDetails", "ModuleResource")',
+            url: '@Url.Action("ModuleResourceDetails", "ModuleResouces")',
             type: "GET",
             data: { id: Id },
             dataType: 'html',
@@ -271,9 +267,9 @@
             }
         });
     }
-    function MEdit(id) {
+    function MrEdit(id) {
         $.ajax({
-            url: '/ModuleResource/Edit',
+            url: '/ModuleResouces/Edit',
             type: 'GET',
             data: { id: id },
             dataType: 'html',
@@ -287,7 +283,7 @@
             }
         });
     }
-    function MDelete(Id) {
+    function MrDelete(Id) {
         Swal.fire({
             title: 'Are you sure?',
             text: "Do you want to delete this ModuleResource?",
@@ -299,7 +295,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '@Url.Action("Delete", "ModuleResource")',
+                    url: '@Url.Action("Delete", "ModuleResouces")',
                     type: 'POST',
                     data: { id: Id },
                     success: function (response) {
@@ -307,7 +303,7 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Deleted!',
-                                text: 'Method has been deleted successfully.',
+                                text: 'Resource has been deleted successfully.',
                                 confirmButtonColor: '#3085d6'
                             }).then(() => {
                                 location.reload(); // Refresh table after delete
@@ -317,7 +313,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: response.message || 'Unable to delete Method.'
+                                text: response.message || 'Unable to delete Resource.'
                             });
                         }
                     },

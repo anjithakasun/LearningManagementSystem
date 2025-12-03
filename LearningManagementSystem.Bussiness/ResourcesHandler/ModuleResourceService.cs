@@ -69,7 +69,6 @@ namespace LearningManagementSystem.Bussiness.ResourcesHandler
             var TrainingCourseModuleResources_Length = collection["TrainingCourseModuleResources_Length"].ToString();
 
             //var len = TimeOnly.Parse(TrainingCourseModuleResources_Length);
-
             TrainingCourseModuleResource resource = new TrainingCourseModuleResource();
             resource.TrainingCourseModuleResourcesModuleId = Convert.ToInt32(TrainingCourseModuleResources_ModuleId);
             resource.TrainingCourseModuleResourcesType = TrainingCourseModuleResources_Type;
@@ -95,27 +94,95 @@ namespace LearningManagementSystem.Bussiness.ResourcesHandler
             _db.TrainingCourseModuleResources.Add(resource);
             _db.SaveChanges();
 
+            if (file != null && file.Length > 0)
+            {
+                var extension = Path.GetExtension(file.FileName).ToLower();
+                var uploadsFolder = @"E:\Attachments\"; // Fixed path
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+                var fileName = "_" + resource.TrainingCourseModuleResourcesId + extension;
+                var filePath = Path.Combine(uploadsFolder, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                    TrainingCourseModuleResource resource1 = _db.TrainingCourseModuleResources.Where(a => a.TrainingCourseModuleResourcesId == resource.TrainingCourseModuleResourcesId).FirstOrDefault();
+                    resource1.TrainingCourseModuleResourcesPath = uploadsFolder + fileName;
+                    _db.SaveChanges();
+                }
 
+            }
+            return resource;
+        }
+
+        public TrainingCourseModuleResource UpdateResource(IFormCollection collection, IFormFile file)
+        {
+            var id = collection["Id"].ToString();
+            var TrainingCourseModuleResources_ModuleId = collection["TrainingCourseModuleResources_EModuleId"].ToString();
+            var TrainingCourseModuleResources_Type = collection["TrainingCourseModuleResourcesType"].ToString();
+            var TrainingCourseModuleResources_EName = collection["TrainingCourseModuleResources_EEName"].ToString();
+            var TrainingCourseModuleResources_SName = collection["TrainingCourseModuleResources_ESName"].ToString();
+            var TrainingCourseModuleResources_TName = collection["TrainingCourseModuleResources_ETName"].ToString();
+            var TrainingCourseModuleResources_Sequance = collection["TrainingCourseModuleResources_ESequance"].ToString();
+            var TrainingCourseModuleResources_LanguageId = collection["TrainingCourseModuleResourcesLanguageId"].ToString();
+            var TrainingCourseModuleResources_Description = collection["TrainingCourseModuleResources_EDescription"].ToString();
+            var TrainingCourseModuleResources_Length = collection["TrainingCourseModuleResources_ELength"].ToString();
+
+            //var len = TimeOnly.Parse(TrainingCourseModuleResources_Length);
+            TrainingCourseModuleResource resource = _db.TrainingCourseModuleResources.Where(a => a.TrainingCourseModuleResourcesId == Convert.ToInt32(id)).FirstOrDefault();
+            resource.TrainingCourseModuleResourcesModuleId = Convert.ToInt32(TrainingCourseModuleResources_ModuleId);
+            resource.TrainingCourseModuleResourcesType = TrainingCourseModuleResources_Type;
+            resource.TrainingCourseModuleResourcesEname = TrainingCourseModuleResources_EName;
+            resource.TrainingCourseModuleResourcesSname = TrainingCourseModuleResources_SName;
+            resource.TrainingCourseModuleResourcesTname = TrainingCourseModuleResources_TName;
+            resource.TrainingCourseModuleResourcesDescription = TrainingCourseModuleResources_Description;
+            resource.TrainingCourseModuleResourcesLanguageId = Convert.ToInt16(TrainingCourseModuleResources_LanguageId);
+            resource.TrainingCourseModuleResourcesSequance = Convert.ToInt16(TrainingCourseModuleResources_Sequance);
+            if (string.IsNullOrWhiteSpace(TrainingCourseModuleResources_Length))
+            {
+                resource.TrainingCourseModuleResourcesLength = null;
+            }
+            else
+            {
+                if (TimeOnly.TryParse(TrainingCourseModuleResources_Length, out var parsedTime))
+                {
+                    resource.TrainingCourseModuleResourcesLength = parsedTime;
+                }
+            }
+            _db.SaveChanges();
 
             if (file != null && file.Length > 0)
             {
                 var extension = Path.GetExtension(file.FileName).ToLower();
-                var uploadsFolder = @"E:\Attachments"; // Fixed path
+                var uploadsFolder = @"E:\Attachments\"; // Fixed path
                 if (!Directory.Exists(uploadsFolder))
                     Directory.CreateDirectory(uploadsFolder);
-
                 var fileName = "_" + resource.TrainingCourseModuleResourcesId + extension;
                 var filePath = Path.Combine(uploadsFolder, fileName);
-
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     file.CopyTo(stream);
+                    resource.TrainingCourseModuleResourcesPath = uploadsFolder + fileName;
+                    _db.SaveChanges();
                 }
+
             }
-
-
-
             return resource;
+        }
+
+        public TrainingCourseModuleResource DeleteResource(int id)
+        {
+            TrainingCourseModuleResource resource = _db.TrainingCourseModuleResources.Where(a => a.TrainingCourseModuleResourcesId == id).FirstOrDefault();
+            resource.TrainingCourseModuleResourcesActive = false;
+            _db.SaveChanges();
+            return resource;
+        }
+
+        public bool DeleteAttachment(int id)
+        {
+            TrainingCourseModuleResource resource = _db.TrainingCourseModuleResources.Where(a => a.TrainingCourseModuleResourcesId == id).FirstOrDefault();
+            resource.TrainingCourseModuleResourcesPath = null;
+            _db.SaveChanges();
+            return true;
         }
     }
 }

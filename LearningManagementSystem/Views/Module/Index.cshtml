@@ -299,7 +299,7 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Deleted!',
-                                text: 'Method has been deleted successfully.',
+                                text: 'Module has been deleted successfully.',
                                 confirmButtonColor: '#3085d6'
                             }).then(() => {
                                 location.reload(); // Refresh table after delete
@@ -309,7 +309,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: response.message || 'Unable to delete Method.'
+                                text: response.message || 'Unable to delete Module.'
                             });
                         }
                     },
