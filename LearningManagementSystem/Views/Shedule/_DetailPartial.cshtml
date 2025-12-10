@@ -1,0 +1,70 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingShedule
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Training | Course</strong>
+            </div>
+            <div class="col-md-6">
+                : @Html.DisplayFor(m => m.TrainingSheduleTrainingCourse.TrainingCourseTraining.TrainingEname) | @Html.DisplayFor(m => m.TrainingSheduleTrainingCourse.TrainingCourseEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Trainer Detail</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingSheduleTrainer.TrainerEpf) |  @Html.DisplayFor(m => m.TrainingSheduleTrainer.TrainerFname)  @Html.DisplayFor(m => m.TrainingSheduleTrainer.TrainerLname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Shedule Name</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.TrainingSheduleName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Shedule Start Date</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Model.TrainingSheduleStartDate.Value.ToString("yyyy-MM-dd")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Shedule End Date</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Model.TrainingSheduleEndDate.Value.ToString("yyyy-MM-dd")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Shedule Description</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingSheduleDescription)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Participant Count</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.TrainingSheduleParticipantCount)
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+
+
+<div class="modal-footer">
+    <button type="button" class="btn grey btn-light-secondary" data-bs-dismiss="modal">Close</button>
+</div>

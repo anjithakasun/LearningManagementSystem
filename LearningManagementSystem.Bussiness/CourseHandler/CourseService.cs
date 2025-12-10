@@ -47,9 +47,15 @@ namespace LearningManagementSystem.Bussiness.CourseHandler
             return TrainingList;
         }
 
+        public String GetTrainingName(int id)
+        {
+            var TrainingList = _db.TrainingCourses.Include(t => t.TrainingCourseTraining).Where(a => a.TrainingCourseActive == true && a.TrainingCourseTrainingId == id).Select(a => a.TrainingCourseTraining.TrainingEname).FirstOrDefault();
+            return TrainingList;
+        }
+
         public TrainingCourse getListId(int id)
         {
-            var courseDetail = _db.TrainingCourses.Where(a => a.TrainingCourseId == id).FirstOrDefault();
+            var courseDetail = _db.TrainingCourses.Include(a => a.TrainingCourseTraining).Where(a => a.TrainingCourseId == id).FirstOrDefault();
             return courseDetail;
         }
 
