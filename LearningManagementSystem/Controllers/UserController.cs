@@ -37,7 +37,7 @@ namespace LearningManagementSystem.Presentation.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
-        {
+         {
             try
             {
                 User user = await _loginService.ValidateUserAsync(username, password);
