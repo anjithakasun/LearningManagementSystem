@@ -34,10 +34,9 @@ namespace LearningManagementSystem.Presentation.Controllers
             if (!IsUserLoggedIn())
                 return RedirectToAction("Login", "User");
             HttpContext.Session.SetString("trainingId", trainingId.ToString());
-            var CourseList = _course.getAllList(trainingId);
+            ViewBag.TrainingName = _course.GetTrainingName(trainingId);
             ViewBag.CourseList = _course.getAllList(trainingId);
-            var TrainngList = _course.getTrainingList();
-            ViewBag.TrainingCourse_TrainingId = new SelectList(TrainngList.Result.ToList(), "TrainingId", "TrainingEname");
+            ViewBag.TrainingCourse_TrainingId = new SelectList(_course.getTrainingList().Result.ToList(), "TrainingId", "TrainingEname");
 
             HttpContext.Session.SetString("trainingId", trainingId.ToString());
             return View();

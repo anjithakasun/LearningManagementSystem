@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Shedule Master";
     ViewData["MenuTab"] = "SheduleMenu";
+    // ViewData["MenuTab"] = "etcMenu";
+    // ViewData["SubMenuTab"] = "SheduleMenu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -109,7 +111,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="EditSheduleModalTittle">Edit Shedule</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseModals('editSheduleModal')">
                     <i class="bx bx-x"></i>
                 </button>
             </div>
@@ -123,7 +125,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailSheduleModalTittle">Shedule Detail</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseModals('detailSheduleModal')">
                     <i class="bx bx-x"></i>
                 </button>
             </div>
@@ -144,7 +146,10 @@
 @* <script src="~/assets/app-assets/fonts/boxicons.js"></script> *@
 <script src="~/assets/app-assets/fonts/fontawesome/js/font-awesome-all.min.js"></script>
 @* <script src="~/assets/custom/datatable/js/buttons.bootstrap4.min.js"></script> *@
-<script>
+<script>        
+    function CloseModals(modalId) {
+        $('#' + modalId).modal('hide');
+    }
     $('#Shedule_Table').DataTable({
         "paging": true,
         "searching": true,
@@ -156,8 +161,8 @@
         autoWidth: true,
         columnDefs: [
         { width: "40px", targets: 0 },     // #
-        { width: "150px", targets: 1 },    // Training Course
-        { width: "150px", targets: 2 },    // Schedule Name
+        { width: "250px", targets: 1 },    // Training Course
+        { width: "350px", targets: 2 },    // Schedule Name
         { width: "120px", targets: 3 },    // Start Date
         { width: "120px", targets: 4 },    // End Date
         { width: "200px", targets: 5 }     // Action buttons
@@ -226,7 +231,7 @@
     });
     function SDetails(Id) {
         $.ajax({
-            url: '@Url.Action("TairningDetails", "Shedule")',
+            url: '@Url.Action("SheduleDetails", "Shedule")',
             type: "GET",
             data: { id: Id },
             dataType: 'html',

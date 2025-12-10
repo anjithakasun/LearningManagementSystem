@@ -2,17 +2,20 @@ using ComplaignManagementSystem.Data.Context;
 using ComplaignManagementSystem.Presentation.Filters;
 using ComplaintManagementSystem.Business.Authentication;
 using ComplaintManagementSystem.Business.ConncetionHandler;
+using LearningManagementSystem.Bussiness.CourseHandler;
+using LearningManagementSystem.Bussiness.LearningManagementHandler;
+using LearningManagementSystem.Bussiness.ModuleHandler;
+using LearningManagementSystem.Bussiness.ResourcesHandler;
+using LearningManagementSystem.Bussiness.SheduleHandler;
 using LearningManagementSystem.Bussiness.TrainingHandler;
 using LearningManagementSystem.Bussiness.UserHandler;
-//using LearningManagementSystem.Data.LMSModels;
-using Microsoft.EntityFrameworkCore;
+using LearningManagementSystem.Data.LMSModels;
 using log4net;
 using Microsoft.AspNetCore.Http;
-using LearningManagementSystem.Data.LMSModels;
+//using LearningManagementSystem.Data.LMSModels;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 using System.Data.SqlClient;
-using LearningManagementSystem.Bussiness.LearningManagementHandler;
-using LearningManagementSystem.Bussiness.CourseHandler;
-using LearningManagementSystem.Bussiness.SheduleHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +58,12 @@ builder.Services.AddScoped<ITrainingService, TrainingService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddScoped<ISheduleService, SheduleService>();
+
+builder.Services.AddScoped<IModuleService, ModuleService>();
+
+builder.Services.AddScoped<IModuleResourceService, ModuleResourceService>();
+
+//builder.Services.AddScoped<IResourceService, ResourceService>();
 
 builder.Logging.ClearProviders(); // Optional: clear default providers
 builder.Logging.AddLog4Net("log4net.config");

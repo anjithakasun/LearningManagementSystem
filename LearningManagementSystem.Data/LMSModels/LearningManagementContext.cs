@@ -71,7 +71,7 @@ public partial class LearningManagementContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("QuizType_CreatedDate");
             entity.Property(e => e.QuizTypeType)
-                .HasMaxLength(10)
+                .HasMaxLength(20)
                 .HasColumnName("QuizType_Type");
         });
 
@@ -208,6 +208,9 @@ public partial class LearningManagementContext : DbContext
             entity.Property(e => e.TrainingCourseModuleResourcesLanguageId).HasColumnName("TrainingCourseModuleResources_LanguageId");
             entity.Property(e => e.TrainingCourseModuleResourcesLength).HasColumnName("TrainingCourseModuleResources_Length");
             entity.Property(e => e.TrainingCourseModuleResourcesModuleId).HasColumnName("TrainingCourseModuleResources_ModuleId");
+            entity.Property(e => e.TrainingCourseModuleResourcesPath)
+                .HasMaxLength(500)
+                .HasColumnName("TrainingCourseModuleResources_Path");
             entity.Property(e => e.TrainingCourseModuleResourcesSequance).HasColumnName("TrainingCourseModuleResources_Sequance");
             entity.Property(e => e.TrainingCourseModuleResourcesSname)
                 .HasMaxLength(150)

@@ -1,0 +1,123 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingCourseModuleResource
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Course | Module</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.TrainingCourseModuleResourcesModule.TrainingCourseModuleTrainingCourse.TrainingCourseEname) | @Html.DisplayFor(m => m.TrainingCourseModuleResourcesModule.TrainingCourseModuleEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Resource English Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingCourseModuleResourcesEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Resource Sinhala Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingCourseModuleResourcesSname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Resource Tamil Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingCourseModuleResourcesTname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Resource Type</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingCourseModuleResourcesType)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Sequence</strong>
+            </div>
+            @if (Model.TrainingCourseModuleResourcesLanguageId == 1)
+            {
+                <div class="col-md-3">
+                    :  English
+                </div>
+            }
+            else if (Model.TrainingCourseModuleResourcesLanguageId == 2)
+            {
+                <div class="col-md-3">
+                    :  Sinhala
+                </div>
+            }
+            else 
+            {
+                <div class="col-md-3">
+                    :  Tamil
+                </div>
+            }
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Sequence</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingCourseModuleResourcesSequance)
+            </div>
+        </div>
+        @if (Model.TrainingCourseModuleResourcesType == "MP4")
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Quizz Type</strong>
+                </div>
+                <div class="col-md-3">
+                    :  @(Model.TrainingCourseModuleResourcesLength.HasValue? Model.TrainingCourseModuleResourcesLength.Value.ToString("HH:mm:ss") : "")
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.TrainingCourseModuleResourcesPath))
+        {
+            <hr />
+            if (Model.TrainingCourseModuleResourcesType == "MP4")
+            {
+                <div class="col-md-6 attachmentblock" id="attachmentblock">
+                    <label class="col-md-3 label-control">Acttachment</label>
+                    <br />
+                    <video width="640" height="360" controls>
+                        <source src="@Url.Action("GetVideoFile", "ModuleResouces", new { fileName = Model.TrainingCourseModuleResourcesPath })" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-6 attachmentblock" id="attachmentblock">
+                    <label class="col-md-3 label-control">Acttachment</label>
+                    <br />
+                    <a href="@Url.Action("DownloadAttachment", "ModuleResouces", new { fileName = Model.TrainingCourseModuleResourcesPath })" target="_blank" style="margin-top:30px;margin-left:30px">
+                        <i class="fa-regular fa-file-pdf" style="height:45px; width:45px"></i>
+                    </a>
+                </div>
+            }
+
+        }
+
+    </div>
+</div>
+<br />
+
+<div class="modal-footer">
+    <button type="button" class="btn grey btn-light-secondary" data-bs-dismiss="modal">Close</button>
+</div>

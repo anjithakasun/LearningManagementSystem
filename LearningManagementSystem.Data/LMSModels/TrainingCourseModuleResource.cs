@@ -27,6 +27,8 @@ public partial class TrainingCourseModuleResource
 
     public bool? TrainingCourseModuleResourcesIsOtherResource { get; set; }
 
+    public string TrainingCourseModuleResourcesPath { get; set; }
+
     public TimeOnly? TrainingCourseModuleResourcesLength { get; set; }
 
     public bool? TrainingCourseModuleResourcesActive { get; set; }
