@@ -1,0 +1,258 @@
+﻿@{
+    ViewData["Title"] = "Course Master";
+    ViewData["MenuTab"] = "CourseMenu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .answer-row {
+        padding: 10px;
+        margin-bottom: 8px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Create Quiz Exam</h1>
+            </div>
+
+            <div class="card-content">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-0">
+                        <small id="qCountLabel"></small>
+                        <div>
+                            <button class="btn btn-primary" onclick="newQuestion()">+ Add New Question</button>
+                            <button class="btn btn-danger" onclick="removeQuestion()">Remove Question</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-1">
+                        <label>English Question Text</label>
+                        <textarea id="questionText_Eng" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-1">
+                        <label>Sinhala Question Text</label>
+                        <textarea id="questionText_Sin" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-1">
+                        <label>Tamil Question Text</label>
+                        <textarea id="questionText_Tam" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-1">
+                        <label>Question Type</label>
+                        <select id="questionType" class="form-control">
+                            <option value="Single">Single Answer</option>
+                            <option value="Multiple">Multiple Answers</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-1">
+                        <label>Answers</label>
+                        <div id="answersContainer"></div>
+
+                        <button class="btn btn-warning mt-1" onclick="addAnswer()">+ Add Answer</button>
+                    </div>
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-secondary" onclick="prevQuestion()">Previous</button>
+                        <button class="btn btn-success" onclick="saveExam()">Save Full Exam</button>
+                        <button class="btn btn-secondary" onclick="nextQuestion()">Next</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let questionList = [];
+    let currentIndex = 0;
+    let answerIndex = 0;
+
+    // Add NEW question
+    function newQuestion() {
+        saveCurrentQuestion();
+
+        questionList.push({
+            questionText_Eng: "",
+            questionText_Sin: "",
+            questionText_Tam: "",
+            questionType: "Single",
+            answers: []
+        });
+
+        currentIndex = questionList.length - 1;
+        loadQuestion();
+    }
+
+    // Remove Question
+    function removeQuestion() {
+        if (questionList.length === 0) return;
+
+        questionList.splice(currentIndex, 1);
+
+        if (questionList.length === 0) {
+            questionList.push({
+                questionText_Eng: "",
+                questionText_Sin: "",
+                questionText_Tam: "",
+                questionType: "Single",
+                answers: []
+            });
+            currentIndex = 0;
+        } else if (currentIndex > 0) {
+            currentIndex--;
+        }
+
+        loadQuestion();
+    }
+
+    // LOAD QUESTION
+    function loadQuestion() {
+        const q = questionList[currentIndex];
+
+        document.getElementById("questionText_Eng").value = q.questionText_Eng;
+        document.getElementById("questionText_Sin").value = q.questionText_Sin;
+        document.getElementById("questionText_Tam").value = q.questionText_Tam;
+
+        document.getElementById("questionType").value = q.questionType;
+
+        document.getElementById("qCountLabel").innerHTML =
+            `Question ${currentIndex + 1} of ${questionList.length}`;
+
+        // Load answers
+        let html = "";
+        answerIndex = 0;
+
+        q.answers.forEach(a => {
+            answerIndex++;
+            html += `
+                <div class="answer-row" id="ans_${answerIndex}">
+                    <div class="row">
+                        <div class="col-1 text-center">
+                            <input type="${q.questionType === 'Single' ? 'radio' : 'checkbox'}"
+                                   name="correct"
+                                   ${a.isCorrect ? "checked" : ""}
+                                   value="${answerIndex}">
+                        </div>
+
+                        <div class="col-9">
+                            <input class="form-control mt-1" id="ansText_Eng_${answerIndex}" value="${a.en}">
+                            <input class="form-control mt-1" id="ansText_Sin_${answerIndex}" value="${a.si}">
+                            <input class="form-control mt-1" id="ansText_Tam_${answerIndex}" value="${a.ta}">
+                        </div>
+
+                        <div class="col-2">
+                            <button class="btn btn-danger" onclick="removeAnswer(${answerIndex})">X</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById("answersContainer").innerHTML = html;
+    }
+
+    // SAVE CURRENT QUESTION
+    function saveCurrentQuestion() {
+        if (questionList.length === 0) return;
+
+        const q = questionList[currentIndex];
+
+        q.questionText_Eng = document.getElementById("questionText_Eng").value;
+        q.questionText_Sin = document.getElementById("questionText_Sin").value;
+        q.questionText_Tam = document.getElementById("questionText_Tam").value;
+        q.questionType = document.getElementById("questionType").value;
+
+        let answers = [];
+
+        document.querySelectorAll("[id^='ans_']").forEach(row => {
+            const id = row.id.split("_")[1];
+
+            let en = document.getElementById("ansText_Eng_" + id)?.value;
+            let si = document.getElementById("ansText_Sin_" + id)?.value;
+            let ta = document.getElementById("ansText_Tam_" + id)?.value;
+
+            let correct = document.querySelector("input[name='correct'][value='" + id + "']")?.checked;
+
+            if (en || si || ta) {
+                answers.push({
+                    en: en,
+                    si: si,
+                    ta: ta,
+                    isCorrect: correct
+                });
+            }
+        });
+
+        q.answers = answers;
+    }
+
+    // Add Answer
+    function addAnswer() {
+        answerIndex++;
+        const type = document.getElementById("questionType").value === "Single" ? "radio" : "checkbox";
+
+        const html = `
+            <div class="answer-row" id="ans_${answerIndex}">
+                <div class="row">
+                    <div class="col-1 text-center">
+                        <input type="${type}" name="correct" value="${answerIndex}">
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control mt-1" id="ansText_Eng_${answerIndex}" placeholder="English Answer">
+                        <input class="form-control mt-1" id="ansText_Sin_${answerIndex}" placeholder="Sinhala Answer">
+                        <input class="form-control mt-1" id="ansText_Tam_${answerIndex}" placeholder="Tamil Answer">
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-danger" onclick="removeAnswer(${answerIndex})">X</button>
+                    </div>
+                </div>
+            </div>`;
+
+        document.getElementById("answersContainer").insertAdjacentHTML("beforeend", html);
+    }
+
+    function removeAnswer(i) {
+        document.getElementById("ans_" + i).remove();
+    }
+
+    function nextQuestion() {
+        saveCurrentQuestion();
+        if (currentIndex < questionList.length - 1) {
+            currentIndex++;
+            loadQuestion();
+        }
+    }
+
+    function prevQuestion() {
+        saveCurrentQuestion();
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadQuestion();
+        }
+    }
+
+    function saveExam() {
+        saveCurrentQuestion();
+        console.log("FULL EXAM JSON:", questionList);
+        alert("Saved! Check console output.");
+    }
+
+    // Start with first question
+    newQuestion();
+</script>
