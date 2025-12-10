@@ -53,7 +53,6 @@ namespace LearningManagementSystem.Bussiness.UserHandler
             {
                 return null;
             }
-
         }
     }
 }

@@ -1,0 +1,62 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingQuiz
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Course | Module</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.TrainingQuizModule.TrainingCourseModuleTrainingCourse.TrainingCourseEname) | @Html.DisplayFor(m => m.TrainingQuizModule.TrainingCourseModuleEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Quiz English Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingQuizEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Quiz Sinhala Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingQuizSname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Quiz Tamil Name</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingQuizTname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Number of Answer Required</strong>
+            </div>
+            <div class="col-md-3">
+                :  @Html.DisplayFor(m => m.TrainingQuizNoOfAnswerRequired)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Attempt Count</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.TrainingQuizAttemptCount)
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+
+
+<div class="modal-footer">
+    <button type="button" class="btn grey btn-light-secondary" data-bs-dismiss="modal">Close</button>
+</div>

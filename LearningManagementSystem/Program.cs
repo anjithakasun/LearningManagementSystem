@@ -5,6 +5,8 @@ using ComplaintManagementSystem.Business.ConncetionHandler;
 using LearningManagementSystem.Bussiness.CourseHandler;
 using LearningManagementSystem.Bussiness.LearningManagementHandler;
 using LearningManagementSystem.Bussiness.ModuleHandler;
+using LearningManagementSystem.Bussiness.QuestionHandler;
+using LearningManagementSystem.Bussiness.QuizHandler;
 using LearningManagementSystem.Bussiness.ResourcesHandler;
 using LearningManagementSystem.Bussiness.SheduleHandler;
 using LearningManagementSystem.Bussiness.TrainingHandler;
@@ -62,6 +64,10 @@ builder.Services.AddScoped<ISheduleService, SheduleService>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
 
 builder.Services.AddScoped<IModuleResourceService, ModuleResourceService>();
+
+builder.Services.AddScoped<IQuizService, QuizService>();
+
+builder.Services.AddScoped<IQuestionService, QuestionService>();
 
 //builder.Services.AddScoped<IResourceService, ResourceService>();
 

@@ -12,5 +12,6 @@ namespace LearningManagementSystem.Bussiness.LearningManagementHandler
     {
         public Task<List<TrainingDto>> getTrainingList();
         public Task<List<CourseDto>> getCourseList(int trainingId);
+        public Task<List<ModuleDto>> getModuleList(int courseId);
     }
 }

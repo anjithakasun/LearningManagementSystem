@@ -11,7 +11,8 @@ namespace LearningManagementSystem.Bussiness.CourseHandler
     public interface ICourseService
     {
         public Task<List<Training>> getTrainingList();
-        public List<TrainingCourse> getAllList(int id);
+        public List<TrainingCourse> getAllList();
+        public List<TrainingCourse> getTrainingAllList(int id);
         public TrainingCourse CreateCourse(IFormCollection collection);
         public TrainingCourse getListId(int id);
         public TrainingCourse updateCourse(IFormCollection collection);

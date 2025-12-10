@@ -29,16 +29,12 @@ namespace LearningManagementSystem.Presentation.Controllers
             return !string.IsNullOrEmpty(HttpContext.Session.GetString("UserName"));
         }
         [HttpGet]
-        public IActionResult Index(int trainingId)
+        public IActionResult Index()
         {
             if (!IsUserLoggedIn())
                 return RedirectToAction("Login", "User");
-            HttpContext.Session.SetString("trainingId", trainingId.ToString());
-            ViewBag.TrainingName = _course.GetTrainingName(trainingId);
-            ViewBag.CourseList = _course.getAllList(trainingId);
+            ViewBag.CourseList = _course.getAllList();
             ViewBag.TrainingCourse_TrainingId = new SelectList(_course.getTrainingList().Result.ToList(), "TrainingId", "TrainingEname");
-
-            HttpContext.Session.SetString("trainingId", trainingId.ToString());
             return View();
         }
 
@@ -46,19 +42,18 @@ namespace LearningManagementSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult Create(IFormCollection collection)
         {
-            var trainingId = HttpContext.Session.GetString("trainingId");
             try
             {
                 var UserName = HttpContext.Session.GetString("UserName");                
                 var Course = _course.CreateCourse(collection);
                 TempData["ToastMessage"] = "SubmittedCourseSuccessfully!";
                 log.Info($"Created Course by : {UserName}. Course Record : {Course.TrainingCourseId}");
-                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 log.Error($"Error : {ex}");
-                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -67,7 +62,7 @@ namespace LearningManagementSystem.Presentation.Controllers
         {
             // Example - check if sequence exists in DB
             var courseId = HttpContext.Session.GetString("courseId");
-            var CourseList = _course.getAllList(trainingId);
+            var CourseList = _course.getTrainingAllList(trainingId);
             bool exists;
             if (courseId == null)
                 exists = CourseList.Any(a => a.TrainingCourseSequance == sequence);
@@ -97,8 +92,6 @@ namespace LearningManagementSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult Edit(IFormCollection collection)
         {
-            var trainingId = HttpContext.Session.GetString("trainingId");
-
             try
             {
                 var UserName = HttpContext.Session.GetString("UserName");
@@ -106,16 +99,16 @@ namespace LearningManagementSystem.Presentation.Controllers
                 TempData["ToastMessage"] = "UpdatedCourseSuccessfully!";
 
                 log.Info($"Edited Course by : {UserName}. Course Record : {Course.TrainingCourseId}");
-                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 log.Error($"Error : {ex}");
-                return RedirectToAction(nameof(Index), new { trainingId = trainingId });
+                return RedirectToAction(nameof(Index));
             }
         }
 
-        public async Task<IActionResult> TairningDetails(int id)
+        public async Task<IActionResult> CourseDetails(int id)
         {
             TrainingCourse Course = _course.getListId(id);
             return PartialView("_DetailPartial", Course);

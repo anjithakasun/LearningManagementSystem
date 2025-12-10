@@ -28,7 +28,7 @@ namespace LearningManagementSystem.Bussiness.ResourcesHandler
 
         public string GetCourseName(int id)
         {
-            var TrainingList = _db.TrainingCourses.Where(a => a.TrainingCourseActive == true && a.TrainingCourseId == id).Select(a => a.TrainingCourseEname).FirstOrDefault();
+            var TrainingList = _db.TrainingCourses.Where(a => a.TrainingCourseActive == true && a.TrainingCourseId == id).Select(a => a.TrainingCourseTraining.TrainingEname + " | " + a.TrainingCourseEname).FirstOrDefault();
             return TrainingList;
         }
 

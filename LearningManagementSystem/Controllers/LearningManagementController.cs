@@ -1,6 +1,7 @@
 ﻿using ComplaignManagementSystem.Presentation.Filters;
 using LearningManagementSystem.Bussiness.LearningManagementHandler;
 using LearningManagementSystem.Bussiness.TrainingHandler;
+using LearningManagementSystem.Data.LMSModels;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,7 @@ namespace LearningManagementSystem.Presentation.Controllers
                 return RedirectToAction("Login", "User");
 
             ViewBag.CurrYear = System.DateTime.Now.Year;
+            HttpContext.Session.SetString("CurrYear", (System.DateTime.Now.Year).ToString());
             return View();
         }
 
@@ -45,6 +47,14 @@ namespace LearningManagementSystem.Presentation.Controllers
         {
             HttpContext.Session.SetString("trainingId", trainingId.ToString());
             var CourseList = await _learning.getCourseList(trainingId);
+            return Json(CourseList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetModuleList(int courseId)
+        {
+            HttpContext.Session.SetString("courseId", courseId.ToString());
+            var CourseList = await _learning.getModuleList(courseId);
             return Json(CourseList);
         }
 

@@ -1,0 +1,143 @@
+﻿@model LearningManagementSystem.Data.LMSModels.TrainingQuiz
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+<div class="card-body">
+    @using (Html.BeginForm("Edit", "Quiz", FormMethod.Post, new { id = "EditForm" }))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="TrainingQuiz_EModuleId">Course Module</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingQuiz_EModuleId" name="TrainingQuiz_EModuleId" class="form-control" asp-items="ViewBag.TrainingQuiz_ModuleId" style="width:100%">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-Emodule"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingQuiz_EEName">Quiz English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingQuiz_EEName" name="TrainingQuiz_EEName" placeholder="Enter English Name" autocomplete="off" value="@Model.TrainingQuizEname">
+                    <span id="error-message-EEName"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingQuiz_ESName">Quiz Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingQuiz_ESName" name="TrainingQuiz_ESName" placeholder="Enter Sinhala Name" autocomplete="off" value="@Model.TrainingQuizSname">
+                    <span id="error-message-ESName"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingQuiz_ETName">Quiz Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingQuiz_ETName" name="TrainingQuiz_ETName" placeholder="Enter Tamil Name" autocomplete="off" value="@Model.TrainingQuizTname">
+                    <span id="error-message-ETName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingQuiz_ENoOfAnswerRequired">Number of required Answers</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingQuiz_ENoOfAnswerRequired" name="TrainingQuiz_ENoOfAnswerRequired" placeholder="Enter Required Question Count" autocomplete="off" value="@Model.TrainingQuizNoOfAnswerRequired">
+                    <span id="error-message-ENoReq"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TrainingQuiz_EAttemptCount">Number of required Answers</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="number" class="form-control" id="TrainingQuiz_EAttemptCount" name="TrainingQuiz_EAttemptCount" placeholder="Enter Attempt Count" autocomplete="off" value="@Model.TrainingQuizAttemptCount">
+                    <span id="error-message-EAttemt"></span>
+                </div>
+            </div>
+        </div>
+        <input tyepe="text" id="Id" name="Id" value="@Model.TrainingQuizId" hidden></input>
+        <hr />
+
+        <div class="row" style="margin-left:75%">
+            <button type="button" class="btn grey btn-light-secondary" data-dismiss="modal" onclick="CloseModal()">Close</button>
+            <button type="button" class="btn btn-primary ml-1" data-dismiss="modal" id="Esave">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Save</span>
+            </button>
+        </div>
+    }
+</div>
+
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+
+<script type="text/javascript">
+        function CloseModal() {
+        $('#editQuizModal').modal('hide');
+    }
+    $("#TrainingQuiz_EModuleId").select2({
+        allowClear: true,
+        placeholder: 'Select Module',         
+        dropdownParent: $('#editQuizModal')
+    });
+
+    $('#Esave').on('click', function () {
+        var form = $('#EditForm');
+        const errorMessageModuleContainer = document.getElementById('error-message-Emodule');
+        const errorMessageENameContainer = document.getElementById('error-message-EEName');
+        const errorMessageSNameContainer = document.getElementById('error-message-ESName');
+        const errorMessageTNameContainer = document.getElementById('error-message-ETName');
+        const errorMessageNoReqContainer = document.getElementById('error-message-ENoReq');
+        const errorMessageAttContainer = document.getElementById('error-message-EAttemt');
+        var TrainingQuiz_ModuleId = document.getElementById("TrainingQuiz_EModuleId").value;
+        var TrainingQuiz_EName = document.getElementById("TrainingQuiz_EEName").value;
+        var TrainingQuiz_SName = document.getElementById("TrainingQuiz_ESName").value;
+        var TrainingQuiz_TName = document.getElementById("TrainingQuiz_ETName").value;
+        var TrainingQuiz_NoOfAnswerRequired = document.getElementById("TrainingQuiz_ENoOfAnswerRequired").value;
+        var TrainingQuiz_AttemptCount = document.getElementById("TrainingQuiz_EAttemptCount").value;
+
+        let isValid = true;
+        errorMessageModuleContainer.textContent = '';
+        errorMessageENameContainer.textContent = '';
+        errorMessageSNameContainer.textContent = '';
+        errorMessageTNameContainer.textContent = '';
+        errorMessageNoReqContainer.textContent = '';
+        errorMessageAttContainer.textContent = '';
+        // --- User Name Validation ---
+        if (TrainingQuiz_ModuleId == "") {
+            errorMessageModuleContainer.textContent = 'Please Select Module.';
+            errorMessageModuleContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingQuiz_EName == "") {
+            errorMessageENameContainer.textContent = 'Please Enter English Name.';
+            errorMessageENameContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (TrainingQuiz_SName == "") {
+            errorMessageSNameContainer.textContent = 'Please Enter Sinhala Name.';
+            errorMessageSNameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingQuiz_TName == "") {
+            errorMessageTNameContainer.textContent = 'Please Enter Tamil Name.';
+            errorMessageTNameContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingQuiz_NoOfAnswerRequired == "") {
+            errorMessageNoReqContainer.textContent = 'Please No of Required Answers.';
+            errorMessageNoReqContainer.style.color = 'red';
+            isValid = false;
+        }
+        if (TrainingQuiz_AttemptCount == "") {
+            errorMessageAttContainer.textContent = 'Please Enter Attempt Count.';
+            errorMessageAttContainer.style.color = 'red';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            return false;
+        }else{
+            // Change action dynamically
+            form.attr('action', '/Quiz/Edit');
+            form.submit();
+        }
+    });
+</script>

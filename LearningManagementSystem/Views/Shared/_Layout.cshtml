@@ -140,7 +140,7 @@
                     <a href="#"><i class="menu-livicon" data-icon="check-alt"></i><span class="menu-title" data-i18n="Etc">Courses / Modules</span></a>
                     <ul class="menu-content">
                         <li class="@(activeSubMenuTab == "CourseMenu" ? "active" : "") nav-item">
-                            <a href="#" onclick="OpenModal('Course')"><i class="bx bx-right-arrow-alt"></i><span class="menu-title" data-i18n="Course">Course</span></a>
+                            <a href="/Course/Index"><i class="bx bx-right-arrow-alt"></i><span class="menu-title" data-i18n="Course">Course</span></a>
                         </li>
                         <li class="@(activeSubMenuTab == "ModuleMenu" ? "active" : "") nav-item">
                             <a href="#" onclick="OpenModal('Module')"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Modules">Modules</span></a>
@@ -150,10 +150,21 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="@(activeMenuTab == "SheduleMenu" ? "active" : "") nav-item">
                     <a href="#" onclick="OpenModal('Shedule')"><i class="menu-livicon" data-icon="unlink"></i><span class="menu-title" data-i18n="Shedule">Shedule</span></a>
                 </li>
-
+                <li class=" nav-item @(activeMenuTab == "quizQuestionsMenu" ? "open" : "")">
+                    <a href="#"><i class="menu-livicon" data-icon="settings"></i><span class="menu-title" data-i18n="Etc">Quiz / Questions</span></a>
+                    <ul class="menu-content">
+                        <li class="@(activeSubMenuTab == "QuizMenu" ? "active" : "") nav-item">
+                            <a href="#" onclick="OpenModal('Quiz')"><i class="bx bx-right-arrow-alt"></i><span class="menu-title" data-i18n="Quiz">Quiz</span></a>
+                        </li>
+                        <li class="@(activeSubMenuTab == "QuestionMenu" ? "active" : "") nav-item">
+                            <a href="#" onclick="OpenModal('Question')"><i class="bx bx-right-arrow-alt"></i><span class="menu-title" data-i18n="Question">Question</span></a>
+                        </li>
+                    </ul>
+                </li>
 
 
                 <hr />
@@ -183,7 +194,7 @@
 
     <footer class="border-top footer text-muted bottom">
         <div class="container">
-            &copy; @ViewBag.CurrYear - Learning Maneagement System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @Context.Session.GetString("CurrYear") - Learning Maneagement System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <div id="CommonModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -212,25 +223,41 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row" style="margin-left:10px; margin-top:0px" id="moduleDropDiv">
+                        <div class="form-group col-md-9">
+                            <label for="Module">Module</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                            <select id="ModuleId" name="ModuleId" class="form-control">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <span id="error-message-ErrorModal" style="margin-left:50px"></span>
                 <hr />
                 <div class="row">
-                    <div class="col-md-6" style="margin-left:260px" id="courseBtn">
+                    <div class="col-md-6" style="margin-left:260px" id="courseBtnDiv">
                         <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
                         <button type="button" class="btn btn-outline-dark round mr-1 mb-1" id="crsbtn" onclick="goToCourse()">Open</button>
                     </div>
-                    <div class="col-md-6" style="margin-left:260px" id="shduleBtn">
+                    <div class="col-md-6" style="margin-left:260px" id="shduleBtnDiv">
                         <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
                         <button type="button" class="btn btn-outline-dark round mr-1 mb-1" id="shdbtn" onclick="goToShedule()">Open</button>
                     </div>
-                    <div class="col-md-6" style="margin-left:260px" id="ModuleBtn">
+                    <div class="col-md-6" style="margin-left:260px" id="ModuleBtnDiv">
                         <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
                         <button type="button" class="btn btn-outline-dark round mr-1 mb-1" id="mdbtn" onclick="goToModule()">Open</button>
                     </div>
-                    <div class="col-md-6" style="margin-left:260px" id="ResBtn">
+                    <div class="col-md-6" style="margin-left:260px" id="ResBtnDiv">
                         <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
                         <button type="button" class="btn btn-outline-dark round mr-1 mb-1" id="rsbtn" onclick="goToResource()">Open</button>
+                    </div>
+                    <div class="col-md-6" style="margin-left:260px" id="QuizBtnDiv">
+                        <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
+                        <button type="button" class="btn btn-outline-dark round mr-1 mb-1" id="qzbtn" onclick="goToQuiz()">Open</button>
+                    </div>
+                    <div class="col-md-6" style="margin-left:260px" id="QstBtnDiv">
+                        <button type="button" class="btn btn-outline-warning round mr-1 mb-1" data-bs-dismiss="modal">close</button>
+                        <button type="button" class="btn btn-outline-dark round mr-1 mb-1" id="qustbtn" onclick="goToQuest()">Open</button>
                     </div>
                 </div>
             </div>
@@ -262,18 +289,25 @@
         const mdbtn = document.getElementById("mdbtn");
         const shdbtn = document.getElementById("shdbtn");
         const rsbtn = document.getElementById("rsbtn");
+        const qzbtn = document.getElementById("qzbtn");
+        const qustbtn = document.getElementById("qustbtn");
 
         function OpenModal(type) {
              crsbtn.disabled = true;
              mdbtn.disabled = true;
              shdbtn.disabled = true;
              rsbtn.disabled = true;
+             qzbtn.disabled = true;
+             qustbtn.disabled = true;
 
-            $('#shduleBtn').hide();
-            $('#ModuleBtn').hide();
-            $('#ResBtn').hide();
-            $('#courseBtn').show();
+            $('#shduleBtnDiv').hide();
+            $('#ModuleBtnDiv').hide();
+            $('#ResBtnDiv').hide();
+            $('#courseBtnDiv').show();
             $('#courseDropDiv').hide();
+            $('#moduleDropDiv').hide();
+            $('#QuizBtnDiv').hide();
+            $('#QstBtnDiv').hide();
             modaltype = type;
             // alert(type);
             $.ajax({
@@ -298,51 +332,112 @@
              //const rsbtn = document.getElementById("rsbtn");
              if(Cid != ""){
                  rsbtn.disabled = false;
+                 qzbtn.disabled = false;
+                 // qustbtn.disabled = false;
+                 if(modaltype == "Question"){    
+                     $('#moduleDropDiv').show();
+                     $.ajax({
+                        url: '@Url.Action("GetModuleList", "LearningManagement")',
+                        type: 'GET',
+                        data : {courseId : Cid },
+                        success: function (data) {
+                            var ddl = $("#ModuleId");
+                            ddl.empty();
+                            ddl.append('<option value="">-- Select --</option>');
+                            $.each(data, function (i, item) {
+                                ddl.append('<option value="' + item.id + '">' + item.name + '</option>');
+                            });
+                            $("#CommonModal").modal("show");
+                        },
+                        error: function () {
+                            alert("Failed to load dropdown data.");
+                        }
+                    });
+                 }
              }else{
                  rsbtn.disabled = true;
+                 qzbtn.disabled = true;
+                 qustbtn.disabled = true;
+             }
+         });
+         $('#ModuleId').on('change', function () {
+            var Mid = document.getElementById("ModuleId").value;
+             //const rsbtn = document.getElementById("rsbtn");
+             if(Mid != ""){
+                 qustbtn.disabled = false;                 
+             }else{
+                 rsbtn.disabled = true;
+                 qzbtn.disabled = true;
+                 qustbtn.disabled = true;
              }
          });
         $('#TrainingId').on('change', function () {
             var Tid = document.getElementById("TrainingId").value;                    
             if(modaltype == 'Course' && Tid != ""){
-                $('#courseBtn').show();
-                $('#shduleBtn').hide();
-                $('#ModuleBtn').hide();
-                $('#ResBtn').hide();
+                $('#courseBtnDiv').show();
+                $('#shduleBtnDiv').hide();
+                $('#ModuleBtnDiv').hide();
+                $('#ResBtnDiv').hide();
+                $('#QuizBtnDiv').hide();
+                $('#QstBtnDiv').hide();
                 $('#courseDropDiv').hide(); 
                                 
                 crsbtn.disabled = false;
                 mdbtn.disabled = false;
                 shdbtn.disabled = false;
             } else if(modaltype == "Shedule"  && Tid != ""){
-                $('#courseBtn').hide();
-                $('#shduleBtn').show();
-                $('#ModuleBtn').hide();
-                $('#ResBtn').hide();
+                $('#courseBtnDiv').hide();
+                $('#shduleBtnDiv').show();
+                $('#ModuleBtnDiv').hide();
+                $('#ResBtnDiv').hide();
+                $('#QuizBtnDiv').hide();
+                $('#QstBtnDiv').hide();
                 $('#courseDropDiv').hide();
                                 
                 crsbtn.disabled = false;
                 mdbtn.disabled = false;
                 shdbtn.disabled = false;
             }else if(modaltype == "Module"  && Tid != ""){
-                $('#courseBtn').hide();
-                $('#shduleBtn').hide();
-                $('#ModuleBtn').show();
-                $('#ResBtn').hide();
+                $('#courseBtnDiv').hide();
+                $('#shduleBtnDiv').hide();
+                $('#ModuleBtnDiv').show();
+                $('#ResBtnDiv').hide();
+                $('#QuizBtnDiv').hide();
+                $('#QstBtnDiv').hide();
                 $('#courseDropDiv').hide();
                                 
                 crsbtn.disabled = false;
                 mdbtn.disabled = false;
                 shdbtn.disabled = false;
             }else if(modaltype == "Resources"  && Tid != ""){
-                $('#courseBtn').hide();
-                $('#shduleBtn').hide();
-                $('#ModuleBtn').hide();
-                $('#ResBtn').show();
+                $('#courseBtnDiv').hide();
+                $('#shduleBtnDiv').hide();
+                $('#ModuleBtnDiv').hide();
+                $('#ResBtnDiv').show();
+                $('#QuizBtnDiv').hide();
+                $('#QstBtnDiv').hide();
                 $('#courseDropDiv').show();
                 rsbtn.disabled = true;
+            }else if(modaltype == "Quiz"  && Tid != ""){
+                $('#courseBtnDiv').hide();
+                $('#shduleBtnDiv').hide();
+                $('#ModuleBtnDiv').hide();
+                $('#ResBtnDiv').hide();
+                $('#QstBtnDiv').hide();
+                $('#QuizBtnDiv').show();
+                $('#courseDropDiv').show();
+                qzbtn.disabled = true;
+            }else if(modaltype == "Question"  && Tid != ""){
+                $('#courseBtnDiv').hide();
+                $('#shduleBtnDiv').hide();
+                $('#ModuleBtnDiv').hide();
+                $('#ResBtnDiv').hide();
+                $('#QuizBtnDiv').hide();
+                $('#QstBtnDiv').show();
+                $('#courseDropDiv').show();
+                qustbtn.disabled = true;
             }
-            if(modaltype == "Resources")
+            if(modaltype == "Resources" || modaltype == "Quiz" || modaltype == "Question")
             {
                 if(Tid != ""){
                     $.ajax({
@@ -433,7 +528,7 @@
             var CourseId = document.getElementById("CourseId").value;
             const errorMessageContainer = document.getElementById('error-message-ErrorModal');
             // alert(TrainingId);
-            if (TrainingId == "") {
+            if (CourseId == "") {
                 errorMessageContainer.textContent = 'Please Select Course.';
                 errorMessageContainer.style.color = 'red';
                 isValid = false;
@@ -446,6 +541,41 @@
             }
         }
 
+        function goToQuiz() {
+            let isValid = true;        
+            var CourseId = document.getElementById("CourseId").value;
+            const errorMessageContainer = document.getElementById('error-message-ErrorModal');
+            // alert(TrainingId);
+            if (CourseId == "") {
+                errorMessageContainer.textContent = 'Please Select Course.';
+                errorMessageContainer.style.color = 'red';
+                isValid = false;
+            }
+            if (!isValid) {
+                event.preventDefault();
+                return false;
+            }else{
+                window.location.href = '/Quiz/Index?courseId=' + CourseId;
+            }
+        }
+        function goToQuest() {
+            let isValid = true;        
+            var ModuleId = document.getElementById("ModuleId").value;
+            const errorMessageContainer = document.getElementById('error-message-ErrorModal');
+            // alert(TrainingId);
+            if (ModuleId == "") {
+                errorMessageContainer.textContent = 'Please Select Module.';
+                errorMessageContainer.style.color = 'red';
+                isValid = false;
+            }
+            if (!isValid) {
+                event.preventDefault();
+                return false;
+            }else{
+                window.location.href = '/Question/QuestionIndex?moduleId=' + ModuleId;
+            }
+        }
+
         $('#CommonModal').on('shown.bs.modal', function () {
             $("#TrainingId").select2({
                 allowClear: true,
@@ -455,6 +585,12 @@
             $("#CourseId").select2({
                 allowClear: true,
                 placeholder: 'Select Course',
+                dropdownParent: $('#CommonModal'), // important for modals
+                width: '100%'
+            });
+            $("#ModuleId").select2({
+                allowClear: true,
+                placeholder: 'Select Module',
                 dropdownParent: $('#CommonModal'), // important for modals
                 width: '100%'
             });

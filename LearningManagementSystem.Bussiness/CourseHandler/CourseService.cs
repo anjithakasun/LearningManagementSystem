@@ -41,7 +41,13 @@ namespace LearningManagementSystem.Bussiness.CourseHandler
             return course;
         }
 
-        public List<TrainingCourse> getAllList(int id)
+        public List<TrainingCourse> getAllList()
+        {
+            var TrainingList = _db.TrainingCourses.Include(t => t.TrainingCourseTraining).Where(a => a.TrainingCourseActive == true).ToList();
+            return TrainingList;
+        }
+
+        public List<TrainingCourse> getTrainingAllList(int id)
         {
             var TrainingList = _db.TrainingCourses.Include(t => t.TrainingCourseTraining).Where(a => a.TrainingCourseActive == true && a.TrainingCourseTrainingId == id).ToList();
             return TrainingList;

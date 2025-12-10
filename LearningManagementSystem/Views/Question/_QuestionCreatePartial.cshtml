@@ -1,0 +1,285 @@
+﻿
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+@using (Html.BeginForm("Create", "Question", FormMethod.Post, new { enctype = "multipart/form-data", id = "CreateForm" }))
+{
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="TrainingQuestion_QuizId">Quiz</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <br />
+                    <select id="TrainingQuestion_QuizId" name="TrainingQuestion_QuizId" class="form-control" asp-items="ViewBag.TrainingQuestion_QuizId">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span id="error-message-Quiz"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingQuestion_EName">English Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingQuestion_EName" name="TrainingQuestion_EName" placeholder="Question English Name" autocomplete="off">
+                    <span id="error-message-Ename"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingQuestion_SName">Sinhala Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingQuestion_SName" name="TrainingQuestion_SName" placeholder="Question Sinhala Name" autocomplete="off">
+                    <span id="error-message-Sname"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="TrainingQuestion_TName">Tamil Name</label><span class="text-uppercase text-danger" style="margin-left:5px">*</span>
+                    <input type="text" class="form-control" id="TrainingQuestion_TName" name="TrainingQuestion_TName" placeholder="Question Tamil Name" autocomplete="off">
+                    <span id="error-message-Tname"></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <h1 class="card-title">Question Answers</h1>
+        <div id="answerContainer">
+            <div class="answer-block" id="answerBlock_0">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label>English Name</label><span class="text-uppercase text-danger">*</span>
+                            <input type="text" class="form-control" name="TrainingQAnswer_EName" id="TrainingQAnswer_EName_0" placeholder="Answer English Name" autocomplete="off">
+                            <span class="error-message-Ename text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label>Sinhala Name</label><span class="text-uppercase text-danger">*</span>
+                            <input type="text" class="form-control" name="TrainingQAnswer_SName" id="TrainingQAnswer_SName_0" placeholder="Answer Sinhala Name" autocomplete="off">
+                            <span class="error-message-Sname text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label>Tamil Name</label><span class="text-uppercase text-danger">*</span>
+                            <input type="text" class="form-control" name="TrainingQAnswer_TName" id="TrainingQAnswer_TName_0" placeholder="Answer Tamil Name" autocomplete="off">
+                            <span class="error-message-Tname text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-top:-50px">
+                        <div class="checkbox">
+                            <input type="checkbox" class="checkbox-input" name="CorrectAnswer_0" id="CorrectAnswer_0">
+                            <label for="CorrectAnswer_0">Correct</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <button class="btn btn-primary" onclick="addAnswerRow()" type="button" id="add-answer">
+            <i class="bx bx-plus"></i>
+            Add Answer
+        </button>
+        <span id="error-message-common"></span>
+        <hr />
+        <div class="row">
+            <div class="col-md-2 form-actions">
+                <button type="Reset" class="btn btn-warning round mr-1 mb-1">Clear</button>
+            </div>
+            <div class="col-md-3 form-actions" style="margin-left:-70px">
+                <button type="button" class="btn btn-success round mr-1 mb-1" id="save">Success</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+@* <script src="~/assets/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+<script src="~/assets/app-assets/js/scripts/forms/form-repeater.min.js"></script> *@
+<script type="text/javascript">
+        $("#TrainingQuestion_QuizId").select2({
+        allowClear: true,
+        placeholder: 'Select Module | Quiz',
+    });
+    let answerIndex = 1;
+
+    function validateAllAnswerRows() {
+        let isValid = true;
+
+        // First row (if any)
+        let firstRow = document.querySelector(".first-answer-row");
+        if (firstRow) {
+            if (!validateAnswerBlock(firstRow)) isValid = false;
+        }
+
+        // All dynamic answer rows
+        let allRows = document.querySelectorAll(".answer-block");
+        allRows.forEach(block => {
+            if (!validateAnswerBlock(block)) isValid = false;
+        });
+
+        return isValid;
+    }
+
+        
+    function validateAnswerBlock(block) {
+        let eName = block.querySelector('input[name="TrainingQAnswer_EName"]');
+        let sName = block.querySelector('input[name="TrainingQAnswer_SName"]');
+        let tName = block.querySelector('input[name="TrainingQAnswer_TName"]');
+
+        let isValid = true;
+
+        // Clear old errors
+        block.querySelectorAll(".error-message-Ename, .error-message-Sname, .error-message-Tname")
+            .forEach(e => e.textContent = "");
+
+        if (!eName.value.trim()) {
+            block.querySelector(".error-message-Ename").textContent = "English Name is required";
+            isValid = false;
+        }
+        if (!sName.value.trim()) {
+            block.querySelector(".error-message-Sname").textContent = "Sinhala Name is required";
+            isValid = false;
+        }
+        if (!tName.value.trim()) {
+            block.querySelector(".error-message-Tname").textContent = "Tamil Name is required";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function addAnswerRow() {
+        // Validate all existing rows before adding new one
+        if (!validateAllAnswerRows()) return;
+
+        let html = `
+            <div class="answer-block" id="answerBlock_${answerIndex}">
+                <hr />
+                <div class="row answer-row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label>English Name</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" name="TrainingQAnswer_EName" id="TrainingQAnswer_EName_${answerIndex}" placeholder="Answer English Name">
+                            <span class="error-message-Ename text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label>Sinhala Name</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" name="TrainingQAnswer_SName" id="TrainingQAnswer_SName_${answerIndex}" placeholder="Answer Sinhala Name">
+                            <span class="error-message-Sname text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label>Tamil Name</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" name="TrainingQAnswer_TName" id="TrainingQAnswer_TName_${answerIndex}" placeholder="Answer Tamil Name">
+                            <span class="error-message-Tname text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-top:-50px">
+                        <div class="checkbox">
+                            <input type="checkbox" class="checkbox-input" name="CorrectAnswer_${answerIndex}" id="CorrectAnswer_${answerIndex}">
+                            <label for="CorrectAnswer_${answerIndex}">Correct</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeRow(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        answerIndex++;
+        document.getElementById("answerContainer").insertAdjacentHTML("beforeend", html);
+    }
+    // Remove row
+    function removeRow(button) {
+        button.closest(".answer-block").remove();
+    }
+
+    // Single checkbox selection for first + dynamic rows
+    $(document).on("change", "input[type='checkbox'][id^='CorrectAnswer']", function () {
+        $("input[type='checkbox'][id^='CorrectAnswer']").not(this).prop("checked", false);
+    });    
+    
+    function removeRow(button) {
+        button.closest(".answer-block").remove();
+    }
+    $(document).on("change", "input[type='checkbox'][id^='CorrectAnswer_'], #CorrectAnswer", function () {
+        // Uncheck all checkboxes
+        $("input[type='checkbox'][id^='CorrectAnswer_'], #CorrectAnswer").not(this).prop("checked", false);
+    });
+
+    document.getElementById("save").addEventListener("click", function () {
+            let isValid = true;
+            //if (!validateAllAnswerRows()) isValid = false;
+            let quiz = document.getElementById("TrainingQuestion_QuizId");
+            let quizError = document.getElementById("error-message-Quiz");
+            if (quiz.value === "") {    
+                quizError.textContent = 'Please Select Module.';
+                quizError.style.color = 'red';
+                isValid = false;
+            } else {
+                quizError.textContent = "";
+            }
+
+            // Question fields validation
+            let qEName = document.getElementById("TrainingQuestion_EName");
+            let qSName = document.getElementById("TrainingQuestion_SName");
+            let qTName = document.getElementById("TrainingQuestion_TName");
+
+            let qEnameError = document.getElementById("error-message-Ename");
+            let qSnameError = document.getElementById("error-message-Sname");
+            let qTnameError = document.getElementById("error-message-Tname");
+
+            if (!qEName.value.trim()) {                
+                qEnameError.textContent = "English question is required";                 
+                qEnameError.style.color = 'red';
+                isValid = false;
+            } else {
+                qEnameError.textContent = "";
+            }
+
+            if (!qSName.value.trim()) {
+                qSnameError.textContent = "Sinhala question is required";
+                qSnameError.style.color = 'red';
+                isValid = false;
+            } else {
+                qSnameError.textContent = "";
+            }
+
+            if (!qTName.value.trim()) {
+                qTnameError.textContent = "Tamil question is required";
+                qTnameError.style.color = 'red';
+                isValid = false;
+            } else {
+                qTnameError.textContent = "";
+            }
+
+            // Validate all answer rows
+            if (!validateAllAnswerRows()) isValid = false;
+               
+            let correctChecked = document.querySelector("input[type='checkbox'][id^='CorrectAnswer']:checked");   
+                            
+            let CommonError = document.getElementById("error-message-common");
+            if (!correctChecked) {   
+                CommonError.textContent = "PLease select correct Answer";
+                CommonError.style.color = 'red';
+                isValid = false;   
+            }else{
+                 CommonError.textContent = "";
+            }
+
+            // Stop submission if any validation fails
+            if (!isValid) {
+                window.scrollTo(0, 0); // Scroll to top to show errors
+                return;
+            }
+
+            // If valid, submit the form
+            document.getElementById("CreateForm").submit();
+        });
+</script>
