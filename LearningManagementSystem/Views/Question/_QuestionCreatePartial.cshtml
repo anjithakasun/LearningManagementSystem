@@ -1,7 +1,7 @@
 ﻿
 
 <link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
-@using (Html.BeginForm("Create", "Question", FormMethod.Post, new { enctype = "multipart/form-data", id = "CreateForm" }))
+@using (Html.BeginForm("Create", "Question", FormMethod.Post, new { id = "CreateForm" }))
 {
 
     <div class="card-body">
@@ -213,73 +213,66 @@
         $("input[type='checkbox'][id^='CorrectAnswer_'], #CorrectAnswer").not(this).prop("checked", false);
     });
 
-    document.getElementById("save").addEventListener("click", function () {
-            let isValid = true;
-            //if (!validateAllAnswerRows()) isValid = false;
-            let quiz = document.getElementById("TrainingQuestion_QuizId");
-            let quizError = document.getElementById("error-message-Quiz");
-            if (quiz.value === "") {    
-                quizError.textContent = 'Please Select Module.';
-                quizError.style.color = 'red';
-                isValid = false;
-            } else {
-                quizError.textContent = "";
-            }
+    document.getElementById("save").addEventListener("click", function () {           
+        let isValid = true;        
+        //if (!validateAllAnswerRows()) isValid = false;        
+        let quiz = document.getElementById("TrainingQuestion_QuizId");        
+        let quizError = document.getElementById("error-message-Quiz");        
+        if (quiz.value === "") {  
+            quizError.textContent = 'Please Select Module.';        
+            quizError.style.color = 'red';        
+            isValid = false;
+        } else {        
+            quizError.textContent = "";        
+        }        
+        // Question fields validation        
+        let qEName = document.getElementById("TrainingQuestion_EName");        
+        let qSName = document.getElementById("TrainingQuestion_SName");        
+        let qTName = document.getElementById("TrainingQuestion_TName");
+        
+        let qEnameError = document.getElementById("error-message-Ename");        
+        let qSnameError = document.getElementById("error-message-Sname");      
+        let qTnameError = document.getElementById("error-message-Tname");
 
-            // Question fields validation
-            let qEName = document.getElementById("TrainingQuestion_EName");
-            let qSName = document.getElementById("TrainingQuestion_SName");
-            let qTName = document.getElementById("TrainingQuestion_TName");
-
-            let qEnameError = document.getElementById("error-message-Ename");
-            let qSnameError = document.getElementById("error-message-Sname");
-            let qTnameError = document.getElementById("error-message-Tname");
-
-            if (!qEName.value.trim()) {                
-                qEnameError.textContent = "English question is required";                 
-                qEnameError.style.color = 'red';
-                isValid = false;
-            } else {
-                qEnameError.textContent = "";
-            }
-
-            if (!qSName.value.trim()) {
-                qSnameError.textContent = "Sinhala question is required";
-                qSnameError.style.color = 'red';
-                isValid = false;
-            } else {
-                qSnameError.textContent = "";
-            }
-
-            if (!qTName.value.trim()) {
-                qTnameError.textContent = "Tamil question is required";
-                qTnameError.style.color = 'red';
-                isValid = false;
-            } else {
-                qTnameError.textContent = "";
-            }
-
-            // Validate all answer rows
-            if (!validateAllAnswerRows()) isValid = false;
-               
-            let correctChecked = document.querySelector("input[type='checkbox'][id^='CorrectAnswer']:checked");   
-                            
-            let CommonError = document.getElementById("error-message-common");
-            if (!correctChecked) {   
-                CommonError.textContent = "PLease select correct Answer";
-                CommonError.style.color = 'red';
-                isValid = false;   
-            }else{
-                 CommonError.textContent = "";
-            }
-
-            // Stop submission if any validation fails
-            if (!isValid) {
-                window.scrollTo(0, 0); // Scroll to top to show errors
-                return;
-            }
-
-            // If valid, submit the form
-            document.getElementById("CreateForm").submit();
-        });
+        if (!qEName.value.trim()) {              
+            qEnameError.textContent = "English question is required";                
+            qEnameError.style.color = 'red';        
+            isValid = false;        
+        } else {        
+            qEnameError.textContent = "";        
+        }        
+        if (!qSName.value.trim()) {        
+            qSnameError.textContent = "Sinhala question is required";        
+            qSnameError.style.color = 'red';        
+            isValid = false;        
+        } else {        
+            qSnameError.textContent = "";        
+        }        
+        if (!qTName.value.trim()) {        
+            qTnameError.textContent = "Tamil question is required";        
+            qTnameError.style.color = 'red';        
+            isValid = false;        
+        } else {        
+            qTnameError.textContent = "";        
+        }
+        
+        // Validate all answer rows        
+        if (!validateAllAnswerRows()) isValid = false;       
+        let correctChecked = document.querySelector("input[type='checkbox'][id^='CorrectAnswer']:checked");        
+        let CommonError = document.getElementById("error-message-common");        
+        if (!correctChecked) {           
+            CommonError.textContent = "PLease select correct Answer";        
+            CommonError.style.color = 'red';        
+            isValid = false;           
+        }else{        
+            CommonError.textContent = "";        
+        }        
+        // Stop submission if any validation fails        
+        if (!isValid) {        
+            window.scrollTo(0, 0); // Scroll to top to show errors        
+            return;        
+        }        
+        // If valid, submit the form 
+        document.getElementById("CreateForm").submit();         
+    });
 </script>

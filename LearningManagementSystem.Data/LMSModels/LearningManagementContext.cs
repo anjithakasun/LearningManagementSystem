@@ -379,7 +379,7 @@ public partial class LearningManagementContext : DbContext
             entity.Property(e => e.TrainingQcorrectAnswerQanswerId).HasColumnName("TrainingQCorrectAnswer_QAnswerId");
             entity.Property(e => e.TrainingQcorrectAnswerQuestionId).HasColumnName("TrainingQCorrectAnswer_QuestionId");
 
-            entity.HasOne(d => d.TrainingQcorrectAnswer).WithOne(p => p.TrainingQuestionCorrectAnswer)
+            entity.HasOne(d => d.TrainingQcorrectAnswerQuestion).WithOne(p => p.TrainingQuestionCorrectAnswer)
                 .HasForeignKey<TrainingQuestionCorrectAnswer>(d => d.TrainingQcorrectAnswerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TrainingQuestionCorrectAnswer_TrainingQuestion");

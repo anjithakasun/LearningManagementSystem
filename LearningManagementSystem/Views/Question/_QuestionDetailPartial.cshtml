@@ -1,0 +1,113 @@
+﻿@model LearningManagementSystem.Data.OtherModels.QuestionViewModel
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Module | Quiz</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.Question.TrainingQuestionQuiz.TrainingQuizModule.TrainingCourseModuleEname) | @Html.DisplayFor(m => m.Question.TrainingQuestionQuiz.TrainingQuizEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Question English Name</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.Question.TrainingQuestionEname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Question Sinhala Name</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.Question.TrainingQuestionSname)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Question Tamil Name</strong>
+            </div>
+            <div class="col-md-6">
+                :  @Html.DisplayFor(m => m.Question.TrainingQuestionTname)
+            </div>
+        </div>
+
+        @{
+            int j = 1;
+            for (int i = 0; i < Model.Answers.Count; i++)
+            {
+                <hr />
+                var answer = Model.Answers[i];
+                bool isCorrect = Model.CorrectAnswer.Any(c => c.TrainingQcorrectAnswerQanswerId == answer.TrainingQanswerId);
+
+                @if (isCorrect == true)
+                {
+                    <h2 style="color:seagreen">Answer @j</h2>
+                    <div class="row" style="color:seagreen">
+                        <div class="col-md-4">
+                            <strong>Correct Answer English Name </strong>
+                        </div>
+                        <div class="col-md-6">
+                            :  @answer.TrainingQanswerEname
+                        </div>
+                    </div>
+                    <div class="row" style="color:seagreen">
+                        <div class="col-md-4">
+                            <strong>Correct Answer Sinhala Name</strong>
+                        </div>
+                        <div class="col-md-6">
+                            :  @answer.TrainingQanswerSname
+                        </div>
+                    </div>
+                    <div class="row" style="color:seagreen">
+                        <div class="col-md-4">
+                            <strong>Correct Answer Tamil Name</strong>
+                        </div>
+                        <div class="col-md-6">
+                            :  @answer.TrainingQanswerTname
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <h2>Answer @j</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>Answer English Name </strong>
+                        </div>
+                        <div class="col-md-6">
+                            :  @answer.TrainingQanswerEname
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>Answer Sinhala Name</strong>
+                        </div>
+                        <div class="col-md-6">
+                            :  @answer.TrainingQanswerSname
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>Answer Tamil Name</strong>
+                        </div>
+                        <div class="col-md-6">
+                            :  @answer.TrainingQanswerTname
+                        </div>
+                    </div>
+                }
+                j++;
+            }
+        }
+
+    </div>
+</div>
+<br />
+
+<div class="modal-footer">
+    <button type="button" class="btn grey btn-light-secondary" data-bs-dismiss="modal">Close</button>
+</div>

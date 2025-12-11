@@ -1,0 +1,252 @@
+﻿
+@model LearningManagementSystem.Data.OtherModels.QuestionViewModel
+
+<link href="~/assets/custom/select2/css/select2.min.css" rel="stylesheet" />
+@using (Html.BeginForm("Edit", "Question", FormMethod.Post, new { id = "EditForm" }))
+{
+    <input type="hidden" name="QuestionId" value="@Model.Question.TrainingQuestionId" />
+
+    <div class="card-body">
+
+        <div class="form-group">
+            <label>Quiz</label>
+            <select id="TrainingQuestion_EQuizId"
+                    name="TrainingQuestion_EQuizId"
+                    class="form-control"
+                    asp-items="ViewBag.TrainingQuestion_QuizId" style="width:100%">
+                <option value="">-- Select --</option>
+            </select>
+            <span id="error-message-EQuiz"></span>
+        </div>
+
+        <div class="form-group">
+            <label>English Name</label>
+            <input type="text"
+                   class="form-control"
+                   id="TrainingQuestion_EEName"
+                   name="TrainingQuestion_EEName"
+                   value="@Model.Question.TrainingQuestionEname" />
+            <span id="error-message-EEname"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Sinhala Name</label>
+            <input type="text"
+                   class="form-control"
+                   id="TrainingQuestion_ESName"
+                   name="TrainingQuestion_ESName"
+                   value="@Model.Question.TrainingQuestionSname" />
+            <span id="error-message-ESname"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Tamil Name</label>
+            <input type="text"
+                   class="form-control"
+                   id="TrainingQuestion_ETName"
+                   name="TrainingQuestion_ETName"
+                   value="@Model.Question.TrainingQuestionTname" />
+            <span id="error-message-ETname"></span>
+        </div>
+
+        <hr />
+        <h3>Question Answers</h3>
+
+        <div id="answerContainerE">
+            @for (int i = 0; i < Model.Answers.Count; i++)
+            {
+                var answer = Model.Answers[i];
+                bool isCorrect = Model.CorrectAnswer.Any(c => c.TrainingQcorrectAnswerQanswerId == answer.TrainingQanswerId);
+
+                <div class="answer-Eblock" id="answerBlock_@i">
+                    <hr />
+                    <div class="row">
+                        <input type="hidden" name="AnswerId" value="@answer.TrainingQanswerId" />
+
+                        <div class="col-md-10">
+                            <label>English Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="TrainingQAnswer_EEName"
+                                   id="TrainingQAnswer_EEName_@i"
+                                   value="@answer.TrainingQanswerEname" />
+                            <span class="error-message-EEname text-danger"></span>
+                        </div>
+
+                        <div class="col-md-10">
+                            <label>Sinhala Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="TrainingQAnswer_ESName"
+                                   id="TrainingQAnswer_ESName_@i"
+                                   value="@answer.TrainingQanswerSname" />
+                            <span class="error-message-ESname text-danger"></span>
+                        </div>
+
+                        <div class="col-md-10">
+                            <label>Tamil Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="TrainingQAnswer_ETName"
+                                   id="TrainingQAnswer_ETName_@i"
+                                   value="@answer.TrainingQanswerTname" />
+                            <span class="error-message-ETname text-danger"></span>
+                        </div>
+
+                        <div class="col-md-2" style="margin-top:-40px">
+                            <input type="checkbox"
+                                   class="checkbox-input form"
+                                   name="CorrectAnswerE_@i"
+                                   id="CorrectAnswerE_@i"
+                                   value="@answer.TrainingQanswerId"
+                                   @(isCorrect ? "checked" : "") />
+                            <label for="CorrectAnswerE_@i">Correct</label>
+                        </div>
+
+                        <div class="col-md-12 text-right">
+                            <button type="button"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="removeRow(this)">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="addAnswerRowE()">Add Answer</button>
+        <span id="error-message-common"></span>
+        <hr />
+        <div class="row" style="margin-left:85%">
+            <button type="button" class="btn grey btn-light-secondary" data-dismiss="modal" onclick="CloseModal()">Close</button>
+            <button type="button" class="btn btn-primary ml-1" data-dismiss="modal" id="Esave">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Save</span>
+            </button>
+        </div>
+    </div>
+}
+
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+<script src="~/assets/custom/select2/js/select2.full.min.js"></script>
+<script>
+    // Initialize Select2
+    $("#TrainingQuestion_EQuizId").select2({
+        allowClear: true,
+        placeholder: 'Select Module | Quiz',
+        dropdownParent: $('#editQuestionModal')
+    });
+
+    // Close modal
+    function CloseModal() {
+        $('#editQuestionModal').modal('hide');
+    }
+
+        
+    function validateAllAnswerERows() {
+        let isValid = true;
+
+        $(".answer-Eblock").each(function() {
+            let blockValid = validateAnswerEBlock(this);
+            if (!blockValid) isValid = false;
+        });
+
+        return isValid;
+    }
+
+        
+    function validateAnswerEBlock(block) {
+        let eName = $(block).find('input[name^="TrainingQAnswer_EEName"]').val().trim();
+        let sName = $(block).find('input[name^="TrainingQAnswer_ESName"]').val().trim();
+        let tName = $(block).find('input[name^="TrainingQAnswer_ETName"]').val().trim();
+
+        let isValid = true;
+
+        let eSpan = $(block).find(".error-message-EEname");
+        let sSpan = $(block).find(".error-message-ESname");
+        let tSpan = $(block).find(".error-message-ETname");
+
+        eSpan.text(""); sSpan.text(""); tSpan.text("");
+
+        if (!eName) { eSpan.text("English Name is required"); isValid=false; }
+        if (!sName) { sSpan.text("Sinhala Name is required"); isValid=false; }
+        if (!tName) { tSpan.text("Tamil Name is required"); isValid=false; }
+
+        return isValid;
+    }
+
+    // Global answerIndex
+    window.answerIndex = @Model.Answers.Count;
+
+    // Remove row
+    window.removeRow = function(button) {
+        button.closest(".answer-Eblock").remove();
+    };
+
+    // Add new answer row (global function)
+    window.addAnswerRowE = function() {    
+        if (!validateAllAnswerERows()) return;
+        let i = window.answerIndex;
+        let html = `
+            <div class="answer-Eblock" id="answerBlock_${i}">
+            <hr />
+                <div class="row">
+                    <div class="col-md-10">
+                        <label>English Name</label>
+                        <input type="text" class="form-control" name="TrainingQAnswer_EEName" id="TrainingQAnswer_EEName_${i}" placeholder="Answer English Name">
+                        <span class="error-message-EEname text-danger"></span>
+                    </div>
+                    <div class="col-md-10">
+                        <label>Sinhala Name</label>
+                        <input type="text" class="form-control" name="TrainingQAnswer_ESName" id="TrainingQAnswer_ESName_${i}" placeholder="Answer Sinhala Name">
+                        <span class="error-message-ESname text-danger"></span>
+                    </div>
+                    <div class="col-md-10">
+                        <label>Tamil Name</label>
+                        <input type="text" class="form-control" name="TrainingQAnswer_ETName" id="TrainingQAnswer_ETName_${i}" placeholder="Answer Tamil Name">
+                        <span class="error-message-ETname text-danger"></span>
+                    </div>
+                    <div class="col-md-2" style="margin-top:-40px">
+                        <input type="checkbox" class="checkbox-input" name="CorrectAnswerE_${i}" id="CorrectAnswerE_${i}">
+                        <label for="CorrectAnswerE_${i}">Correct</label>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById("answerContainerE").insertAdjacentHTML("beforeend", html);
+        window.answerIndex++;
+    };
+
+    // Only one checkbox can be selected
+    $(document).on("change", "input[type='checkbox'][id^='CorrectAnswerE']", function() {
+        $("input[type='checkbox'][id^='CorrectAnswerE']").not(this).prop("checked", false);
+    });
+
+    // Save button validation & submit
+    $("#Esave").click(function() {
+        let isValid = true;
+
+        // Question validation
+        let qE = $("#TrainingQuestion_EEName").val().trim();
+        let qS = $("#TrainingQuestion_ESName").val().trim();
+        let qT = $("#TrainingQuestion_ETName").val().trim();
+        if (!qE) { $("#error-message-EEname").text("English question is required"); isValid=false;} else { $("#error-message-EEname").text(""); }
+        if (!qS) { $("#error-message-ESname").text("Sinhala question is required"); isValid=false;} else { $("#error-message-ESname").text(""); }
+        if (!qT) { $("#error-message-ETname").text("Tamil question is required"); isValid=false;} else { $("#error-message-ETname").text(""); }
+
+        // Check correct answer
+        if ($("input[type='checkbox'][id^='CorrectAnswerE']:checked").length == 0) {
+            $("#error-message-common").text("Please select correct answer"); isValid=false;
+        } else { $("#error-message-common").text(""); }
+
+        if (!validateAllAnswerERows()) return;
+
+        if (!isValid) return;
+
+        $("#EditForm").submit();
+    });
+</script>

@@ -13,11 +13,11 @@ public partial class TrainingQuestionCorrectAnswer
 
     public int? TrainingQcorrectAnswerQuestionId { get; set; }
 
-    public int? TrainingQcorrectAnswerActive { get; set; }
+    public bool? TrainingQcorrectAnswerActive { get; set; }
 
     public DateTime? TrainingQcorrectAnswerCreatedDate { get; set; }
 
-    public virtual TrainingQuestion TrainingQcorrectAnswer { get; set; }
+    public virtual TrainingQuestion TrainingQcorrectAnswerQuestion { get; set; }
 
     public virtual TrainingQuestionAnswer TrainingQcorrectAnswerQanswer { get; set; }
 }
